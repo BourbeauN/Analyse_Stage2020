@@ -1,12 +1,11 @@
 import torch 
-
+import pdb
 
 def main():
+    pdb.set_trace()
     print('hello world')
 
-if __name__ ==  '__name__':
-    main()
-
+main()
 
 
 
