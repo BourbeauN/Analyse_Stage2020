@@ -2,19 +2,23 @@ import torch
 import pdb
 import os
 import numpy as np
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 
 ## New functions
 def load_data():
-    path = 'C:/Users/Naomi/Documents/Université/Stage 2020 - Ahmad Hamdan/Analyse/5kv_500ns-picpic'
-    f = []
+    path = 'C:/Users/Naomi/Documents/GitHub/Analyse_Stage2020/5kv_100nspicpic'
+    time,voltage,current = [],[],[]
     
     for filename in os.listdir(path)[:10]:
         
-        f.append(np.loadtxt(filename,skiprows=12))
-
-    return f
+        v1,v2,v3 = np.loadtxt(os.path.join(path, filename),skiprows=12,delimiter = ',', unpack = True)
+        time.append(v1)
+        voltage.append(v2)
+        current.append(v3)
+        a=1
+        
+    return np.array(time), np.array(voltage), np.array(current)
 
 ##
 
