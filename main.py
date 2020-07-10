@@ -2,29 +2,21 @@ import torch
 import pdb
 import os
 import numpy as np
+from utility import *
 #import matplotlib.pyplot as plt
 
 
 ## New functions
-def load_data():
-    path = 'C:/Users/Naomi/Documents/GitHub/Analyse_Stage2020/5kv_100nspicpic'
-    time,voltage,current = [],[],[]
-    
-    for filename in os.listdir(path)[:10]:
-        
-        v1,v2,v3 = np.loadtxt(os.path.join(path, filename),skiprows=12,delimiter = ',', unpack = True)
-        time.append(v1)
-        voltage.append(v2)
-        current.append(v3)
-        a=1
-        
-    return np.array(time), np.array(voltage), np.array(current)
-
+def detect_plateau(discharge):
+    end = None # TO BE DETERMINED
+    start = None # TO BE DET
+    time_delta = end - start
+    return time_delta
 ##
 
 ########This is a debugger
 def main():
-        data = load_data()
+        data = load_data() # from utility 
         pdb.set_trace()
-        
+        detect_plateau(data[0][0])
 main()
