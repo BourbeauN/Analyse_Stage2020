@@ -1,13 +1,13 @@
 import pdb
 import numpy as np
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import os
 
 List_Plateau = []
 
 
 def load_data():
-    path = '\Git_5kv_100nspicpic'
+    path = 'Git_5kv_100nspicpic'
     #pdb.set_trace()
     for filename in os.listdir(path):
         
