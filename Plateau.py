@@ -12,22 +12,29 @@ def find_plateau(voltage, time, tresh):
         
         for i, volt in enumerate(voltage[begin:]):
             t = 100 # play with this val 
-            if np.abs(volt - voltage[i-1]) > t :
+            if np.abs(volt - voltage[begin + i-1]) > t :
                 return time[begin], time[i]
 
             
 
 def load_data(tresh):
-    leo_path = '5kv_100nspicpic'
-    path = leo_path
+    #leo_path = '5kv_100nspicpic'
+    nao_path = "/Users/Naomi/Documents/GitHub/Analyse_Stage2020/Git_5kv_100nspicpic"
+    path = nao_path
     #pdb.set_trace()
     List_Plateau = []
     
     for j in os.listdir(path):
+        
+        #print(j)
+        
         time,voltage,current = np.array(np.loadtxt(os.path.join(path, j), dtype = float, delimiter = ',', skiprows = 12, unpack = True))
         
         
-        begin, end = find_plateau(voltage, time, tresh)    
+        begin, end = find_plateau(voltage, time, tresh)
+        
+        print(begin,end)
+        
         plateau = end - begin
         
         List_Plateau.append(plateau)
@@ -43,8 +50,8 @@ def plot_data(Num_Discharges, List_Plateau, tresh):
     plt.plot(Num_Discharges, List_Plateau,'ko', markersize = 2)
     plt.ylabel('Plateau duration (s)')
     plt.xlabel('Discharge ID')
-    plt.savefig('FIGURES/plateau_size_discharge_id_scatter_plot_t={}.pdf'.format(tresh))
-    plt.savefig('FIGURES/plateau_size_discharge_id_scatter_plot_t={}.png'.format(tresh))
+    #plt.savefig('FIGURES/plateau_size_discharge_id_scatter_plot_t={}.pdf'.format(tresh))
+    #plt.savefig('FIGURES/plateau_size_discharge_id_scatter_plot_t={}.png'.format(tresh))
 
 
 
