@@ -10,9 +10,16 @@ def find_plateau(voltage, time,thresh):
 
         ## End of plateau phase ##
         for i in range(begin, len(voltage)):
+<<<<<<< HEAD
             dist = 30
             if np.abs(voltage[i] - voltage[i-dist]) > thresh:
                 return time[begin], time[i + begin]
+=======
+            dist = 5
+            if np.abs(voltage[i] - voltage[i-dist]) > tresh:
+                if (i + begin )  < len(voltage):
+                    return time[begin], time[i + begin]
+>>>>>>> faa55d845d6a298ce1718d42cbc91df3605c04fb
         
 
 def load_data(thresh):
