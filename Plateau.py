@@ -3,19 +3,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 
-List_Plateau = []
-
-
 def load_data():
-    path = '\Git_5kv_100nspicpic'
+    path = "/Users/Naomi/Documents/GitHub/Analyse_Stage2020/Git_5kv_100nspicpic"
     #pdb.set_trace()
-    for filename in os.listdir(path):
+    List_Plateau = []
+    
+    for j in os.listdir(path):
         
-        time,voltage,current = np.loadtxt('filename', dtype = float, delimiter = ',', skiprows = 12, unpack = True)
+        time,voltage,current = np.array(np.loadtxt(j, dtype = float, delimiter = ',', skiprows = 12, unpack = True))
         
         ## Beginning of plateau phase ##
         begin = np.where(voltage == np.ndarray.max(voltage))[0][0]
-        
         
         ## End of plateau phase ##
         
@@ -24,6 +22,8 @@ def load_data():
             if np.abs(voltage[i] - voltage[i-1]) > 100 :
                end = time[i-1]
                break
+            
+    
         
         plateau = end - begin
         
@@ -32,14 +32,12 @@ def load_data():
     Num_Discharges = np.linspace(0,len(List_Plateau), len(List_Plateau))    
     plt.figure(1)
     plt.plot(Num_Discharges, List_Plateau,'ko', markersize = 2)
-        
+    plt.show()
 
 
 load_data()
   
 ## PLOTS ##
-
-
 
 # b = np.linspace(0, len(time), len(time))
 # plt.plot(b, voltage)
