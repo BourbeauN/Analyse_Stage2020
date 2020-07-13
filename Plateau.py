@@ -10,29 +10,35 @@ def load_data():
     
     for j in os.listdir(path):
         
-        time,voltage,current = np.array(np.loadtxt(j, dtype = float, delimiter = ',', skiprows = 12, unpack = True))
+        time,voltage,current = np.loadtxt(j, dtype = float, delimiter = ',', skiprows = 12, unpack = True)
+        
+        print(j)
         
         ## Beginning of plateau phase ##
         begin = np.where(voltage == np.ndarray.max(voltage))[0][0]
+        print(begin)
         
         ## End of plateau phase ##
         
-        end = []
         for i in range(begin,len(voltage)):
             if np.abs(voltage[i] - voltage[i-1]) > 100 :
-               end = time[i-1]
+               end = time[i-1] + begin
+               print(end)
                break
             
-    
-        
         plateau = end - begin
         
         List_Plateau.append(plateau)
+        
+        
+    Final_Plateau = np.asarray(List_Plateau)
     
-    Num_Discharges = np.linspace(0,len(List_Plateau), len(List_Plateau))    
+    Num_Discharges = np.linspace(0,len(Final_Plateau), len(Final_Plateau))    
     plt.figure(1)
-    plt.plot(Num_Discharges, List_Plateau,'ko', markersize = 2)
+    plt.plot(Num_Discharges, Final_Plateau,'ko', markersize = 2)
+    plt.savefig('Plateau_5kv100nspicpic.pdf')
     plt.show()
+    print(len(Final_Plateau))
 
 
 load_data()
