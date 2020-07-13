@@ -12,7 +12,8 @@ def find_plateau(voltage, time, tresh):
         for i in range(begin, len(voltage)):
             dist = 5
             if np.abs(voltage[i] - voltage[i-dist]) > tresh:
-                return time[begin], time[i + begin]
+                if (i + begin )  < len(voltage):
+                    return time[begin], time[i + begin]
         
         #for i, volt in enumerate(voltage[begin:]):
         #    if np.abs(volt - voltage[begin + i - 1]) > tresh :
