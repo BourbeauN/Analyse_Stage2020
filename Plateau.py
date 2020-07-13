@@ -3,89 +3,64 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 
-def find_plateau(voltage, time, tresh):
+def find_plateau(voltage, time,thresh):
         ## Beginning of plateau phase ##
         
         begin = np.where(voltage == np.ndarray.max(voltage))[0][0] ### to be validated ( tested on 10 )
 
         ## End of plateau phase ##
         for i in range(begin, len(voltage)):
-            dist = 5
-            if np.abs(voltage[i] - voltage[i-dist]) > tresh:
+            dist = 30
+            if np.abs(voltage[i] - voltage[i-dist]) > thresh:
                 return time[begin], time[i + begin]
         
-<<<<<<< HEAD
-        for i, volt in enumerate(voltage[begin:]):
-            t = 100 # play with this val 
-            if np.abs(volt - voltage[begin + i-1]) > t :
-                return time[begin], time[i]
-=======
-        #for i, volt in enumerate(voltage[begin:]):
-        #    if np.abs(volt - voltage[begin + i - 1]) > tresh :
-        #        return time[begin], time[i + begin]
->>>>>>> e996e4fa42f9ca24cb7e212c19fbea4f0f3d463e
 
-            
-
-def load_data(tresh):
+def load_data(thresh):
     #leo_path = '5kv_100nspicpic'
     nao_path = "/Users/Naomi/Documents/GitHub/Analyse_Stage2020/Git_5kv_100nspicpic"
     path = nao_path
     #pdb.set_trace()
     List_Plateau = []
+    No_Plateau = 0 
     
-<<<<<<< HEAD
-    for j in os.listdir(path):
-        
-        #print(j)
-        
-        time,voltage,current = np.array(np.loadtxt(os.path.join(path, j), dtype = float, delimiter = ',', skiprows = 12, unpack = True))
-        
-        
-        begin, end = find_plateau(voltage, time, tresh)
-        
-        print(begin,end)
-        
-=======
     for j in sorted(os.listdir(path)):
         time,voltage,current = np.array(np.loadtxt(os.path.join(path, j), dtype = float, delimiter = ',', skiprows = 12, unpack = True))
+        
         print(j) 
         try :  
-            begin, end = find_plateau(voltage, time, tresh)    
+            begin, end = find_plateau(voltage, time, thresh)    
         except TypeError: 
             print ('unable to find plateau')
+            No_Plateau += 1
             begin, end  = float('nan'), float('nan')
->>>>>>> e996e4fa42f9ca24cb7e212c19fbea4f0f3d463e
+
         plateau = end - begin
         
         List_Plateau.append(plateau)
-        
+     
+    print(No_Plateau)
     Final_Plateau = np.asarray(List_Plateau)
-    
     Num_Discharges = np.linspace(0,len(Final_Plateau), len(Final_Plateau))    
+   
     return Num_Discharges , Final_Plateau
-def plot_data(Num_Discharges, List_Plateau, tresh):
+def plot_data(Num_Discharges, List_Plateau, thresh):
     plt.figure(1)
     plt.plot(Num_Discharges, np.log(List_Plateau),'ko', markersize = 2)
     plt.ylabel('Plateau duration (s)')
     plt.xlabel('Discharge ID')
-<<<<<<< HEAD
-    #plt.savefig('FIGURES/plateau_size_discharge_id_scatter_plot_t={}.pdf'.format(tresh))
-    #plt.savefig('FIGURES/plateau_size_discharge_id_scatter_plot_t={}.png'.format(tresh))
-=======
-    plt.savefig('FIGURES/plateau_size_discharge_id_scatter_plot_t={}_log.pdf'.format(tresh))
-    plt.savefig('FIGURES/plateau_size_discharge_id_scatter_plot_t={}_log.png'.format(tresh))
+    plt.title('Plateau length with a threshold of {}.'.format(thresh))
 
->>>>>>> e996e4fa42f9ca24cb7e212c19fbea4f0f3d463e
+    #plt.savefig('FIGURES/plateau_size_discharge_id_scatter_plot_t={}_log.pdf'.format(thresh))
+    #plt.savefig('FIGURES/plateau_size_discharge_id_scatter_plot_t={}_log.png'.format(thresh))
 
 
-tresh = [50,75,100]
-
-for t in tresh: 
+thresh = [100]
+for t in thresh: 
     Num_Discharges, List_Plateau = load_data(t)
     ## PLOTS ##
 
     plot_data(Num_Discharges, List_Plateau, t)
+
 
 # b = np.linspace(0, len(time), len(time))
 # plt.plot(b, voltage)
