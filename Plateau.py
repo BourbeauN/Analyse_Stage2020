@@ -38,7 +38,7 @@ def compute_plateaus_on_data(path):
     # RESULTS
     RESULTS_TABLE = []
     # cycle through all files 
-    for f in files :
+    for i, f in enumerate(files) :
         time, voltage, current = load_data(os.path.join(path,f))
         # compute all results from all parameters
         for v_thresh in dv :
@@ -53,10 +53,10 @@ def compute_plateaus_on_data(path):
                     success = 0
                     #do nothing
                 
-                # store results 
+                # store results
+                print([i, f, t_thresh, v_thresh, plateau, success])
                 RESULTS_TABLE.append([f, t_thresh, v_thresh, plateau, success])
     # return results
-    pdb.set_trace()
     return np.asarray(RESULTS_TABLE)
 
 def main():
@@ -68,16 +68,19 @@ def main():
     
     nao_path = "/Users/Naomi/Documents/GitHub/Analyse_Stage2020/Git_5kv_100nspicpic"
     leo_path = "5kv_100nspicpic" 
-    compute_plateaus_on_data(leo_path)
+    RESULTS_TABLE = compute_plateaus_on_data(leo_path)
+    pd.DataFrame(RESULTS_TABLE, columns = ["fname", "time_delta", "voltage_delta", "plateau_length", "success"]).to_csv("out_test_1.csv") 
 
+main()
 
+""" 
     plt.plot(thresh, succes_rate_list)
     plt.title ("Influence of threshold value on the efficiency of the plateau finding algorithm")
     plt.xlabel("Thresh value")
     plt.ylabel("Unsuccessful runs")
     plt.savefig("FIGURES/success_vs_t.pdf")
+"""
 
-main()
 """
 def load_data(thresh):
     leo_path = '5kv_100nspicpic'
