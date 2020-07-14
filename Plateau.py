@@ -10,22 +10,16 @@ def find_plateau(voltage, time,thresh):
 
         ## End of plateau phase ##
         for i in range(begin, len(voltage)):
-<<<<<<< HEAD
-            dist = 30
-            if np.abs(voltage[i] - voltage[i-dist]) > thresh:
-                return time[begin], time[i + begin]
-=======
             dist = 5
-            if np.abs(voltage[i] - voltage[i-dist]) > tresh:
+            if np.abs(voltage[i] - voltage[i-dist]) > thresh:
                 if (i + begin )  < len(voltage):
                     return time[begin], time[i + begin]
->>>>>>> faa55d845d6a298ce1718d42cbc91df3605c04fb
         
 
 def load_data(thresh):
-    #leo_path = '5kv_100nspicpic'
-    nao_path = "/Users/Naomi/Documents/GitHub/Analyse_Stage2020/Git_5kv_100nspicpic"
-    path = nao_path
+    leo_path = '5kv_100nspicpic'
+    # nao_path = "/Users/Naomi/Documents/GitHub/Analyse_Stage2020/Git_5kv_100nspicpic"
+    path = leo_path
     #pdb.set_trace()
     List_Plateau = []
     No_Plateau = 0 
