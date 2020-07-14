@@ -3,28 +3,91 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 
-def find_plateau(voltage, time,thresh):
+def find_plateau(voltage, time , volt_threshold, time_threshold):
         ## Beginning of plateau phase ##
         
         begin = np.where(voltage == np.ndarray.max(voltage))[0][0] ### to be validated ( tested on 10 )
-
         ## End of plateau phase ##
         for i in range(begin, len(voltage)):
-            dist = 5
-            if np.abs(voltage[i] - voltage[i-dist]) > thresh:
+            if np.abs(voltage[i] - voltage[i-time_threshold]) > volt_threshold:
                 if (i + begin )  < len(voltage):
                     return time[begin], time[i + begin]
-        
+        return float("nan"), float("nan") 
 
+def load_data(filename):    
+    
+    time, voltage, current = np.array(np.loadtxt(filename, dtype = float, delimiter = ',', skiprows = 12, unpack = True))
+
+    return time, voltage, current 
+
+def compute_plateaus_on_data(path):
+    """
+    FUN: takes in a path and returns a PLATEAU 
+    ARGS: list of cool args and don't mess them up 
+    !!!!!!!!!!!!!!!!!
+    """
+    # list of discharge files  
+    files = sorted(os.listdir(path))
+    
+    # list of voltage deltas  
+    dv = np.arange(5, 150, 5)
+    
+    # time deltas  
+    dt = np.arange(30) + 1 
+
+    # RESULTS
+    RESULTS_TABLE = []
+    # cycle through all files 
+    for f in files :
+        time, voltage, current = load_data(os.path.join(path,f))
+        # compute all results from all parameters
+        for v_thresh in dv :
+            for t_thresh in dt :
+                start , end = find_plateau (voltage, time , v_thresh, t_thresh)
+                if start==start and end==end : 
+                    plateau = end - start
+                    success = 1
+                    # do smthing
+                else : 
+                    plateau = float("nan")
+                    success = 0
+                    #do nothing
+                
+                # store results 
+                RESULTS_TABLE.append([f, t_thresh, v_thresh, plateau, success])
+    # return results
+    pdb.set_trace()
+    return np.asarray(RESULTS_TABLE)
+
+def main():
+    
+
+    thresh = np.concatenate((np.arange(5, 100, 5), [100,200,300])) 
+    # thresh = np.asarray([1,5,10,20,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100,200,300,400,500,600,700,800,900,1000])
+    success_rate_list = []
+    
+    nao_path = "/Users/Naomi/Documents/GitHub/Analyse_Stage2020/Git_5kv_100nspicpic"
+    leo_path = "5kv_100nspicpic" 
+    compute_plateaus_on_data(leo_path)
+
+
+    plt.plot(thresh, succes_rate_list)
+    plt.title ("Influence of threshold value on the efficiency of the plateau finding algorithm")
+    plt.xlabel("Thresh value")
+    plt.ylabel("Unsuccessful runs")
+    plt.savefig("FIGURES/success_vs_t.pdf")
+
+main()
+"""
 def load_data(thresh):
     leo_path = '5kv_100nspicpic'
-    # nao_path = "/Users/Naomi/Documents/GitHub/Analyse_Stage2020/Git_5kv_100nspicpic"
+    #
     path = leo_path
     #pdb.set_trace()
     List_Plateau = []
     # Succ, Failed = 0,0 
     success = 0
-    files = sorted(os.listdir(path))
+    # files = sorted(os.listdir(path))
     for j in files:
         time, voltage, current = np.array(np.loadtxt(os.path.join(path, j), dtype = float, delimiter = ',', skiprows = 12, unpack = True))
         
@@ -46,7 +109,7 @@ def load_data(thresh):
     Num_Discharges = np.linspace(0,len(Final_Plateau), len(Final_Plateau))    
     success_rate = float(success) / len(files)
     return Num_Discharges , Final_Plateau, success_rate 
-
+"""
 def plot_data(Num_Discharges, List_Plateau, thresh):
     plt.figure(1)
     plt.plot(Num_Discharges, np.log(List_Plateau),'ko', markersize = 2)
@@ -58,10 +121,6 @@ def plot_data(Num_Discharges, List_Plateau, thresh):
     #plt.savefig('FIGURES/plateau_size_discharge_id_scatter_plot_t={}_log.png'.format(thresh))
 
 ##### DEBUG TO FIND THE RATIO OF EFFICIENCY OF THE ALGORITHM TO FIND THE PLATEAU LENGTH ######
-
-thresh = np.concatenate((np.arange(5, 100, 5), [100,200,300])) 
-# thresh = np.asarray([1,5,10,20,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100,200,300,400,500,600,700,800,900,1000])
-success_rate_list = []
 
 for t in thresh : 
     #total,Success = 0,0
@@ -84,13 +143,6 @@ for t in thresh :
     #print(thresh[t],Success_Rate[t],Failure_Rate[t])
 
 ## PLOTS ##
-
-plt.plot(thresh, succes_rate_list)
-plt.title ("Influence of threshold value on the efficiency of the plateau finding algorithm")
-plt.xlabel("Thresh value")
-plt.ylabel("Unsuccessful runs")
-plt.savefig("FIGURES/success_vs_t.pdf")
-
     #plot_data(Num_Discharges, List_Plateau, t)
 
 
