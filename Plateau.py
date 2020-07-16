@@ -21,11 +21,7 @@ def load_data(filename):
     return time, voltage, current 
 
 def compute_plateaus_on_data(path):
-    """
-    FUN: takes in a path and returns a PLATEAU 
-    ARGS: list of cool args and don't mess them up 
-    !!!!!!!!!!!!!!!!!
-    """
+    
     # list of discharge files  
     files = sorted(os.listdir(path))
     
@@ -63,7 +59,7 @@ def main():
     
 
     thresh = np.concatenate((np.arange(5, 100, 5), [100,200,300])) 
-    # thresh = np.asarray([1,5,10,20,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100,200,300,400,500,600,700,800,900,1000])
+    
     success_rate_list = []
     
     nao_path = "/Users/Naomi/Documents/GitHub/Analyse_Stage2020/Git_5kv_100nspicpic"
@@ -76,6 +72,10 @@ def main():
     plt.xlabel("Thresh value")
     plt.ylabel("Unsuccessful runs")
     plt.savefig("FIGURES/success_vs_t.pdf")
+
+def heatmap_plot(data_set):
+    
+
 
 main()
 """
