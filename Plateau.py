@@ -2,6 +2,7 @@ import pdb
 import numpy as np
 import matplotlib.pyplot as plt
 import os
+import argparse
 
 def find_plateau(voltage, time , volt_threshold, time_threshold):
         ## Beginning of plateau phase ##
@@ -56,15 +57,24 @@ def compute_plateaus_on_data(path):
     return np.asarray(RESULTS_TABLE)
 
 def main():
+
+    parser = argparse.ArgumentParser()
     
+    parser.add_argument('-f', dest = 'INFOLDER', help = 'file folder corresponding to experimental set with discharge infos')
+    
+    args = arparser.parse_args()
+    
+    outfile = args.INFOLDER.split('/')[-1] 
 
     thresh = np.concatenate((np.arange(5, 100, 5), [100,200,300])) 
     
     success_rate_list = []
     
-    nao_path = "/Users/Naomi/Documents/GitHub/Analyse_Stage2020/Git_5kv_100nspicpic"
-    leo_path = "5kv_100nspicpic" 
-    RESULTS_TABLE = compute_plateaus_on_data(leo_path)
-    pd.DataFrame(RESULTS_TABLE, columns = ["fname", "time_delta", "voltage_delta", "plateau_length", "success"]).to_csv("out_test_1.csv") 
+    # OUTDATED nao_path = "/Users/Naomi/Documents/GitHub/Analyse_Stage2020/Git_5kv_100nspicpic"
+    # OUTDATED leo_path = "5kv_100nspicpic" 
+    
+    RESULTS_TABLE = compute_plateaus_on_data(args.INFOLDER)
+    
+    pd.DataFrame(RESULTS_TABLE, columns = ["fname", "time_delta", "voltage_delta", "plateau_length", "success"]).to_csv(os.path.join('OUT', "OUT_PLATEAUS_{}.csv".format(outfile))) 
 
 main()
