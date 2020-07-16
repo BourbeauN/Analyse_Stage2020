@@ -73,43 +73,12 @@ def main():
     plt.ylabel("Unsuccessful runs")
     plt.savefig("FIGURES/success_vs_t.pdf")
 
-def heatmap_plot(data_set):
+#def heatmap_plot(data_set):
     
 
 
-main()
-"""
-def load_data(thresh):
-    leo_path = '5kv_100nspicpic'
-    #
-    path = leo_path
-    #pdb.set_trace()
-    List_Plateau = []
-    # Succ, Failed = 0,0 
-    success = 0
-    # files = sorted(os.listdir(path))
-    for j in files:
-        time, voltage, current = np.array(np.loadtxt(os.path.join(path, j), dtype = float, delimiter = ',', skiprows = 12, unpack = True))
-        
-        #print(j) 
-        try :  
-            begin, end = find_plateau(voltage, time, thresh) 
-            success += 1
-            
-        except TypeError: 
-            # print ('unable to find plateau')
-            # No_Plateau += 1
-            begin, end  = float('nan'), float('nan')
-    
-        plateau = end - begin
-        
-        List_Plateau.append(plateau)
- 
-    Final_Plateau = np.asarray(List_Plateau)
-    Num_Discharges = np.linspace(0,len(Final_Plateau), len(Final_Plateau))    
-    success_rate = float(success) / len(files)
-    return Num_Discharges , Final_Plateau, success_rate 
-"""
+#main()
+
 def plot_data(Num_Discharges, List_Plateau, thresh):
     plt.figure(1)
     plt.plot(Num_Discharges, np.log(List_Plateau),'ko', markersize = 2)
