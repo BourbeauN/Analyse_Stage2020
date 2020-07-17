@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 import argparse
+import pandas as pd
 
 def find_plateau(voltage, time , volt_threshold, time_threshold):
         ## Beginning of plateau phase ##
@@ -62,7 +63,7 @@ def main():
     
     parser.add_argument('-f', dest = 'INFOLDER', help = 'file folder corresponding to experimental set with discharge infos')
     
-    args = arparser.parse_args()
+    args = parser.parse_args()
     
     outfile = args.INFOLDER.split('/')[-1] 
 
