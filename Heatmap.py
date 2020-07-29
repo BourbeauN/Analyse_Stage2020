@@ -3,6 +3,7 @@ import numpy as np
 import argparse
 import pandas as pd
 import pdb
+import os
 
 ####PARSER####
 
@@ -11,36 +12,38 @@ parser.add_argument('-f', dest = 'INFILE', help = 'Results file from Plateau.py'
 args = parser.parse_args()
 #ID, fname, t_thresh, v_thresh, Plateau, Success = np.genfromtxt(args.INFILE, dtype = float, skip_header = 1, delimiter = ',', unpack = True)
 Results = pd.read_csv(args.INFILE)
-outfile = args.INFOLDER.split('/')[-1].replace('.csv','.pdf')
+outfile = args.INFILE.split('/')[-1].replace('.csv','.pdf')
 pdb.set_trace()
 
+##Matrix to hold values##
+dv = np.unique(Results.voltage_delta)
+dt = np.unique(Results.time_delta)
+
+matrix_plateau,matrix_success = np.zeros((len(dv),len(dt)))
 
 
-# ##Matrix to hold values##
-# dv = np.unique(v_thresh)
-# dt = np.unique(t_thresh)
-
-# matrix = np.zeros((len(dv),len(dt)))
-
-# for t in t_thresh :
-#     for v in v_thresh :
-#         matrix[v,t] += Success()
-
-# for i in range(len(Success)):
-    
-#     if Success[i] == 1 :
-#         a = (v_thresh[i])/5
-#         b = np.int(a-1)
-#         c = np.int(t_thresh[i]-1)
+for t_index,t_val in enumerate(dt) :
+    for v_index,v_val in enumerate(dv) :
+        plateau_mean=Results[Results.voltage_delta == v_val][Results.time_delta == t_val].plateau_length.mean()
+        success_rate=Results[Results.voltage_delta == v_val][Results.time_delta == t_val].plateau_length.mean()
         
-#         matrix[b,c] += 1
+        matrix_plateau[t_index,v_index] += plateau_mean
+        matrix_success[t_index,v_index] += success_rate
 
-plt.figure(1)
+###PLOTS###
 
-plt.imshow(matrix, cmap = 'Blues', vmin = 500, vmax = 1000)
-plt.colorbar()
-plt.xlabel('Voltage threshold')
-plt.ylabel('Time threshold')
-plt.title('Influence of voltage and time threshold on \n plateau length determination')
+fig,ax = plt.subplots(ncols=2)
 
-plt.show()
+ax[0].imshow(matrix_plateau, cmap = 'Blues')
+ax[0].colorbar()
+ax[0].xlabel('Voltage threshold')
+ax[0].ylabel('Time threshold')
+ax[0].title('Influence of voltage and time threshold on plateau length in seconds for {}'.format(args.INFILE))
+
+ax[1].imshow(matrix_success, cmap = 'Blues')
+ax[1].colorbar()
+ax[1].xlabel('Voltage threshold')
+ax[1].ylabel('Time threshold')
+ax[1].title('Plateau detection success rate for varying voltage and time thresholds for {}'.format(args.INFILE))
+
+plt.savefig(os.path.join('OUT',outfile))
