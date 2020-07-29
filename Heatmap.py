@@ -1,4 +1,3 @@
-import matplotlib.pyplot as plt
 import numpy as np
 import argparse
 import pandas as pd
@@ -11,7 +10,7 @@ parser.add_argument('-f', dest = 'INFILE', help = 'Results file from Plateau.py'
 args = parser.parse_args()
 #ID, fname, t_thresh, v_thresh, Plateau, Success = np.genfromtxt(args.INFILE, dtype = float, skip_header = 1, delimiter = ',', unpack = True)
 Results = pd.read_csv(args.INFILE)
-outfile = args.INFOLDER.split('/')[-1].replace('.csv','.pdf')
+outfile = args.INFILE.split('/')[-1].replace('.csv','.pdf')
 pdb.set_trace()
 
 
