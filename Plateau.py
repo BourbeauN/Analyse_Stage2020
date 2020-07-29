@@ -66,10 +66,6 @@ def main():
     args = parser.parse_args()
     
     outfile = args.INFOLDER.split('/')[-1] 
-
-    thresh = np.concatenate((np.arange(5, 100, 5), [100,200,300])) 
-    
-    success_rate_list = []
     
     # OUTDATED nao_path = "/Users/Naomi/Documents/GitHub/Analyse_Stage2020/Git_5kv_100nspicpic"
     # OUTDATED leo_path = "5kv_100nspicpic" 
