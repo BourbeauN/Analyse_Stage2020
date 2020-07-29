@@ -2,10 +2,9 @@ import pdb
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-import panda as pd
+import argparse
+import pandas as pd
 
-##Function finds plateau by varying 2 parameters thresholds of voltage and time 
-##If the value of these parameters is to extreme to code will print 'nan' and move on and keep tab of the 'nan' value
 def find_plateau(voltage, time , volt_threshold, time_threshold):
         ## Beginning of plateau phase ##
         
@@ -17,15 +16,12 @@ def find_plateau(voltage, time , volt_threshold, time_threshold):
                     return time[begin], time[i + begin]
         return float("nan"), float("nan") 
 
-
-##Function to automatically load file from directory
 def load_data(filename):    
     
     time, voltage, current = np.array(np.loadtxt(filename, dtype = float, delimiter = ',', skiprows = 12, unpack = True))
 
     return time, voltage, current 
 
-##Compute the find_plateau function on the file loaded with the load_data function
 def compute_plateaus_on_data(path):
     
     # list of discharge files  
@@ -58,17 +54,28 @@ def compute_plateaus_on_data(path):
                 # store results
                 print([i, f, t_thresh, v_thresh, plateau, success])
                 RESULTS_TABLE.append([f, t_thresh, v_thresh, plateau, success])
-                
     # return results
     return np.asarray(RESULTS_TABLE)
 
-## Main function that computes the previous concatenated functions and stores the results of the different iterations in
-## a matrix that is saved for future analysis (i.e heat map)
 def main():
+
+    parser = argparse.ArgumentParser()
     
-    #nao_path = "/Users/Naomi/Documents/GitHub/Analyse_Stage2020/Git_5kv_100nspicpic"
-    leo_path = "5kv_100nspicpic" 
-    RESULTS_TABLE = compute_plateaus_on_data(leo_path)
-    pd.DataFrame(RESULTS_TABLE, columns = ["fname", "time_delta", "voltage_delta", "plateau_length", "success"]).to_csv("out_test_1.csv") 
+    parser.add_argument('-f', dest = 'INFOLDER', help = 'file folder corresponding to experimental set with discharge infos')
+    
+    args = parser.parse_args()
+    
+    outfile = args.INFOLDER.split('/')[-1] 
+
+    thresh = np.concatenate((np.arange(5, 100, 5), [100,200,300])) 
+    
+    success_rate_list = []
+    
+    # OUTDATED nao_path = "/Users/Naomi/Documents/GitHub/Analyse_Stage2020/Git_5kv_100nspicpic"
+    # OUTDATED leo_path = "5kv_100nspicpic" 
+    
+    RESULTS_TABLE = compute_plateaus_on_data(args.INFOLDER)
+    
+    pd.DataFrame(RESULTS_TABLE, columns = ["fname", "time_delta", "voltage_delta", "plateau_length", "success"]).to_csv(os.path.join('OUT', "OUT_PLATEAUS_{}.csv".format(outfile))) 
 
 main()
