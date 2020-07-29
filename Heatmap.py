@@ -50,7 +50,12 @@ cbar1 = plt.colorbar(ax[1].imshow(matrix_success,cmap='Blues'))
 ax[1].set_xlabel('Voltage threshold')
 ax[1].set_xticks(dv)
 ax[1].set_ylabel('Time threshold')
+
 ax[1].set_yticks(dt)
 ax[1].set_title('Plateau detection success\nrate for varying voltage\n and time thresholds for\n{}'.format(args.INFILE))
 #plt.tight_layout()
+
+ax[1].set_title('Plateau detection success rate for varying\nvoltage and time thresholds for\n{}'.format(args.INFILE))
+plt.tight_layout()
+
 plt.savefig(os.path.join('OUT',outfile))
