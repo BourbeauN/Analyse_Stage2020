@@ -28,7 +28,7 @@ def compute_plateaus_on_data(path):
     files = sorted(os.listdir(path))
     
     # list of voltage deltas  
-    dv = np.arange(5, 150, 5)
+    dv = np.arange(200, 5100,300)
     
     # time deltas  
     dt = np.arange(30) + 1 
