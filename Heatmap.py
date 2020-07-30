@@ -26,13 +26,14 @@ for t_index,t_val in enumerate(dt) :
     for v_index,v_val in enumerate(dv) :
         plateau_mean=Results[Results.voltage_delta == v_val][Results.time_delta == t_val].plateau_length.mean()
         success_rate=Results[Results.voltage_delta == v_val][Results.time_delta == t_val].success.mean()
-        
+    
         matrix_plateau[v_index,t_index] += plateau_mean
         matrix_success[v_index,t_index] += success_rate
         print(v_index,t_index,plateau_mean, success_rate)
 
 
 ###PLOTS###
+
 
 fig = plt.figure()
 
