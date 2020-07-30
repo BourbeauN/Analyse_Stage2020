@@ -74,7 +74,7 @@ plt.tight_layout(pad=0.5, w_pad = 1)
 
 ### This bloc of command is for running the code on server. (3/3) ###
 ### Update de dv,dt values of the arange ###
-plt.savefig(os.path.join('OUT',outfile,"_dv_200_5100_dt_1_30.pdf"))
+plt.savefig(os.path.join('OUT_FIG',outfile))
 ax1.set_title("Plateau length for {}".format(args.INFILE))
 ax2.set_title("Plateau detection success {}".format(args.INFILE))
 
