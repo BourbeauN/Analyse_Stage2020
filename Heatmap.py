@@ -74,8 +74,8 @@ plt.tight_layout(pad=0.5, w_pad = 1)
 
 ### This bloc of command is for running the code on server. (3/3) ###
 plt.savefig(os.path.join('OUT',outfile))
-ax1.set_title("Influence of voltage and time\nthreshold on plateau length\nin seconds for\n{}".format(args.INFILE))
-ax2.set_title("Plateau detection success\nrate for varying voltage\n and time thresholds for\n{}".format(args.INFILE))
+ax1.set_title("Plateau length for {}".format(args.INFILE))
+ax2.set_title("Plateau detection success {}".format(args.INFILE))
 
 # ### This bloc of command is for running the code outside of server (2/2) ###
 # ax1.set_title("Plateau length")
