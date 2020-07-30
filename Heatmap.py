@@ -4,8 +4,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import argparse
 import pandas as pd
-import pdb
-import os
+from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 ####PARSER####
 
@@ -35,22 +34,28 @@ for t_index,t_val in enumerate(dt) :
 
 ###PLOTS###
 
-fig,ax = plt.subplots(ncols=2)
+fig = plt.figure()
 
-im0 = ax[0].imshow(matrix_plateau, cmap = 'Blues')
-cbar0 = plt.colorbar(im0)
-ax[0].set_xlabel('Voltage threshold')
-ax[0].set_xticks(np.arange(dv[0],dv[-1],len(dv)/10))
-ax[0].set_ylabel('Time threshold')
-#ax[0].set_yticks(dt)
-ax[0].set_title('Influence of voltage and time\nthreshold on plateau length\nin seconds for\n{}'.format(args.INFILE))
+ax1 = fig.add_subplot(121)
+ax2 = fig.add_subplot(122)
 
-im1 = ax[1].imshow(matrix_success, cmap = 'Blues')
-cbar1 = plt.colorbar(im1)
-ax[1].set_xlabel('Voltage threshold')
-ax[1].set_xticks(np.arange(dv[0],dv[1],len(dv)/10))
-ax[1].set_ylabel('Time threshold')
-#ax[1].set_yticks(dt)
-ax[1].set_title('Plateau detection success\nrate for varying voltage\n and time thresholds for\n{}'.format(args.INFILE))
-#plt.tight_layout()
+im1 = ax1.imshow(matrix_plateau,cmap='Blues',extent=[np.float(dv[0]),np.float(dv[-1]),np.float(dt[0]),np.float(dt[-1])])
+im2 = ax2.imshow(matrix_success,cmap='Reds',extent=[np.float(dv[0]),np.float(dv[-1]),np.float(dt[0]),np.float(dt[-1])])
+
+ax1.set_title("Influence of voltage and time\nthreshold on plateau length\nin seconds for\n{}".format(args.INFILE))
+ax2.set_title("Plateau detection success\nrate for varying voltage\n and time thresholds for\n{}".format(args.INFILE))
+
+ax1.invert_yaxis()
+ax2.invert_yaxis()
+
+divider1 = make_axes_locatable(ax1)
+divider2 = make_axes_locatable(ax2)
+
+cax1 = divider1.append_axes("right", size="20%", pad=0.05)
+cax2 = divider2.append_axes("right", size="20%", pad=0.05)
+
+cbar1 = plt.colorbar(im1, cax = cax1)
+cbar2 = plt.colorbar(im2, cax = cax2)
+
+plt.tight_layout()
 plt.savefig(os.path.join('OUT',outfile))
