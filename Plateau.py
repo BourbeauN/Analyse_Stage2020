@@ -13,12 +13,14 @@ def find_plateau(voltage, time , volt_threshold, time_threshold):
             if np.abs(voltage[i] - voltage[i-time_threshold]) > volt_threshold:
                 if (i + begin )  < len(voltage):
                     return time[begin], time[i + begin]
+        print('Plateau found')
         return float("nan"), float("nan") 
     
 def load_data(filename):    
     
     time, voltage, current = np.array(np.loadtxt(filename, dtype = float, delimiter = ',', skiprows = 12, unpack = True))
-
+    print('data loaded')
+    
     return time, voltage, current 
 
 def compute_plateaus_on_data(path,dv,dt):
@@ -32,7 +34,7 @@ def compute_plateaus_on_data(path,dv,dt):
     for f in enumerate(files) :
         
         time, voltage, current = load_data(os.path.join(path,f))
-        pdb.set_trace()
+        
         start, end = find_plateau (voltage, time , dv, dt)       
     	      
         if start != 'nan' and end != 'nan':
@@ -40,7 +42,9 @@ def compute_plateaus_on_data(path,dv,dt):
         
         else :
             plateau = 'nan'
-                      
+        
+        print(f)
+                     
         RESULTS_TABLE.append([plateau])
 
     return np.asarray(RESULTS_TABLE)
