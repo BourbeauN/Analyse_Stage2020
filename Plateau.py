@@ -10,15 +10,14 @@ def find_plateau(voltage,time,voltage_threshold,time_threshold):
         dv = np.float(voltage_threshold)
         dt = np.float(time_threshold)
         
-        print(dv,dt)
-        
         begin = np.where(voltage == np.ndarray.max(voltage))[0][0] ### to be validated ( tested on 10 )
         ## End of plateau phase ##
         for k in range(begin, len(voltage)):
             if np.abs(voltage[k] - voltage[k-np.int(dt)]) > dv:
                 if (k + begin )  < len(voltage):
+                    print('Plateau found')
                     return time[begin], time[k + begin]
-        print('Plateau found')
+
         return float("nan"), float("nan") 
     
 def load_data(filename):    
