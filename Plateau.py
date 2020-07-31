@@ -4,9 +4,12 @@ import os
 import argparse
 import pandas as pd
 
-def find_plateau(voltage,time,dv,dt):
+def find_plateau(voltage,time,voltage_threshold,time_threshold):
         ## Beginning of plateau phase ##
         
+        dv = np.float(voltage_threshold)
+        dt = np.float(time_threshold)
+    
         begin = np.where(voltage == np.ndarray.max(voltage))[0][0] ### to be validated ( tested on 10 )
         ## End of plateau phase ##
         for k in range(begin, len(voltage)):
