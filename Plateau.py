@@ -4,15 +4,15 @@ import os
 import argparse
 import pandas as pd
 
-def find_plateau(voltage, time , volt_threshold, time_threshold):
+def find_plateau(voltage,time,dv,dt):
         ## Beginning of plateau phase ##
         
         begin = np.where(voltage == np.ndarray.max(voltage))[0][0] ### to be validated ( tested on 10 )
         ## End of plateau phase ##
-        for i in range(begin, len(voltage)):
-            if np.abs(voltage[i] - voltage[i-time_threshold]) > volt_threshold:
-                if (i + begin )  < len(voltage):
-                    return time[begin], time[i + begin]
+        for k in range(begin, len(voltage)):
+            if np.abs(voltage[k] - voltage[k-dt]) > dv:
+                if (k + begin )  < len(voltage):
+                    return time[begin], time[k + begin]
         print('Plateau found')
         return float("nan"), float("nan") 
     
@@ -35,7 +35,7 @@ def compute_plateaus_on_data(path,dv,dt):
         
         time, voltage, current = load_data(os.path.join(path,f))
         
-        start, end = find_plateau (voltage, time , dv, dt)       
+        start, end = find_plateau(voltage,time,dv,dt)       
     	   
         if start != 'nan' and end != 'nan':
             plateau = end - start
