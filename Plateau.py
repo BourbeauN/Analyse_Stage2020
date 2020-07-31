@@ -15,7 +15,7 @@ def find_plateau(voltage,time,voltage_threshold,time_threshold):
         for k in range(begin, len(voltage)):
             if np.abs(voltage[k] - voltage[k-np.int(dt)]) > dv:
                 if (k + begin )  < len(voltage):
-                    print('Plateau found')
+
                     return time[begin], time[k + begin]
 
         return float("nan"), float("nan") 
@@ -31,6 +31,8 @@ def compute_plateaus_on_data(path,dv,dt):
     
     # list of discharge files  
     files = sorted(os.listdir(path))
+    
+    progress = 0
     
     # RESULTS
     RESULTS_TABLE = []
@@ -48,7 +50,12 @@ def compute_plateaus_on_data(path,dv,dt):
             plateau = 'nan'
                      
         RESULTS_TABLE.append([plateau])
-
+        
+        progress +=1
+        
+        if progress%50 == 0:
+            print(progress)
+        
     return np.asarray(RESULTS_TABLE)
 
 def main():
