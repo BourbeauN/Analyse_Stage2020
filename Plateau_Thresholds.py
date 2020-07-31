@@ -31,7 +31,7 @@ def compute_plateaus_on_data(path):
     dv = np.arange(300, 5100,300)
     
     # time deltas  
-    dt = np.arange(30) + 1 
+    dt = np.arange(10,51,1) 
 
     # RESULTS
     RESULTS_TABLE = []
