@@ -3,15 +3,17 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pdb
 # import seaborn as sns
+
 import argparse
 from datetime import datetime
 from sklearn import linear_model
 from scipy.optimize import  curve_fit
 
+#This function is to fit a sigmoid on the scatter plot
 def sigmoid(x, a, b):
     return 1.0 / (1.0 + np.exp(-a*(x-b)))
 
-
+#This function gives the elapsed time since the first discharge of the discharge file being analyzed.
 def get_elapsed_time(fnames):
     
     times = [f.split("_")[-1].split(".csv")[0] for f in fnames]
@@ -23,16 +25,19 @@ def get_elapsed_time(fnames):
     return time_deltas
 
 def main():
+    
+    #Parser to run code in server
     parser = argparse.ArgumentParser()
-
     parser.add_argument("-f", dest = "INFILE", help = ".csv results file")
     parser.add_argument("-dt", dest = "TTHRESH", default = 10, help = "time threshold")
     parser.add_argument("-dv", dest = "VTHRESH", default = 1000, help = "voltage threshold")
-    
     args = parser.parse_args()
-    Results = pd.read_csv(args.INFILE)
-    Results = Results[Results.time_delta == args.TTHRESH][Results.voltage_delta == args.VTHRESH]
     
+    Results = pd.read_csv(args.INFILE)
+    
+    ###The imported file is a matrix ()
+    
+    Results = Results[Results.time_delta == args.TTHRESH][Results.voltage_delta == args.VTHRESH]    
     Results["ET"] = get_elapsed_time(Results.fname)
     
     # non lineaer fitting
@@ -45,6 +50,9 @@ def main():
     popt, pcov = curve_fit(sigmoid, X, y, method='dogbox', bounds=([0., 600.],[0.01, 1200.]))
     X_test = np.linspace(min(Results["ET"]), max(Results["ET"]), 100)
     Y_pred = sigmoid(X_test, *popt)
+    
+    
+    ###PLOTS###
     plt.scatter(X, y, label = "data")
     plt.plot(X_test, Y_pred, label = "sigmoid fit")
     plt.xlabel("Elapsed time in seconds")
