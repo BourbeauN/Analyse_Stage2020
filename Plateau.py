@@ -13,7 +13,7 @@ def find_plateau(voltage,time,voltage_threshold,time_threshold):
         begin = np.where(voltage == np.ndarray.max(voltage))[0][0] ### to be validated ( tested on 10 )
         ## End of plateau phase ##
         for k in range(begin, len(voltage)):
-            if np.abs(voltage[k] - voltage[k-dt]) > dv:
+            if np.abs(voltage[k] - voltage[k-np.int(dt)]) > dv:
                 if (k + begin )  < len(voltage):
                     return time[begin], time[k + begin]
         print('Plateau found')
