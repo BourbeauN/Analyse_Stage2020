@@ -36,7 +36,7 @@ def compute_plateaus_on_data(path,dv,dt):
         time, voltage, current = load_data(os.path.join(path,f))
         
         start, end = find_plateau (voltage, time , dv, dt)       
-    	      
+    	   
         if start != 'nan' and end != 'nan':
             plateau = end - start
         
@@ -65,3 +65,5 @@ def main():
     RESULTS_TABLE = compute_plateaus_on_data(args.INFOLDER,args.VOLTAGE_THRESHOLD, args.TIME_THRESHOLD)
     
     pd.DataFrame(RESULTS_TABLE).to_csv(os.path.join('OUT_TAB_FIXED_THRESH', "OUT_PLATEAUS_{}.csv".format(outfile))) 
+
+main()
