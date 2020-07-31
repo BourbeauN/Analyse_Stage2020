@@ -73,6 +73,8 @@ def main():
     
     RESULTS_TABLE = compute_plateaus_on_data(args.INFOLDER,args.VOLTAGE_THRESHOLD, args.TIME_THRESHOLD)
     
+    print("Finished appending RESULTS_TABLE, saving ...")
+    
     pd.DataFrame(RESULTS_TABLE, columns = ['Plateau']).to_csv(os.path.join('OUT_TAB_FIXED_THRESH', "OUT_PLATEAUS_{}.csv".format(outfile))) 
 
 main()
