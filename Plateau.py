@@ -28,7 +28,7 @@ def compute_plateaus_on_data(path):
     files = sorted(os.listdir(path))
     
     # list of voltage deltas  
-    dv = np.arange(200, 5100,300)
+    dv = np.arange(300, 5100,300)
     
     # time deltas  
     dt = np.arange(30) + 1 
@@ -72,6 +72,6 @@ def main():
     
     RESULTS_TABLE = compute_plateaus_on_data(args.INFOLDER)
     
-    pd.DataFrame(RESULTS_TABLE, columns = ["fname", "time_delta", "voltage_delta", "plateau_length", "success"]).to_csv(os.path.join('OUT', "OUT_PLATEAUS_{}.csv".format(outfile))) 
+    pd.DataFrame(RESULTS_TABLE, columns = ["fname", "time_delta", "voltage_delta", "plateau_length", "success"]).to_csv(os.path.join('OUT_TAB', "OUT_PLATEAUS_{}.csv".format(outfile))) 
 
 main()
