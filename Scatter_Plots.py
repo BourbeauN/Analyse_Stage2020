@@ -2,16 +2,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import pdb
-# import seaborn as sns
-
 import argparse
 from datetime import datetime
-from sklearn import linear_model
-from scipy.optimize import  curve_fit
-
-#This function is to fit a sigmoid on the scatter plot
-def sigmoid(x, a, b):
-    return 1.0 / (1.0 + np.exp(-a*(x-b)))
 
 #This function gives the elapsed time since the first discharge of the discharge file being analyzed.
 def get_elapsed_time(fnames):
@@ -29,38 +21,25 @@ def main():
     #Parser to run code in server
     parser = argparse.ArgumentParser()
     parser.add_argument("-f", dest = "INFILE", help = ".csv results file")
+    parser.add_argument("-p", dest = "PLATEAU_FILE", help = "Chose file containing plateau_lengths with fixed thresholds")
     parser.add_argument("-dt", dest = "TIME_THRESHOLD", default = 10, help = "time threshold")
     parser.add_argument("-dv", dest = "VOLTAGE_THRESHOLD", default = 1000, help = "voltage threshold")
+    
     args = parser.parse_args()
     
-    Results = pd.read_csv(args.INFILE)
+    Results = pd.read_csv(args.INFILE)    
     
-    ###The imported file is a matrix ()
+    Results = Results[Results.time_delta == args.TIME_THRESHOLD][Results.voltage_delta == args.VOLTAGE_THRESHOLD]    
+    ET_file = get_elapsed_time(Results.fname)
     
-    Results = Results[Results.time_delta == args.TTHRESH][Results.voltage_delta == args.VTHRESH]    
-    Results["ET"] = get_elapsed_time(Results.fname)
-    
-    # non lineaer fitting
-    X = np.array(Results["ET"])
-    y = np.array(Results["plateau_length"]) / max(Results["plateau_length"])
-    # remove nans
-    X = X[y==y]
-    y = y[y==y]
-    pdb.set_trace()
-    popt, pcov = curve_fit(sigmoid, X, y, method='dogbox', bounds=([0., 600.],[0.01, 1200.]))
-    X_test = np.linspace(min(Results["ET"]), max(Results["ET"]), 100)
-    Y_pred = sigmoid(X_test, *popt)
-    
+    if len(Results) != len (ET_file):
+        print("array lengths dont match")
     
     ###PLOTS###
-    plt.scatter(X, y, label = "data")
-    plt.plot(X_test, Y_pred, label = "sigmoid fit")
+    plt.scatter(Results, ET_file)
     plt.xlabel("Elapsed time in seconds")
     plt.ylabel("Plateau length in seconds")
     plt.title("Plateau length in f. of elapsed time for {}".format(args.INFILE))
     plt.show()
 
 main()
-
-def ScatterPlot():
-    pass 
