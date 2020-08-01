@@ -29,8 +29,8 @@ def main():
     #Parser to run code in server
     parser = argparse.ArgumentParser()
     parser.add_argument("-f", dest = "INFILE", help = ".csv results file")
-    parser.add_argument("-dt", dest = "TTHRESH", default = 10, help = "time threshold")
-    parser.add_argument("-dv", dest = "VTHRESH", default = 1000, help = "voltage threshold")
+    parser.add_argument("-dt", dest = "TIME_THRESHOLD", default = 10, help = "time threshold")
+    parser.add_argument("-dv", dest = "VOLTAGE_THRESHOLD", default = 1000, help = "voltage threshold")
     args = parser.parse_args()
     
     Results = pd.read_csv(args.INFILE)
