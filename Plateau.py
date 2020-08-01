@@ -23,8 +23,6 @@ def find_plateau(voltage,time,voltage_threshold,time_threshold):
 def load_data(filename):    
     
     time, voltage, current = np.array(np.loadtxt(filename, dtype = float, delimiter = ',', skiprows = 12, unpack = True))
-    
-    
     return time, voltage, current 
 
 def compute_plateaus_on_data(path,dv,dt):
@@ -49,7 +47,7 @@ def compute_plateaus_on_data(path,dv,dt):
         else :
             plateau = 'nan'
                      
-        RESULTS_TABLE.append([plateau])
+        RESULTS_TABLE.append([f,plateau])
         
         progress +=1
         
@@ -75,7 +73,7 @@ def main():
     
     print("Finished appending RESULTS_TABLE, saving ...")
     
-    pd.DataFrame(RESULTS_TABLE, columns = ['Plateau']).to_csv(os.path.join('OUT_TAB_FIXED_THRESH',
+    pd.DataFrame(RESULTS_TABLE, columns = ['Filename', 'Plateau']).to_csv(os.path.join('OUT_TAB_FIXED_THRESH',
     "OUT_PLATEAUS_{}_{}dv_{}dt.csv".format(outfile,args.VOLTAGE_THRESHOLD,args.TIME_THRESHOLD))) 
 
 main()
