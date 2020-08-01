@@ -75,6 +75,7 @@ def main():
     
     print("Finished appending RESULTS_TABLE, saving ...")
     
-    pd.DataFrame(RESULTS_TABLE, columns = ['Plateau']).to_csv(os.path.join('OUT_TAB_FIXED_THRESH', "OUT_PLATEAUS_{}.csv".format(outfile))) 
+    pd.DataFrame(RESULTS_TABLE, columns = ['Plateau']).to_csv(os.path.join('OUT_TAB_FIXED_THRESH',
+    "OUT_PLATEAUS_{}_{}dv_{}dt.csv".format(outfile,args.VOLTAGE_THRESHOLD,args.TIME_THRESHOLD))) 
 
 main()
