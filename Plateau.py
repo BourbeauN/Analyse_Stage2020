@@ -37,9 +37,6 @@ def compute_plateaus_on_data(path,dv,dt):
     # cycle through all files 
     for i,f in enumerate(files) :
         
-        print(i)
-        print(f)
-        
         time, voltage, current = load_data(os.path.join(path,f))
         
         start, end = find_plateau(voltage,time,dv,dt)       
