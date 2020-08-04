@@ -22,7 +22,7 @@ def get_elapsed_time(fnames):
         times = j.split("_")[-1].split(".csv")[0] 
         
         print(times)
-        
+       
         #transforms the digits in a timestamp        
         datetimes[f] = datetime.strptime(times,"%Y%m%d%H%M%S%f")
         
@@ -48,8 +48,8 @@ def main():
     
     Results = pd.read_csv(args.INFILE)
    
-    fname = Results[Results.columns[0]].as_matrix()
-    Plateau = Results[Results.columns[1]].as_matrix()
+    fname = Results[Results.columns[1]].as_matrix()
+    Plateau = Results[Results.columns[2]].as_matrix()
     
     ET_file = get_elapsed_time(fname)
     
