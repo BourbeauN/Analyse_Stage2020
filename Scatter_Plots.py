@@ -40,6 +40,14 @@ def get_elapsed_time(fnames):
 
     return time_deltas
 
+def get_experiment_name(folder_name):
+    
+    tension = folder_name.split("_")[2]
+    pulsewidth = folder_name.split("_")[3]
+
+    return tension, pulsewidth    
+    
+
 def main():
     
     #Parser to run code in server
@@ -54,9 +62,10 @@ def main():
    
     fname = Results[Results.columns[1]].as_matrix()
     Plateau = Results[Results.columns[2]].as_matrix()
-    
 
     ET_file = get_elapsed_time(fname)
+    
+    tension, pulsewidth = get_experiment_name(args.INFILE)
     
     #Present an explicit error message
     if len(Plateau) != len (ET_file):
@@ -67,7 +76,7 @@ def main():
     plt.plot(ET_file, Plateau,'.',markersize = 3, color = 'crimson')
     plt.xlabel("Elapsed time in seconds")
     plt.ylabel("Plateau length in seconds")
-    plt.title("Plateau length in f. of elapsed time for \n{}".format(args.INFILE),y=1.08)
+    plt.title("Plateau length for {} voltage, {} pulsewidth with\na voltage threshold of {} and a time\nthreshold of {}".format(tension,pulsewidth,args.VOLTAGE_THRESHOLD,args.TIME_THRESHOLD),y=1.08)
     plt.tight_layout()
     plt.savefig(os.path.join("OUT_FIG/PlateauLength_TimeElapsed",outfile))
 
