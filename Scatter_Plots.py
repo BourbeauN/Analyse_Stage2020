@@ -16,7 +16,6 @@ def get_elapsed_time(fnames):
         
         #converts filename to string
         j = str(fnames[f])
-        print(j)
         
         #Takes filename from array to keep only the digits
         times = j.split("_")[-1].split(".csv")[0] 
@@ -28,7 +27,8 @@ def get_elapsed_time(fnames):
     for d in range(len(datetimes)): 
         
         time_deltas[d] = (datetimes[d] - datetimes[0]).total_seconds()
-                       
+     
+    print("for loop to obtain time stamp complete...")                 
     return time_deltas
 
 def main():
