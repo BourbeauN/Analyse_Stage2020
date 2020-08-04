@@ -32,7 +32,7 @@ def get_elapsed_time(fnames):
     for d in range(len(datetimes)): 
         
         time_deltas[d] = (datetimes[d] - datetimes[0]).total_seconds()
-	print(time_deltas[d])
+        print(time_deltas[d])
    
    #Tracks seconde part of time stamp
     print("for loop to obtain time stamp complete...")                 
