@@ -28,9 +28,8 @@ def main():
     outfile = args.INFILE.split('/')[-1].replace('.csv','.pdf')
     
     Results = pd.read_csv(args.INFILE)
-    
-    Plateau = np.float(Results.Plateau)
-    fname = np.float(Results.filename)
+    fname = Results[Results.columns[0]].as_array()
+    Plateau = Results[Results.columns[1]].as_array()
     
     ET_file = get_elapsed_time(fname)
     
