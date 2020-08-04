@@ -27,13 +27,15 @@ def get_elapsed_time(fnames):
        
         #transforms the digits in a timestamp        
         datetimes[f] = datetime.strptime(times,"%Y%m%d%H%M%S%f")
-        
+    
+    #Allows to track the first part of the time stamp 
     print("for loop to separate time string complete ...")
     
     for d in range(len(datetimes)): 
         
         time_deltas[d] = (datetimes[d] - datetimes[0]).total_seconds()
-     
+    
+    #Tracks seconde part of time stamp
     print("for loop to obtain time stamp complete...")                 
 
     return time_deltas
@@ -55,14 +57,15 @@ def main():
     
     ET_file = get_elapsed_time(fname)
     
+    #Present an explicit error message
     if len(Plateau) != len (ET_file):
         print("array lengths dont match")
     
     ###PLOTS###
-    plt.plot(Plateau, ET_file)
+    plt.plot(ET_file, Plateau)
     plt.xlabel("Elapsed time in seconds")
     plt.ylabel("Plateau length in seconds")
-    plt.title("Plateau length in f. of elapsed time for {}".format(args.INFILE))
+    plt.title("Plateau length in f. of elapsed time for \n{}".format(args.INFILE))
     plt.savefig(os.path.join("OUT_FIG/PlateauLength_TimeElapsed",outfile))
 
 main()
