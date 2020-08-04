@@ -20,10 +20,13 @@ def get_elapsed_time(fnames):
         #Takes filename from array to keep only the digits
         times = j.split("_")[-1].split(".csv")[0] 
         
+        print(times)
+        
         #transforms the digits in a timestamp        
-        datetimes[f] = np.float(datetime.strptime(times,"%Y%m%d%H%M%S%f"))
+        datetimes[f] = datetime.strptime(times,"%Y%m%d%H%M%S%f")
         
     print("for loop to separate time string complete ...")
+    
     for d in range(len(datetimes)): 
         
         time_deltas[d] = (datetimes[d] - datetimes[0]).total_seconds()
