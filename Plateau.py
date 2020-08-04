@@ -38,7 +38,7 @@ def compute_plateaus_on_data(path,dv,dt):
     for i,f in enumerate(files) :
         
         print(i)
-        print(j)
+        print(f)
         
         time, voltage, current = load_data(os.path.join(path,f))
         
