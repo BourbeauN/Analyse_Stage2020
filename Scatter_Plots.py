@@ -1,10 +1,10 @@
+import panda as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import pdb
 import argparse
 from datetime import datetime
 import os
-
 
 #This function gives the elapsed time since the first discharge of the discharge file being analyzed.
 def get_elapsed_time(fnames):
@@ -27,7 +27,10 @@ def main():
     args = parser.parse_args()
     outfile = args.INFILE.split('/')[-1].replace('.csv','.pdf')
     
-    fname, Plateau = np.genfromtxt(args.INFILE, delimiter = ',', unpack = True, skip_header=1)
+    Results = pd.read_csv(args.INFILE)
+    
+    Plateau = np.float(Results.Plateau)
+    fname = np.float(Results.filename)
     
     ET_file = get_elapsed_time(fname)
     
