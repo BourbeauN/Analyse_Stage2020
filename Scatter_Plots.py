@@ -9,7 +9,7 @@ import os
 #This function gives the elapsed time since the first discharge of the discharge file being analyzed.
 def get_elapsed_time(fnames):
     
-    datetimes,time_deltas = np.zeros(np.like(fnames))
+    datetimes,time_deltas = np.zeros_like(fnames)
     
     #For loop to get an array of floats corresponding to the timestamps of all discharges (fname)
     for f in range(len(fnames)):
