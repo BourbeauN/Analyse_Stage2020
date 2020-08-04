@@ -1,4 +1,4 @@
-import panda as pd
+import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import pdb
@@ -30,6 +30,7 @@ def main():
     outfile = args.INFILE.split('/')[-1].replace('.csv','.pdf')
     
     Results = pd.read_csv(args.INFILE)
+   
     fname = Results[Results.columns[0]].as_array()
     Plateau = Results[Results.columns[1]].as_array()
     
