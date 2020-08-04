@@ -8,8 +8,9 @@ import os
 
 #This function gives the elapsed time since the first discharge of the discharge file being analyzed.
 def get_elapsed_time(fnames):
-    
-    datetimes,time_deltas = np.zeros(np.like(fnames))
+
+    datetimes = np.zeros_like(fnames)
+    time_deltas = np.zeros_like(fnames)
     
     #For loop to get an array of floats corresponding to the timestamps of all discharges (fname)
     for f in range(len(fnames)):
@@ -32,6 +33,7 @@ def get_elapsed_time(fnames):
         time_deltas[d] = (datetimes[d] - datetimes[0]).total_seconds()
      
     print("for loop to obtain time stamp complete...")                 
+
     return time_deltas
 
 def main():
@@ -46,8 +48,8 @@ def main():
     
     Results = pd.read_csv(args.INFILE)
    
-    fname = Results[Results.columns[1]].as_matrix()
-    Plateau = Results[Results.columns[2]].as_matrix()
+    fname = Results[Results.columns[0]].as_matrix()
+    Plateau = Results[Results.columns[1]].as_matrix()
     
     ET_file = get_elapsed_time(fname)
     
@@ -55,7 +57,7 @@ def main():
         print("array lengths dont match")
     
     ###PLOTS###
-    plt.scatter(Plateau, ET_file)
+    plt.plot(Plateau, ET_file)
     plt.xlabel("Elapsed time in seconds")
     plt.ylabel("Plateau length in seconds")
     plt.title("Plateau length in f. of elapsed time for {}".format(args.INFILE))
