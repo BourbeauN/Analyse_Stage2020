@@ -29,8 +29,8 @@ def main():
     
     Results = pd.read_csv(args.INFILE)
    
-    fname = Results[Results.columns[0]].as_array()
-    Plateau = Results[Results.columns[1]].as_array()
+    fname = Results[Results.columns[0]].as_matrix()
+    Plateau = Results[Results.columns[1]].as_matrix()
     
     ET_file = get_elapsed_time(fname)
     
