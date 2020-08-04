@@ -1,9 +1,10 @@
-import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import pdb
 import argparse
 from datetime import datetime
+import os
+
 
 #This function gives the elapsed time since the first discharge of the discharge file being analyzed.
 def get_elapsed_time(fnames):
@@ -21,25 +22,23 @@ def main():
     #Parser to run code in server
     parser = argparse.ArgumentParser()
     parser.add_argument("-f", dest = "INFILE", help = ".csv results file")
-    parser.add_argument("-p", dest = "PLATEAU_FILE", help = "Chose file containing plateau_lengths with fixed thresholds")
     parser.add_argument("-dt", dest = "TIME_THRESHOLD", default = 10, help = "time threshold")
     parser.add_argument("-dv", dest = "VOLTAGE_THRESHOLD", default = 1000, help = "voltage threshold")
-    
     args = parser.parse_args()
+    outfile = args.INFILE.split('/')[-1].replace('.csv','.pdf')
     
-    Results = pd.read_csv(args.INFILE)    
+    fname, Plateau = np.genfromtxt(args.INFILE, delimiter = ',', unpack = True, skip_header=1)
     
-    Results = Results[Results.time_delta == args.TIME_THRESHOLD][Results.voltage_delta == args.VOLTAGE_THRESHOLD]    
-    ET_file = get_elapsed_time(Results.fname)
+    ET_file = get_elapsed_time(fname)
     
-    if len(Results) != len (ET_file):
+    if len(Plateau) != len (ET_file):
         print("array lengths dont match")
     
     ###PLOTS###
-    plt.scatter(Results, ET_file)
+    plt.scatter(Plateau, ET_file)
     plt.xlabel("Elapsed time in seconds")
     plt.ylabel("Plateau length in seconds")
     plt.title("Plateau length in f. of elapsed time for {}".format(args.INFILE))
-    plt.show()
+    plt.savefig(os.path.join("OUT_FIG/PlateauLength_TimeElapsed",outfile))
 
 main()
