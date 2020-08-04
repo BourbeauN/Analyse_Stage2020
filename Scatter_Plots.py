@@ -8,14 +8,27 @@ import os
 
 #This function gives the elapsed time since the first discharge of the discharge file being analyzed.
 def get_elapsed_time(fnames):
+
+    datetimes,time_deltas = np.zeros(np.like(fnames))
     
-    for f in fnames:
-        str(f)
-        times = f.split("_")[-1].split(".csv")[0] 
-    
-    datetimes = [datetime.strptime(time, "%Y%m%d%H%M%S%f") for time in times]
-    
-    time_deltas = [(t - datetimes[0]).total_seconds() for t in datetimes]
+    #For loop to get an array of floats corresponding to the timestamps of all discharges (fname)
+    for f in range(len(fnames)):
+        
+        #converts filename to string
+        j = str(fnames[f])
+        
+        #Takes filename from array to keep only the digits
+        times = j.split("_")[-1].split(".csv")[0] 
+        
+        #transforms the digits in a timestamp        
+        datetimes[f] = np.float(datetime.strptime(times,"%Y%m%d%H%M%S%f"))
+        
+    print("for loop to separate time string complete ...")
+    for d in range(len(datetimes)): 
+        
+        time_deltas[d] = (datetimes[d] - datetimes[0]).total_seconds()
+     
+    print("for loop to obtain time stamp complete...")                 
 
     return time_deltas
 
