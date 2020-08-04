@@ -9,7 +9,9 @@ import os
 #This function gives the elapsed time since the first discharge of the discharge file being analyzed.
 def get_elapsed_time(fnames):
     
-    times = [f.split("_")[-1].split(".csv")[0] for f in fnames]
+    for f in fnames:
+        str(f)
+        times = f.split("_")[-1].split(".csv")[0] 
     
     datetimes = [datetime.strptime(time, "%Y%m%d%H%M%S%f") for time in times]
     
