@@ -42,8 +42,8 @@ def get_elapsed_time(fnames):
 
 def get_experiment_name(folder_name):
     
-    tension = folder_name.split("_")[2]
-    pulsewidth = folder_name.split("_")[3]
+    tension = folder_name.split("_")[5]
+    pulsewidth = folder_name.split("_")[6]
 
     return tension, pulsewidth    
     
@@ -76,7 +76,7 @@ def main():
     plt.plot(ET_file, Plateau,'.',markersize = 3, color = 'crimson')
     plt.xlabel("Elapsed time in seconds")
     plt.ylabel("Plateau length in seconds")
-    plt.title("Plateau length for {} voltage, {} pulsewidth with\na voltage threshold of {} and a time\nthreshold of {}".format(tension,pulsewidth,args.VOLTAGE_THRESHOLD,args.TIME_THRESHOLD),y=1.08)
+    plt.title("Plateau length for {} voltage, {} pulsewidth with\na voltage threshold of {}and a time\nthreshold of {}.".format(tension,pulsewidth,args.VOLTAGE_THRESHOLD,args.TIME_THRESHOLD),y=1.08)
     plt.tight_layout()
     plt.savefig(os.path.join("OUT_FIG/PlateauLength_TimeElapsed",outfile))
 
