@@ -21,9 +21,7 @@ def get_elapsed_time(fnames):
         j = str(fnames[f])
         
         #Takes filename from array to keep only the digits
-        times = j.split("_")[-1].split(".csv")[0] 
-        
-        print(times)
+        times = j.split("_")[-1].split(".csv")[0]
        
         #transforms the digits in a timestamp        
         datetimes[f] = datetime.strptime(times,"%Y%m%d%H%M%S%f")
@@ -34,8 +32,9 @@ def get_elapsed_time(fnames):
     for d in range(len(datetimes)): 
         
         time_deltas[d] = (datetimes[d] - datetimes[0]).total_seconds()
-    
-    #Tracks seconde part of time stamp
+	print(time_deltas[d])
+   
+   #Tracks seconde part of time stamp
     print("for loop to obtain time stamp complete...")                 
 
     return time_deltas
@@ -62,6 +61,7 @@ def main():
         print("array lengths dont match")
     
     ###PLOTS###
+    
     plt.plot(ET_file, Plateau)
     plt.xlabel("Elapsed time in seconds")
     plt.ylabel("Plateau length in seconds")
