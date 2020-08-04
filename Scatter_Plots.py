@@ -1,4 +1,4 @@
-import panda as pd
+import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import pdb
@@ -29,8 +29,8 @@ def main():
     
     Results = pd.read_csv(args.INFILE)
     
-    Plateau = np.float(Results.Plateau)
-    fname = np.float(Results.filename)
+    Plateau = Results.Plateau
+    fname = Results.filename
     
     ET_file = get_elapsed_time(fname)
     
