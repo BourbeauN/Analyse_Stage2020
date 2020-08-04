@@ -33,7 +33,7 @@ def get_elapsed_time(fnames):
         
         time_deltas[d] = (datetimes[d] - datetimes[0]).total_seconds()
         if d%50 == 0 :
-            time_deltas[d])
+            print(time_deltas[d])
    
    #Tracks seconde part of time stamp
     print("for loop to obtain time stamp complete...")                 
@@ -55,6 +55,7 @@ def main():
     fname = Results[Results.columns[1]].as_matrix()
     Plateau = Results[Results.columns[2]].as_matrix()
     
+
     ET_file = get_elapsed_time(fname)
     
     #Present an explicit error message
@@ -63,10 +64,11 @@ def main():
     
     ###PLOTS###
     
-    plt.plot(ET_file, Plateau)
+    plt.plot(ET_file, Plateau,'.',markersize = 3, color = 'crimson')
     plt.xlabel("Elapsed time in seconds")
     plt.ylabel("Plateau length in seconds")
-    plt.title("Plateau length in f. of elapsed time for \n{}".format(args.INFILE))
+    plt.title("Plateau length in f. of elapsed time for \n{}".format(args.INFILE),y=1.08)
+    plt.tight_layout()
     plt.savefig(os.path.join("OUT_FIG/PlateauLength_TimeElapsed",outfile))
 
 main()
