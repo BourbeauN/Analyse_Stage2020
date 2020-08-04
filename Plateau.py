@@ -47,7 +47,7 @@ def compute_plateaus_on_data(path,dv,dt):
         else :
             plateau = 'nan'
                      
-        RESULTS_TABLE.append([f,plateau])
+        RESULTS_TABLE.append([files(f),plateau])
         
         progress +=1
         
