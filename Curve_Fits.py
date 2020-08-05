@@ -49,7 +49,7 @@ def get_experiment_name(folder_name):
 def Sqrt_Fit(x,a,b,c):
     return (np.sqrt((a*x)+b)+c)
 
-def Exp_Fit(x,a,b,c):
+def Exp_Fit(x,a,b,c,d):
     return (a*np.exp((-1/(b*x))+c)+d)
 
 def Ln_Fit(x,a,b,c,d):
@@ -74,23 +74,29 @@ def main():
     ET_file = get_elapsed_time(fname)
     
     tension, pulsewidth = get_experiment_name(args.INFILE)
-
-    ET_list = []
-
-    for j in Plateau :
-        j = j[np.logical_not(np.isnan(j))]
-        ET_list.append(ET_file[j])
-
-    print(len(Plateau),len(ET_list),len(ET_file))
+    
+    Plateau_num = []
+    ET_num = []
+        
+    for j in range(len(Plateau)):
+        
+        if np.dtype(Plateau[j]) == float :
+            Plateau_num.append(Plateau[j])
+            ET_num.append(ET_file[j])
+    
+    Plateau_list = np.asarray(Plateau_num)
+    ET_list = np.asarray(ET_num)
+    
+    print(len(Plateau_list),len(Plateau),len(ET_list),len(ET_file))
 	        
     #Present an explicit error message
-    if len(Plateau) != len (ET_list):
+    if len(Plateau_list) != len (ET_list):
         print("array lengths dont match")
     
     ###CurveFits***
-    popt1,pcov1=curve_fit(Sqrt_Fit,ET_list,Plateau)
-    popt2,pcov2=curve_fit(Exp_Fit,ET_list,Plateau)
-    popt3,pcov3=curve_fit(Ln_Fit,ET_list,Plateau)
+    popt1,pcov1=curve_fit(Sqrt_Fit,ET_list,Plateau_list)
+    popt2,pcov2=curve_fit(Exp_Fit,ET_list,Plateau_list)
+    popt3,pcov3=curve_fit(Ln_Fit,ET_list,Plateau_list)
     
     plt.figure(1)
     
