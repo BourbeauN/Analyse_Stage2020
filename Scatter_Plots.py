@@ -42,8 +42,8 @@ def get_elapsed_time(fnames):
 
 def get_experiment_name(folder_name):
     
-    tension = folder_name.split("_")[2]
-    pulsewidth = folder_name.split("_")[3]
+    tension = folder_name.split("_")[5]
+    pulsewidth = folder_name.split("_")[6]
 
     return tension, pulsewidth    
     
