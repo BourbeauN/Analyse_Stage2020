@@ -77,24 +77,33 @@ def main():
     
     tension, pulsewidth = get_experiment_name(args.INFILE)
     
+    Plateau_num = []
+    ET_num = []
+    
+    for j in range(len(Plateau)) :
+        if Plateau[j] != 'nan':
+            Plateau_num.append(Plateau[j])
+            ET_num.append(ET_file[j])
+    
+        
     #Present an explicit error message
-    if len(Plateau) != len (ET_file):
+    if len(Plateau_num) != len (ET_num):
         print("array lengths dont match")
     
     ###CurveFits***
-    popt1,pcov1=curve_fit(Sqrt_Fit,ET_file,Plateau)
-    popt2,pcov2=curve_fit(Exp_Fit,ET_file,Plateau)
-    popt3,pcov3=curve_fit(Ln_Fit,ET_file,Plateau)
+    popt1,pcov1=curve_fit(Sqrt_Fit,ET_num,Plateau_num)
+    popt2,pcov2=curve_fit(Exp_Fit,ET_num,Plateau_num)
+    popt3,pcov3=curve_fit(Ln_Fit,ET_num,Plateau_num)
     
     plt.figure(1)
     
     ###SCATTER PLOTS###
-    plt.plot(ET_file, Plateau,'.',markersize = 1, color = 'black')
+    plt.plot(ET_num, Plateau_num,'.',markersize = 1, color = 'black')
     
     ###CURVEFIT PLOTS###
-    plt.plot(ET_file,Sqrt_fit(ET_file,popt1),color = 'crimson', linewidth = 2, label="Square root fit")
-    plt.plot(ET_file,Exp_fit(ET_file,popt2),color = 'darkturquoise', linewidth = 2, label="Exponential fit")
-    plt.plot(ET_file,Ln_fit(ET_file,popt3),color = 'yellowgreen', linewidth = 2, label="Natural logarithm fit")
+    plt.plot(ET_num,Sqrt_fit(ET_num,popt1),color = 'crimson', linewidth = 2, label="Square root fit")
+    plt.plot(ET_num,Exp_fit(ET_num,popt2),color = 'darkturquoise', linewidth = 2, label="Exponential fit")
+    plt.plot(ET_num,Ln_fit(ET_num,popt3),color = 'yellowgreen', linewidth = 2, label="Natural logarithm fit")
     
     ###PLOT SETTINGS###
     plt.xlabel("Elapsed time in seconds")
