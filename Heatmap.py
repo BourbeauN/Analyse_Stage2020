@@ -51,8 +51,8 @@ ax2 = fig.add_subplot(122)
 ###The extent must be adapted to de the dt an dv aranges from Plateau.py###
 ###The extent= function seems to only accept number that are then converted to strings on the plot###
 ###The extent= function doesn't accept float, ints or strings as arguments###
-im1 = ax1.imshow(matrix_plateau,cmap='Blues', extent=[200,5100,10,51], aspect='auto')
-im2 = ax2.imshow(matrix_success,cmap='Reds', extent=[200,5100,10,51], aspect='auto')
+im1 = ax1.imshow(matrix_plateau,cmap='Blues', extent=[200,5100,25,61], aspect='auto')
+im2 = ax2.imshow(matrix_success,cmap='Reds', extent=[200,5100,25,61], aspect='auto')
 
 #Axis labels
 ax1.set_xlabel("Voltage threshold")

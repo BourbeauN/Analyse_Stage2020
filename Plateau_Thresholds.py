@@ -31,7 +31,7 @@ def compute_plateaus_on_data(path):
     dv = np.arange(300, 5100,300)
     
     # time deltas  
-    dt = np.arange(10,51,1) 
+    dt = np.arange(25,61,1) 
 
     # RESULTS
     RESULTS_TABLE = []
@@ -52,8 +52,11 @@ def compute_plateaus_on_data(path):
                     #do nothing
                 
                 # store results
-                print([i, f, t_thresh, v_thresh, plateau, success])
-                RESULTS_TABLE.append([f, t_thresh, v_thresh, plateau, success])
+                            
+		RESULTS_TABLE.append([f, t_thresh, v_thresh, plateau, success])
+    		if len(RESULTS_TABLE)%1000 == 0
+			print(f)
+    		
     # return results
     return np.asarray(RESULTS_TABLE)
 
