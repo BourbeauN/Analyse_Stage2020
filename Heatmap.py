@@ -81,4 +81,4 @@ ax2.set_title("Plateau detection success {}".format(args.INFILE))
 # ### This bloc of command is for running the code outside of server (2/2) ###
 # ax1.set_title("Plateau length")
 # ax2.set_title("Success Rate")
-#plt.savefig("caca.pdf")
+#plt.savefig("test_fig.pdf")
