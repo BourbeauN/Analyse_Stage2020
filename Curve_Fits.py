@@ -79,7 +79,7 @@ def main():
 
     for j in Plateau :
         j = j[np.logical_not(np.isnan(j))]
-	ET_list.append(ET_file[j])
+        ET_list.append(ET_file[j])
 
     print(len(Plateau),len(ET_list),len(ET_file))
 	        
