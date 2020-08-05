@@ -33,8 +33,6 @@ def get_elapsed_time(fnames):
     for d in range(len(datetimes)): 
         
         time_deltas[d] = (datetimes[d] - datetimes[0]).total_seconds()
-        if d%50 == 0 :
-            print(time_deltas[d])
    
    #Tracks seconde part of time stamp
     print("for loop to obtain time stamp complete...")                 
@@ -76,34 +74,33 @@ def main():
     ET_file = get_elapsed_time(fname)
     
     tension, pulsewidth = get_experiment_name(args.INFILE)
-    
-    Plateau_num = []
-    ET_num = []
-    
-    for j in range(len(Plateau)) :
-        if Plateau[j] != 'nan':
-            Plateau_num.append(Plateau[j])
-            ET_num.append(ET_file[j])
-    
-        
+
+    ET_list = []
+
+    for j in Plateau :
+        j = j[np.logical_not(np.isnan(j))]
+	ET_list.append(ET_file[j])
+
+    print(len(Plateau),len(ET_list),len(ET_file))
+	        
     #Present an explicit error message
-    if len(Plateau_num) != len (ET_num):
+    if len(Plateau) != len (ET_list):
         print("array lengths dont match")
     
     ###CurveFits***
-    popt1,pcov1=curve_fit(Sqrt_Fit,ET_num,Plateau_num)
-    popt2,pcov2=curve_fit(Exp_Fit,ET_num,Plateau_num)
-    popt3,pcov3=curve_fit(Ln_Fit,ET_num,Plateau_num)
+    popt1,pcov1=curve_fit(Sqrt_Fit,ET_list,Plateau)
+    popt2,pcov2=curve_fit(Exp_Fit,ET_list,Plateau)
+    popt3,pcov3=curve_fit(Ln_Fit,ET_list,Plateau)
     
     plt.figure(1)
     
     ###SCATTER PLOTS###
-    plt.plot(ET_num, Plateau_num,'.',markersize = 1, color = 'black')
+    plt.plot(ET_list, Plateau,'.',markersize = 1, color = 'black')
     
     ###CURVEFIT PLOTS###
-    plt.plot(ET_num,Sqrt_fit(ET_num,popt1),color = 'crimson', linewidth = 2, label="Square root fit")
-    plt.plot(ET_num,Exp_fit(ET_num,popt2),color = 'darkturquoise', linewidth = 2, label="Exponential fit")
-    plt.plot(ET_num,Ln_fit(ET_num,popt3),color = 'yellowgreen', linewidth = 2, label="Natural logarithm fit")
+    plt.plot(ET_list,Sqrt_fit(ET_list,popt1),color = 'crimson', linewidth = 2, label="Square root fit")
+    plt.plot(ET_list,Exp_fit(ET_list,popt2),color = 'darkturquoise', linewidth = 2, label="Exponential fit")
+    plt.plot(ET_list,Ln_fit(ET_list,popt3),color = 'yellowgreen', linewidth = 2, label="Natural logarithm fit")
     
     ###PLOT SETTINGS###
     plt.xlabel("Elapsed time in seconds")
