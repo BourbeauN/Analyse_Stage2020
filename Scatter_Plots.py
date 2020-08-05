@@ -47,14 +47,14 @@ def get_experiment_name(folder_name):
 
     return tension, pulsewidth    
     
-
 def main():
     
     #Parser to run code in server
     parser = argparse.ArgumentParser()
     parser.add_argument("-f", dest = "INFILE", help = ".csv results file")
-    parser.add_argument("-dt", dest = "TIME_THRESHOLD", default = 10, help = "time threshold")
-    parser.add_argument("-dv", dest = "VOLTAGE_THRESHOLD", default = 1000, help = "voltage threshold")
+    parser.add_argument("-m", dest = "MEDIUM", help = "in what medium is the experiment taking place", default = "water")
+    parser.add_argument("-c", dest = "CONFIGURATION", help = "electrode configuration", default = "point-point")
+
     args = parser.parse_args()
     outfile = args.INFILE.split('/')[-1].replace('.csv','.pdf')
     
@@ -73,10 +73,11 @@ def main():
     
     ###PLOTS###
     
-    plt.plot(ET_file, Plateau,'.',markersize = 3, color = 'crimson')
+    plt.plot(ET_file, Plateau,'.',markersize = 1, color = 'crimson')
     plt.xlabel("Elapsed time in seconds")
+    plt.ticklabel_format(axis="x", style="sci")
     plt.ylabel("Plateau length in seconds")
-    plt.title("Plateau length for {} voltage, {} pulsewidth with\na voltage threshold of {} and a time\nthreshold of {}".format(tension,pulsewidth,args.VOLTAGE_THRESHOLD,args.TIME_THRESHOLD),y=1.08)
+    plt.title("Plateau length for {} {} in\n{} with {} configuration".format(tension,pulsewidth,args.MEDIUM,args.CONFIGURATION),y=1.08)
     plt.tight_layout()
     plt.savefig(os.path.join("OUT_FIG/PlateauLength_TimeElapsed",outfile))
 
