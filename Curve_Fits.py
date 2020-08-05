@@ -74,39 +74,26 @@ def main():
     ET_file = get_elapsed_time(fname)
     
     tension, pulsewidth = get_experiment_name(args.INFILE)
-    
-    Plateau_num = []
-    ET_num = []
         
-    for j in range(len(Plateau)):
-        
-        if np.dtype(Plateau[j]) == float :
-            Plateau_num.append(Plateau[j])
-            ET_num.append(ET_file[j])
-    
-    Plateau_list = np.asarray(Plateau_num)
-    ET_list = np.asarray(ET_num)
-    
-    print(len(Plateau_list),len(Plateau),len(ET_list),len(ET_file))
-	        
-    #Present an explicit error message
-    if len(Plateau_list) != len (ET_list):
-        print("array lengths dont match")
+    Plateau_fl = Plateau[~np.isnan(Plateau)]
+    ET_file_fl = ET_file[~np.isnan(Plateau)]
+
+    print(len(Plateau_fl),len(Plateau),len(ET_file_fl),len(ET_file))
     
     ###CurveFits***
-    popt1,pcov1=curve_fit(Sqrt_Fit,ET_list,Plateau_list)
-    popt2,pcov2=curve_fit(Exp_Fit,ET_list,Plateau_list)
-    popt3,pcov3=curve_fit(Ln_Fit,ET_list,Plateau_list)
+    popt1,pcov1=curve_fit(Sqrt_Fit,ET_file_fl,Plateau_fl)
+    popt2,pcov2=curve_fit(Exp_Fit, ET_file_fl,Plateau_fl)
+    popt3,pcov3=curve_fit(Ln_Fit,ET_file_fl,Plateau_fl)
     
     plt.figure(1)
     
     ###SCATTER PLOTS###
-    plt.plot(ET_list, Plateau,'.',markersize = 1, color = 'black')
+    plt.plot(ET_file_fl, Plateau_fl,'.',markersize = 1, color = 'black')
     
     ###CURVEFIT PLOTS###
-    plt.plot(ET_list,Sqrt_fit(ET_list,popt1),color = 'crimson', linewidth = 2, label="Square root fit")
-    plt.plot(ET_list,Exp_fit(ET_list,popt2),color = 'darkturquoise', linewidth = 2, label="Exponential fit")
-    plt.plot(ET_list,Ln_fit(ET_list,popt3),color = 'yellowgreen', linewidth = 2, label="Natural logarithm fit")
+    plt.plot(ET_file_fl,Sqrt_fit(ET_file_fl,popt1),color = 'crimson', linewidth = 2, label="Square root fit")
+    plt.plot(ET_file_fl,Exp_fit(ET_file_fl,popt2),color = 'darkturquoise', linewidth = 2, label="Exponential fit")
+    plt.plot(ET_file_fl,Ln_fit(ET_file_fl,popt3),color = 'yellowgreen', linewidth = 2, label="Natural logarithm fit")
     
     ###PLOT SETTINGS###
     plt.xlabel("Elapsed time in seconds")
