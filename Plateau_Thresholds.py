@@ -53,9 +53,9 @@ def compute_plateaus_on_data(path):
                 
                 # store results
                             
-		RESULTS_TABLE.append([f, t_thresh, v_thresh, plateau, success])
-    		if len(RESULTS_TABLE)%1000 == 0
-			print(f)
+                RESULTS_TABLE.append([f, t_thresh, v_thresh, plateau, success])
+                if len(RESULTS_TABLE)%1000 == 0:
+                    print(f)
     		
     # return results
     return np.asarray(RESULTS_TABLE)
