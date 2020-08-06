@@ -9,6 +9,7 @@ from datetime import datetime
 import os
 from scipy.optimize import curve_fit
 import math as mt
+from scipy.signal import savgol_filter
 
 #This function gives the elapsed time since the first discharge of the discharge file being analyzed.
 def get_elapsed_time(fnames):
@@ -47,27 +48,31 @@ def get_experiment_name(folder_name):
 
     return tension, pulsewidth    
     
-# def Sqrt_Fit(x,a,b,c):
-#     x = np.array(x)
-#     f = mt.sqrt((a*x)+b)+c
-#     return f
+def Sqrt_Fit(x,a,b,c):
+    x = np.array(x)
+    f = mt.sqrt((a*x)+b)+c
+    return f
 
 def Exp_Fit(x,a,b,c,d):
     g = a*np.exp((-1/(b*x))+c)+d
     return g
 
-# def Ln_Fit(x,a,b,c,d):
-#     h = a*np.log((b*x)+c)+d
-#     return h
+def Ln_Fit(x,a,b,c,d):
+    h = a*np.log((b*x)+c)+d
+    return h
 
-def main():
+def Data_Filter(y,window,pol_degree):
+    return savegol_filter(y,window,pol_degree)
     
+def main():   
     #Parser to run code in server
     parser = argparse.ArgumentParser()
     parser.add_argument("-f", dest = "INFILE", help = ".csv results file")
     parser.add_argument("-m", dest = "MEDIUM", help = "in what medium is the experiment taking place", default = "water")
     parser.add_argument("-c", dest = "CONFIGURATION", help = "electrode configuration", default = "point-point")
-
+    parser.add_argument("-w", dest = "WINDOW", help = "window length to apply data filter")
+    parser.add_argument("-d", dest = "POLYNOMIALDEGREE", help = "polynomial degree of data filter")
+    
     args = parser.parse_args()
     outfile = args.INFILE.split('/')[-1].replace('.csv','.pdf')
     
@@ -85,11 +90,12 @@ def main():
 
     print(len(Plateau_fl),len(Plateau),len(ET_file_fl),len(ET_file))
 
-    
-    ###CurveFits***
-    # popt1,pcov1=curve_fit(Sqrt_Fit,ET_file_fl,Plateau_fl)
+    Data_Filter(Plateau_fl,args.WINDOW, args.POLYNOMIALDEGREE)
+
+    ###CurveFits###
+    popt1,pcov1=curve_fit(Sqrt_Fit,ET_file_fl,Plateau_fl)
     popt2,pcov2=curve_fit(Exp_Fit, ET_file_fl,Plateau_fl)
-    # popt3,pcov3=curve_fit(Ln_Fit,ET_file_fl,Plateau_fl)
+    popt3,pcov3=curve_fit(Ln_Fit,ET_file_fl,Plateau_fl)
     
     plt.figure(1)
     
