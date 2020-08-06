@@ -92,9 +92,9 @@ def main():
     #Plotting to see if the shape of these functions matches the data
     
     square_x = np.arange(1,ET_file_fl[-1],1)
-    square_y = ((5e-9)*(np.sqrt(square_x)))+(2.5e-7)
+    square_y = ((8e-9)*(np.sqrt(square_x)))+(4e-7)
 
-    ln_y = (1e-7)*(np.log(square_x+1000)+0.5)
+    ln_y = ((1e-7)*(np.log(square_x+1000)))-(3e-7)
 	
     ###CurveFits###
     #popt1,pcov1=curve_fit(Sqrt_Fit,ET_file_fl,Plateau_filter_w15_d1)
