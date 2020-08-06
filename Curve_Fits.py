@@ -8,7 +8,6 @@ import argparse
 from datetime import datetime
 import os
 from scipy.optimize import curve_fit
-import math as mt
 
 #This function gives the elapsed time since the first discharge of the discharge file being analyzed.
 def get_elapsed_time(fnames):
@@ -48,13 +47,17 @@ def get_experiment_name(folder_name):
     return tension, pulsewidth    
     
 def Sqrt_Fit(x,a,b,c):
-    return (mt.sqrt((a*x)+b)+c)
+    x=np.array(x)
+    f = np.sqrt((a*x)+b)+c
+    return f
 
 def Exp_Fit(x,a,b,c,d):
-    return (a*np.exp((-1/(b*x))+c)+d)
+    g = a*np.exp((-1/(b*x))+c)+d
+    return g
 
 def Ln_Fit(x,a,b,c,d):
-    return(a*np.log((b*x)+c)+d)
+    h = a*np.log((b*x)+c)+d
+    return h
 
 def main():
     
