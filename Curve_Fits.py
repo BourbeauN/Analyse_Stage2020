@@ -8,6 +8,7 @@ import argparse
 from datetime import datetime
 import os
 from scipy.optimize import curve_fit
+import math as mt
 
 #This function gives the elapsed time since the first discharge of the discharge file being analyzed.
 def get_elapsed_time(fnames):
@@ -47,7 +48,7 @@ def get_experiment_name(folder_name):
     return tension, pulsewidth    
     
 def Sqrt_Fit(x,a,b,c):
-    return (np.sqrt((a*x)+b)+c)
+    return (mt.sqrt((a*x)+b)+c)
 
 def Exp_Fit(x,a,b,c,d):
     return (a*np.exp((-1/(b*x))+c)+d)
@@ -91,9 +92,9 @@ def main():
     plt.plot(ET_file_fl, Plateau_fl,'.',markersize = 1, color = 'black')
     
     ###CURVEFIT PLOTS###
-    plt.plot(ET_file_fl,Sqrt_fit(ET_file_fl,popt1),color = 'crimson', linewidth = 2, label="Square root fit")
-    plt.plot(ET_file_fl,Exp_fit(ET_file_fl,popt2),color = 'darkturquoise', linewidth = 2, label="Exponential fit")
-    plt.plot(ET_file_fl,Ln_fit(ET_file_fl,popt3),color = 'yellowgreen', linewidth = 2, label="Natural logarithm fit")
+    plt.plot(ET_file_fl,Sqrt_fit(ET_file_fl,popt1[0],popt1[1],popt1[2]),color = 'crimson', linewidth = 2, label="Square root fit")
+    plt.plot(ET_file_fl,Exp_fit(ET_file_fl,popt2[0],popt2[1],popt2[2],popt2[3]),color = 'darkturquoise', linewidth = 2, label="Exponential fit")
+    plt.plot(ET_file_fl,Ln_fit(ET_file_fl,popt3[0],pop3[1],popt3[2],pop3[3]),color = 'yellowgreen', linewidth = 2, label="Natural logarithm fit")
     
     ###PLOT SETTINGS###
     plt.xlabel("Elapsed time in seconds")
