@@ -85,6 +85,7 @@ def main():
     
     tension, pulsewidth = get_experiment_name(args.INFILE)        
     
+    Plateau_fl = Plateau[~np.isnan(Plateau)]
     ET_file_fl = ET_file[~np.isnan(Plateau)]
 
     print(len(Plateau_fl),len(Plateau),len(ET_file_fl),len(ET_file))
