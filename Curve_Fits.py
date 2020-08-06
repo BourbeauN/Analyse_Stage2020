@@ -62,7 +62,7 @@ def Ln_Fit(x,a,b,c,d):
     return h
 
 def Data_Filter(y,window,pol_degree):
-    return savegol_filter(y,window,pol_degree)
+    return savgol_filter(y,window,pol_degree)
     
 def main():   
     #Parser to run code in server
