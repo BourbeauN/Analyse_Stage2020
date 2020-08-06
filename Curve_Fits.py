@@ -90,18 +90,42 @@ def main():
 
     print(len(Plateau_fl),len(Plateau),len(ET_file_fl),len(ET_file))
 
-    Data_Filter(Plateau_fl,25,2)
+    Plateau_filter_w95_d1 = Data_Filter(Plateau_fl,95,1)
+    Plateau_filter_w75_d1 = Data_Filter(Plateau_fl,75,1)
+    Plateau_filter_w55_d1 = Data_Filter(Plateau_fl,55,1)
+    Plateau_filter_w35_d1 = Data_Filter(Plateau_fl,35,1)
+    Plateau_filter_w15_d1 = Data_Filter(Plateau_fl,15,1)
 
-    # ###CurveFits###
-    # popt1,pcov1=curve_fit(Sqrt_Fit,ET_file_fl,Plateau_fl)
-    # popt2,pcov2=curve_fit(Exp_Fit, ET_file_fl,Plateau_fl)
-    # popt3,pcov3=curve_fit(Ln_Fit,ET_file_fl,Plateau_fl)
+    #Plotting to see if the shape of these functions matches the data
+    
+    square_x = np.arange(0,Plateau[-1],1)
+    square_y = mt.sqrt(square_x)
+
+    exp_x = np.arange(1,Plateau[-1],1)
+    exp_y = np.exp(-1/exp_x)
+
+    ln_y = np.log(exp_x)
+	
+    ###CurveFits###
+    #popt1,pcov1=curve_fit(Sqrt_Fit,ET_file_fl,Plateau_filter_w15_d1)
+    #popt2,pcov2=curve_fit(Exp_Fit, ET_file_fl,Plateau_filter_w15_d1)
+    #popt3,pcov3=curve_fit(Ln_Fit,ET_file_fl,Plateau_filter_w15_d1)
     
     plt.figure(1)
     
     ###SCATTER PLOTS###
-    plt.plot(ET_file_fl, Plateau_fl,'.',markersize = 1, color = 'black')
-    
+    #plt.plot(ET_file_fl, Plateau_filter_w95_d1,'.',markersize = 1, color = 'turquoise',label = "w95_d1" )
+    #plt.plot(ET_file_fl, Plateau_fl,'.',markersize = 1, color='black',label = "Data")
+    #plt.plot(ET_file_fl, Plateau_filter_w75_d1,'.',markersize = 1, color = 'crimson',label = "w75_d1" )
+    #plt.plot(ET_file_fl, Plateau_filter_w55_d1,'.',markersize = 1, color = 'yellowgreen',label = "w55_d1" )
+    #plt.plot(ET_file_fl, Plateau_filter_w35_d1,'.',markersize = 1, color = 'goldenrod',label = "w35_d1" )
+    plt.plot(ET_file_fl, Plateau_filter_w15_d1,'.',markersize = 1, color = 'darkmagenta',label = "w15_d1")
+    plt.plot(square_x,square_y, color = 'seagreen', label = 'square root function')
+    plt.plot(square_x,exp_y, color = 'navy',label = 'inverse exponential function')
+    plt.plot(square_x,ln_y, color = 'darksalmon', label = 'natural logarithmic function')
+
+
+
     # ###CURVEFIT PLOTS###
     # plt.plot(ET_file_fl,Sqrt_fit(ET_file_fl,popt1[0],popt1[1],popt1[2]),color = 'crimson', linewidth = 2, label="Square root fit")
     # plt.plot(ET_file_fl,Exp_fit(ET_file_fl,popt2[0],popt2[1],popt2[2],popt2[3]),color = 'darkturquoise', linewidth = 2, label="Exponential fit")
@@ -109,10 +133,11 @@ def main():
     
     ###PLOT SETTINGS###
     plt.xlabel("Elapsed time in seconds")
-    plt.ticklabel_format(axis="x", style="sci")
+    plt.ticklabel_format(axis="y", style="sci")
     plt.ylabel("Plateau length in seconds")
     plt.title("Plateau length for {} {} in\n{} with {} configuration".format(tension,pulsewidth,args.MEDIUM,args.CONFIGURATION),y=1.08)
     plt.tight_layout()
+    plt.legend()
     plt.savefig(os.path.join("OUT_FIG/PlateauLength_TimeElapsed",outfile))
     
 main()
