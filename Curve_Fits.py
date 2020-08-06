@@ -8,7 +8,7 @@ import argparse
 from datetime import datetime
 import os
 from scipy.optimize import curve_fit
-import math as mt
+#import math as mt
 from scipy.signal import savgol_filter
 
 #This function gives the elapsed time since the first discharge of the discharge file being analyzed.
@@ -98,13 +98,12 @@ def main():
 
     #Plotting to see if the shape of these functions matches the data
     
-    square_x = np.arange(0,Plateau[-1],1)
-    square_y = mt.sqrt(square_x)
+    square_x = np.arange(1,ET_file_fl[-1],1)
+    square_y = ((5e-9)*(np.sqrt(square_x)))+(2e-7)
+    
+    exp_y = (1e-6)*(np.exp(-1/square_x))
 
-    exp_x = np.arange(1,Plateau[-1],1)
-    exp_y = np.exp(-1/exp_x)
-
-    ln_y = np.log(exp_x)
+    ln_y = (1e-7)*(np.log(square_x)+0.5)
 	
     ###CurveFits###
     #popt1,pcov1=curve_fit(Sqrt_Fit,ET_file_fl,Plateau_filter_w15_d1)
@@ -123,8 +122,6 @@ def main():
     plt.plot(square_x,square_y, color = 'seagreen', label = 'square root function')
     plt.plot(square_x,exp_y, color = 'navy',label = 'inverse exponential function')
     plt.plot(square_x,ln_y, color = 'darksalmon', label = 'natural logarithmic function')
-
-
 
     # ###CURVEFIT PLOTS###
     # plt.plot(ET_file_fl,Sqrt_fit(ET_file_fl,popt1[0],popt1[1],popt1[2]),color = 'crimson', linewidth = 2, label="Square root fit")
