@@ -70,8 +70,8 @@ def main():
     parser.add_argument("-f", dest = "INFILE", help = ".csv results file")
     parser.add_argument("-m", dest = "MEDIUM", help = "in what medium is the experiment taking place", default = "water")
     parser.add_argument("-c", dest = "CONFIGURATION", help = "electrode configuration", default = "point-point")
-    parser.add_argument("-w", dest = "WINDOW", help = "window length to apply data filter")
-    parser.add_argument("-d", dest = "POLYNOMIALDEGREE", help = "polynomial degree of data filter")
+    #arser.add_argument("-w", dest = "WINDOW", help = "window length to apply data filter")
+    #arser.add_argument("-d", dest = "POLYNOMIALDEGREE", help = "polynomial degree of data filter")
     
     args = parser.parse_args()
     outfile = args.INFILE.split('/')[-1].replace('.csv','.pdf')
@@ -83,14 +83,13 @@ def main():
 
     ET_file = get_elapsed_time(fname)
     
-    tension, pulsewidth = get_experiment_name(args.INFILE)
-        
-    Plateau_fl = Plateau[~np.isnan(Plateau)]
+    tension, pulsewidth = get_experiment_name(args.INFILE)        
+    
     ET_file_fl = ET_file[~np.isnan(Plateau)]
 
     print(len(Plateau_fl),len(Plateau),len(ET_file_fl),len(ET_file))
 
-    Data_Filter(Plateau_fl,args.WINDOW, args.POLYNOMIALDEGREE)
+    Data_Filter(Plateau_fl,20,2)
 
     ###CurveFits###
     popt1,pcov1=curve_fit(Sqrt_Fit,ET_file_fl,Plateau_fl)
