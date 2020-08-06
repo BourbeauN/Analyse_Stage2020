@@ -50,7 +50,7 @@ def get_experiment_name(folder_name):
     
 def Sqrt_Fit(x,a,b,c):
     x = np.array(x)
-    f = mt.sqrt((a*x)+b)+c
+    f = (a*(np.sqrt(x+b)))+c
     return f
 
 def Ln_Fit(x,a,b,c,d):
