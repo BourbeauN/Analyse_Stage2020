@@ -47,14 +47,14 @@ def get_experiment_name(folder_name):
 
     return tension, pulsewidth    
     
-def Sqrt_Fit(x,a,b,c):
-    x = np.array(x)
-    f = mt.sqrt((a*x)+b)+c
-    return f
+# def Sqrt_Fit(x,a,b,c):
+#     x = np.array(x)
+#     f = mt.sqrt((a*x)+b)+c
+#     return f
 
-# def Exp_Fit(x,a,b,c,d):
-#     g = a*np.exp((-1/(b*x))+c)+d
-#     return g
+def Exp_Fit(x,a,b,c,d):
+    g = a*np.exp((-1/(b*x))+c)+d
+    return g
 
 # def Ln_Fit(x,a,b,c,d):
 #     h = a*np.log((b*x)+c)+d
@@ -87,8 +87,8 @@ def main():
 
     
     ###CurveFits***
-    popt1,pcov1=curve_fit(Sqrt_Fit,ET_file_fl,Plateau_fl)
-    # popt2,pcov2=curve_fit(Exp_Fit, ET_file_fl,Plateau_fl)
+    # popt1,pcov1=curve_fit(Sqrt_Fit,ET_file_fl,Plateau_fl)
+    popt2,pcov2=curve_fit(Exp_Fit, ET_file_fl,Plateau_fl)
     # popt3,pcov3=curve_fit(Ln_Fit,ET_file_fl,Plateau_fl)
     
     plt.figure(1)
