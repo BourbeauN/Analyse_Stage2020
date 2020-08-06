@@ -91,31 +91,26 @@ def main():
 
     #Plotting to see if the shape of these functions matches the data
     
-    square_x = np.arange(1,ET_file_fl[-1],1)
-    square_y = ((8e-9)*(np.sqrt(square_x)))+(4e-7)
+    # square_x = np.arange(1,ET_file_fl[-1],1)
+    # square_y = ((8e-9)*(np.sqrt(square_x)))+(4e-7)
 
-    ln_y = ((1e-7)*(np.log(square_x+1000)))-(3e-7)
+    # ln_y = ((1e-7)*(np.log(square_x+1000)))-(3e-7)
 	
-    ###CurveFits###
-    #popt1,pcov1=curve_fit(Sqrt_Fit,ET_file_fl,Plateau_filter_w15_d1)
-    #popt2,pcov2=curve_fit(Exp_Fit, ET_file_fl,Plateau_filter_w15_d1)
-    #popt3,pcov3=curve_fit(Ln_Fit,ET_file_fl,Plateau_filter_w15_d1)
+    ##CurveFits###
+    popt1,pcov1=curve_fit(Sqrt_Fit,ET_file_fl,Plateau_filter_w15_d1)
+    popt3,pcov3=curve_fit(Ln_Fit,ET_file_fl,Plateau_filter_w15_d1)
     
     plt.figure(1)
     
     ###SCATTER PLOTS###
-    #plt.plot(ET_file_fl, Plateau_filter_w95_d1,'.',markersize = 1, color = 'turquoise',label = "w95_d1" )
-    #plt.plot(ET_file_fl, Plateau_fl,'.',markersize = 1, color='black',label = "Data")
-    #plt.plot(ET_file_fl, Plateau_filter_w75_d1,'.',markersize = 1, color = 'crimson',label = "w75_d1" )
-    #plt.plot(ET_file_fl, Plateau_filter_w55_d1,'.',markersize = 1, color = 'yellowgreen',label = "w55_d1" )
-    #plt.plot(ET_file_fl, Plateau_filter_w35_d1,'.',markersize = 1, color = 'goldenrod',label = "w35_d1" )
+    plt.plot(ET_file_fl, Plateau_fl,'.',markersize = 1, color='black',label = "Data")
     plt.plot(ET_file_fl, Plateau_filter_w15_d1,'.',markersize = 1, color = 'darkmagenta',label = "w15_d1")
-    plt.plot(square_x,square_y, color = 'seagreen', label = 'square root function')
-    plt.plot(square_x,ln_y, color = 'darksalmon', label = 'natural logarithmic function')
+    #plt.plot(square_x,square_y, color = 'seagreen', label = 'square root function')
+    #plt.plot(square_x,ln_y, color = 'darksalmon', label = 'natural logarithmic function')
 
-    # ###CURVEFIT PLOTS###
-    # plt.plot(ET_file_fl,Sqrt_fit(ET_file_fl,popt1[0],popt1[1],popt1[2]),color = 'crimson', linewidth = 2, label="Square root fit")
-    # plt.plot(ET_file_fl,Ln_fit(ET_file_fl,popt3[0],pop3[1],popt3[2],pop3[3]),color = 'yellowgreen', linewidth = 2, label="Natural logarithm fit")
+    ###CURVEFIT PLOTS###
+    plt.plot(ET_file_fl,Sqrt_fit(ET_file_fl,popt1[0],popt1[1],popt1[2]),color = 'crimson', linewidth = 2, label="Square root fit")
+    plt.plot(ET_file_fl,Ln_fit(ET_file_fl,popt3[0],popt3[1],popt3[2],popt3[3]),color = 'yellowgreen', linewidth = 2, label="Natural logarithm fit")
     
     ###PLOT SETTINGS###
     plt.xlabel("Elapsed time in seconds")
