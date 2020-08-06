@@ -53,10 +53,6 @@ def Sqrt_Fit(x,a,b,c):
     f = mt.sqrt((a*x)+b)+c
     return f
 
-def Exp_Fit(x,a,b,c,d):
-    g = a*np.exp((-1/(b*x))+c)+d
-    return g
-
 def Ln_Fit(x,a,b,c,d):
     h = a*np.log((b*x)+c)+d
     return h
@@ -90,20 +86,15 @@ def main():
 
     print(len(Plateau_fl),len(Plateau),len(ET_file_fl),len(ET_file))
 
-    Plateau_filter_w95_d1 = Data_Filter(Plateau_fl,95,1)
-    Plateau_filter_w75_d1 = Data_Filter(Plateau_fl,75,1)
-    Plateau_filter_w55_d1 = Data_Filter(Plateau_fl,55,1)
-    Plateau_filter_w35_d1 = Data_Filter(Plateau_fl,35,1)
+
     Plateau_filter_w15_d1 = Data_Filter(Plateau_fl,15,1)
 
     #Plotting to see if the shape of these functions matches the data
     
     square_x = np.arange(1,ET_file_fl[-1],1)
-    square_y = ((5e-9)*(np.sqrt(square_x)))+(2e-7)
-    
-    exp_y = (1e-6)*(np.exp(-1/square_x))
+    square_y = ((5e-9)*(np.sqrt(square_x)))+(2.5e-7)
 
-    ln_y = (1e-7)*(np.log(square_x)+0.5)
+    ln_y = (1e-7)*(np.log(square_x+1000)+0.5)
 	
     ###CurveFits###
     #popt1,pcov1=curve_fit(Sqrt_Fit,ET_file_fl,Plateau_filter_w15_d1)
@@ -120,12 +111,10 @@ def main():
     #plt.plot(ET_file_fl, Plateau_filter_w35_d1,'.',markersize = 1, color = 'goldenrod',label = "w35_d1" )
     plt.plot(ET_file_fl, Plateau_filter_w15_d1,'.',markersize = 1, color = 'darkmagenta',label = "w15_d1")
     plt.plot(square_x,square_y, color = 'seagreen', label = 'square root function')
-    plt.plot(square_x,exp_y, color = 'navy',label = 'inverse exponential function')
     plt.plot(square_x,ln_y, color = 'darksalmon', label = 'natural logarithmic function')
 
     # ###CURVEFIT PLOTS###
     # plt.plot(ET_file_fl,Sqrt_fit(ET_file_fl,popt1[0],popt1[1],popt1[2]),color = 'crimson', linewidth = 2, label="Square root fit")
-    # plt.plot(ET_file_fl,Exp_fit(ET_file_fl,popt2[0],popt2[1],popt2[2],popt2[3]),color = 'darkturquoise', linewidth = 2, label="Exponential fit")
     # plt.plot(ET_file_fl,Ln_fit(ET_file_fl,popt3[0],pop3[1],popt3[2],pop3[3]),color = 'yellowgreen', linewidth = 2, label="Natural logarithm fit")
     
     ###PLOT SETTINGS###
