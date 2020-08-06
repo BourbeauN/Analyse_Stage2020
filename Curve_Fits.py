@@ -92,10 +92,10 @@ def main():
 
     Data_Filter(Plateau_fl,25,2)
 
-    ###CurveFits###
-    popt1,pcov1=curve_fit(Sqrt_Fit,ET_file_fl,Plateau_fl)
-    popt2,pcov2=curve_fit(Exp_Fit, ET_file_fl,Plateau_fl)
-    popt3,pcov3=curve_fit(Ln_Fit,ET_file_fl,Plateau_fl)
+    # ###CurveFits###
+    # popt1,pcov1=curve_fit(Sqrt_Fit,ET_file_fl,Plateau_fl)
+    # popt2,pcov2=curve_fit(Exp_Fit, ET_file_fl,Plateau_fl)
+    # popt3,pcov3=curve_fit(Ln_Fit,ET_file_fl,Plateau_fl)
     
     plt.figure(1)
     
