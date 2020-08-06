@@ -90,7 +90,7 @@ def main():
 
     print(len(Plateau_fl),len(Plateau),len(ET_file_fl),len(ET_file))
 
-    Data_Filter(Plateau_fl,20,2)
+    Data_Filter(Plateau_fl,25,2)
 
     ###CurveFits###
     popt1,pcov1=curve_fit(Sqrt_Fit,ET_file_fl,Plateau_fl)
