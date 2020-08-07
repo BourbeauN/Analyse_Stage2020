@@ -34,7 +34,7 @@ def get_elapsed_time(fnames):
     
     for d in range(len(datetimes)): 
         
-        time_deltas[d] = (datetimes[d] - datetimes[0]).total_seconds()
+	time_deltas[d] = (datetimes[d] - datetimes[0]).total_seconds()
    
    #Tracks seconde part of time stamp
     print("for loop to obtain time stamp complete...")                 
@@ -49,8 +49,11 @@ def get_experiment_name(folder_name):
     return tension, pulsewidth    
     
 def Sqrt_Fit(x,a,b,c):
-    x = np.array(x)
-    f = (a*(np.sqrt(x+b)))+c
+    print("wassup")
+    #x = np.array(x)
+    Square_function = np.float((a*((x+b)**0.5))+c)
+    
+    f = np.vectorize(Square_function)
     return f
 
 def Ln_Fit(x,a,b,c,d):
@@ -100,10 +103,11 @@ def main():
     # square_x = np.arange(1,ET_file_fl[-1],1)
     # square_y = ((8e-9)*(np.sqrt(square_x)))+(4e-7)
     # ln_y = ((1e-7)*(np.log(square_x+1000)))-(3e-7)
-	
+    print(len(Plateau_filter_w15_d1))
+    print(len(ET_file_fl))
     ##CurveFits###
-    popt1,pcov1=curve_fit(Sqrt_Fit,ET_file_fl,Plateau_filter_w15_d1)
-    popt3,pcov3=curve_fit(Ln_Fit,ET_file_fl,Plateau_filter_w15_d1)
+    popt1,pcov1 = curve_fit(Sqrt_Fit,ET_file_fl,Plateau_filter_w15_d1)
+    popt3,pcov3 = curve_fit(Ln_Fit,ET_file_fl,Plateau_filter_w15_d1)
     
     plt.figure(1)
     
