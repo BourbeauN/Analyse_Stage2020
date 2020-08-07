@@ -79,12 +79,11 @@ def main():
     #Importing data file as a matrix
     Results = pd.read_csv(args.INFILE)
 
-    Results_array = pd.Results.to_numpy(
+    Results_array = pd.Results.to_numpy()
     
     fname = Results_array.iloc[:,1:].values.ravel()
-    Plateau = Results_array.iloc[:,2:].values.ravel())
+    Plateau = Results_array.iloc[:,2:].values.ravel()
 
-   
     #subdefining the data matrix as arrayas
     #fname = Results[Results.columns[1]].as_matrix()
     #Plateau = Results[Results.columns[2]].as_matrix()
