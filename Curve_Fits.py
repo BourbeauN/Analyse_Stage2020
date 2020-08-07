@@ -51,9 +51,10 @@ def get_experiment_name(folder_name):
 def Sqrt_Fit(x,a,b,c):
     print("wassup")
     #x = np.array(x)
-    Square_function = np.float((a*((x+b)**0.5))+c)
+    f = (a*((np.abs(x+b))**0.5)) + c
+    print("why you not working")
     
-    f = np.vectorize(Square_function)
+    #f = np.vectorize(Square_function)
     return f
 
 def Ln_Fit(x,a,b,c,d):
@@ -77,10 +78,16 @@ def main():
     
     #Importing data file as a matrix
     Results = pd.read_csv(args.INFILE)
+
+    Results_array = pd.Results.to_numpy(
+    
+    fname = Results_array.iloc[:,1:].values.ravel()
+    Plateau = Results_array.iloc[:,2:].values.ravel())
+
    
     #subdefining the data matrix as arrayas
-    fname = Results[Results.columns[1]].as_matrix()
-    Plateau = Results[Results.columns[2]].as_matrix()
+    #fname = Results[Results.columns[1]].as_matrix()
+    #Plateau = Results[Results.columns[2]].as_matrix()
 
     #calling function to obtain the elapsed time since the first discharge of every discharge
     ET_file = get_elapsed_time(fname)
@@ -99,6 +106,9 @@ def main():
     #the numerical values in the Data_Filter function can be changed to modify the strength of the filter
     Plateau_filter_w15_d1 = Data_Filter(Plateau_fl,15,1)
 
+    Plateau_filter_w15_d1 = np.array(Plateau_filter_w15_d1)
+    ET_file_fl = np.array(ET_file_fl)
+
     # #Plotting to see if the shape of these functions matches the data
     # square_x = np.arange(1,ET_file_fl[-1],1)
     # square_y = ((8e-9)*(np.sqrt(square_x)))+(4e-7)
@@ -106,6 +116,7 @@ def main():
     print(len(Plateau_filter_w15_d1))
     print(len(ET_file_fl))
     ##CurveFits###
+    pdb.set_trace()
     popt1,pcov1 = curve_fit(Sqrt_Fit,ET_file_fl,Plateau_filter_w15_d1)
     popt3,pcov3 = curve_fit(Ln_Fit,ET_file_fl,Plateau_filter_w15_d1)
     
