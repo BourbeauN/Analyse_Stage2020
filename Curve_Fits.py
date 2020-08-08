@@ -50,14 +50,8 @@ def get_experiment_name(folder_name):
     
 def Sqrt_Fit(x,a,b,c):
     pdb.set_trace()
-    x_array = np.array(x)
-    f = (a*((np.abs(x_array+b))**0.5)) + c
-    f.ravel()
+    f = (a*((np.abs(np.float(x)+b))**0.5)) + c
 
-    print(f)
-    print(len(f))
-    print(type(f))
-    print(np.shape(f))
 
     return f
 
