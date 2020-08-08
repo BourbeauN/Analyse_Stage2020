@@ -23,7 +23,7 @@ def get_elapsed_time(fnames):
         #converts filename to string
         j = fnames[f]
         
-	print(j)
+        print(j)
 
         #Takes filename from array to keep only the digits
         times = j.split("_")[-1].split(".csv")[0]
