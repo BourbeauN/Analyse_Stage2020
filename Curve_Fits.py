@@ -81,7 +81,10 @@ def main():
     
     #Importing data file as a matrix
     Results = pd.read_csv(args.INFILE)
+   
+    Results = pd.Series(dtype = 'float64')
     
+
     fname = Results.iloc[:,1]
     Plateau = Results.iloc[:,2].values.ravel()
 
@@ -107,10 +110,10 @@ def main():
     Plateau_filter_w15_d1 = Data_Filter(Plateau_fl,15,1)
 
     Plateau_filter_w15_d1 = np.array(Plateau_filter_w15_d1)
-    ET_file_fl = np.array(ET_file_fl
+    ET_file_fl = np.asarray(ET_file_fl)
     
-    print(dtype(Plateau_filter_w15_d1))
-    print(dtype(ET_file_fl))
+    print(Plateau_filter_w15_d1.dtype)
+    print(ET_file_fl.dtype)
 
     # #Plotting to see if the shape of these functions matches the data
     # square_x = np.arange(1,ET_file_fl[-1],1)
