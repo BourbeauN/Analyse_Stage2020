@@ -59,12 +59,9 @@ def main():
     outfile = args.INFILE.split('/')[-1].replace('.csv','.pdf')
     
     Results = pd.read_csv(args.INFILE)
-   
-    fname = Results[Results.columns[1]].as_matrix()
-    Plateau = Results[Results.columns[2]].as_matrix()
-
+    fname =  Results['Filename']
     ET_file = get_elapsed_time(fname)
-    
+    Plateau = Results['Plateau']
     tension, pulsewidth = get_experiment_name(args.INFILE)
     
     #Present an explicit error message
