@@ -49,7 +49,6 @@ def get_experiment_name(folder_name):
     return tension, pulsewidth    
     
 def Sqrt_Fit(x,a,b,c):
-    pdb.set_trace()
 
     for i in x:
     	i = np.float(i)
@@ -61,7 +60,7 @@ def Sqrt_Fit(x,a,b,c):
     return f
 
 def Ln_Fit(x,a,b,c,d):
-    h = a*np.log((b*x)+c)+d
+    h = a*np.log(np.array((b*x)+c, dtype = float))+d
     return h
 
 def Data_Filter(y,window,pol_degree):
@@ -81,9 +80,8 @@ def main():
     
     #Importing data file as a matrix
     Results = pd.read_csv(args.INFILE)
-   
-    Results = pd.Series(dtype = 'float64')
-    
+     
+    # Results = pd.Series(dtype = 'float64')
 
     fname = Results.iloc[:,1]
     Plateau = Results.iloc[:,2].values.ravel()
@@ -123,7 +121,7 @@ def main():
     #print(len(ET_file_fl))
     ##CurveFits###
     
-    pop1,pcov1 = curve_fit(Sqrt_Fit,ET_file_fl.ravel(),Plateau_filter_w15_d1.ravel())
+    popt1,pcov1 = curve_fit(Sqrt_Fit,ET_file_fl.ravel(),Plateau_filter_w15_d1.ravel())
 
     print("first curve_fit completed")
 
@@ -136,9 +134,9 @@ def main():
     plt.plot(ET_file_fl, Plateau_filter_w15_d1,'.',markersize = 1, color = 'darkmagenta',label = "w15_d1")
     #plt.plot(square_x,square_y, color = 'seagreen', label = 'square root function')
     #plt.plot(square_x,ln_y, color = 'darksalmon', label = 'natural logarithmic function')
-
     ###CURVEFIT PLOTS###
     plt.plot(ET_file_fl,Sqrt_Fit(ET_file_fl,popt1[0],popt1[1],popt1[2]),color = 'crimson', linewidth = 2, label="Square root fit")
+    pdb.set_trace()
     plt.plot(ET_file_fl,Ln_Fit(ET_file_fl,popt3[0],popt3[1],popt3[2],popt3[3]),color = 'yellowgreen', linewidth = 2, label="Natural logarithm fit")
     
     ###PLOT SETTINGS###
