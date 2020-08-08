@@ -50,8 +50,13 @@ def get_experiment_name(folder_name):
     
 def Sqrt_Fit(x,a,b,c):
     pdb.set_trace()
-    f = (a*((np.abs(np.float(x)+b))**0.5)) + c
 
+    for i in x:
+    	i = np.float(i)
+
+    print("not sure about being able to call the function")
+
+    f = (a*((np.abs(x+b))**0.5)) + c
 
     return f
 
@@ -102,7 +107,10 @@ def main():
     Plateau_filter_w15_d1 = Data_Filter(Plateau_fl,15,1)
 
     Plateau_filter_w15_d1 = np.array(Plateau_filter_w15_d1)
-    ET_file_fl = np.array(ET_file_fl)
+    ET_file_fl = np.array(ET_file_fl
+    
+    print(dtype(Plateau_filter_w15_d1))
+    print(dtype(ET_file_fl))
 
     # #Plotting to see if the shape of these functions matches the data
     # square_x = np.arange(1,ET_file_fl[-1],1)
@@ -112,8 +120,8 @@ def main():
     #print(len(ET_file_fl))
     ##CurveFits###
     
-    popt1,pcov1 = curve_fit(Sqrt_Fit,ET_file_fl.ravel(),Plateau_filter_w15_d1.ravel())
-    
+    pop1,pcov1 = curve_fit(Sqrt_Fit,ET_file_fl.ravel(),Plateau_filter_w15_d1.ravel())
+
     print("first curve_fit completed")
 
     popt3,pcov3 = curve_fit(Ln_Fit,ET_file_fl.ravel(),Plateau_filter_w15_d1.ravel())
