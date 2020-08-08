@@ -8,7 +8,7 @@ import argparse
 from datetime import datetime
 import os
 from scipy.optimize import curve_fit
-#import math as mt
+#import math as mti
 from scipy.signal import savgol_filter
 
 #This function gives the elapsed time since the first discharge of the discharge file being analyzed.
@@ -21,8 +21,10 @@ def get_elapsed_time(fnames):
     for f in range(len(fnames)):
         
         #converts filename to string
-        j = str(fnames[f])
+        j = fnames[f]
         
+	print(j)
+
         #Takes filename from array to keep only the digits
         times = j.split("_")[-1].split(".csv")[0]
        
@@ -78,11 +80,11 @@ def main():
     
     #Importing data file as a matrix
     Results = pd.read_csv(args.INFILE)
-
-    Results.values
     
-    fname = Results.iloc[:,1:].values.ravel()
-    Plateau = Results.iloc[:,2:].values.ravel()
+    fname = Results.iloc[:,:1]
+    Plateau = Results.iloc[:,:2].values.ravel()
+
+    print("data loading successful")
 
     #subdefining the data matrix as arrayas
     #fname = Results[Results.columns[1]].as_matrix()
@@ -91,13 +93,19 @@ def main():
     #calling function to obtain the elapsed time since the first discharge of every discharge
     ET_file = get_elapsed_time(fname)
     
+    print("elapsed time successful")
+
     #calling function to obtain the experiment parameters (from the name) for the figure title 
-    tension, pulsewidth = get_experiment_name(args.INFILE)        
-    
+    tension, pulsewidth = get_experiment_name(args.INFILE)
+
+    print("experiment name successful")
+
     #removing nans from plateau and then removing the adjacent elapsed time value from the elapsed time array
     Plateau_fl = Plateau[~np.isnan(Plateau)]
     ET_file_fl = ET_file[~np.isnan(Plateau)]
     
+    print("removal of nans successful")
+
     #prnting lenghts of array to make sure the removal of nans worked
     print(len(Plateau_fl),len(Plateau),len(ET_file_fl),len(ET_file))
 
