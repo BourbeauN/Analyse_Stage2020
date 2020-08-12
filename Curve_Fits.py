@@ -80,15 +80,9 @@ def main():
     
     #Importing data file as a matrix
     Results = pd.read_csv(args.INFILE)
-     
-    # Results = pd.Series(dtype = 'float64')
 
     fname = Results.iloc[:,1]
     Plateau = Results.iloc[:,2].values.ravel()
-
-    #subdefining the data matrix as arrayas
-    #fname = Results[Results.columns[1]].as_matrix()
-    #Plateau = Results[Results.columns[2]].as_matrix()
 
     #calling function to obtain the elapsed time since the first discharge of every discharge
     ET_file = get_elapsed_time(fname)
@@ -99,9 +93,6 @@ def main():
     #removing nans from plateau and then removing the adjacent elapsed time value from the elapsed time array
     Plateau_fl = Plateau[~np.isnan(Plateau)]
     ET_file_fl = ET_file[~np.isnan(Plateau)]
-    
-    #prnting lenghts of array to make sure the removal of nans worked
-    #print(len(Plateau_fl),len(Plateau),len(ET_file_fl),len(ET_file))
 
     #calling filter function to make the curvefit easier.
     #the numerical values in the Data_Filter function can be changed to modify the strength of the filter
@@ -112,14 +103,6 @@ def main():
     
     print(Plateau_filter_w15_d1.dtype)
     print(ET_file_fl.dtype)
-
-    # #Plotting to see if the shape of these functions matches the data
-    # square_x = np.arange(1,ET_file_fl[-1],1)
-    # square_y = ((8e-9)*(np.sqrt(square_x)))+(4e-7)
-    # ln_y = ((1e-7)*(np.log(square_x+1000)))-(3e-7)
-    #print(len(Plateau_filter_w15_d1))
-    #print(len(ET_file_fl))
-    ##CurveFits###
     
     popt1,pcov1 = curve_fit(Sqrt_Fit,ET_file_fl.ravel(),Plateau_filter_w15_d1.ravel())
 
