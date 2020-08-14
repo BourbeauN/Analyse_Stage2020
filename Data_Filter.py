@@ -43,7 +43,6 @@ def main():
     pd.DataFrame(Discard_Tab, columns = ['Filename', 'Plateau']).to_csv(os.path.join('Temp',
     "Discard_files.csv".format(outfile))) 
     
-    
     return Discard_Tab
 
 main()    
