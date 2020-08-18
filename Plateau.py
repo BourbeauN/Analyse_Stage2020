@@ -66,9 +66,6 @@ def main():
     args = parser.parse_args()
     outfile = args.INFOLDER.split('/')[-1] 
     
-    # OUTDATED nao_path = "/Users/Naomi/Documents/GitHub/Analyse_Stage2020/Git_5kv_100nspicpic"
-    # OUTDATED leo_path = "5kv_100nspicpic" 
-    
     RESULTS_TABLE = compute_plateaus_on_data(args.INFOLDER,args.VOLTAGE_THRESHOLD, args.TIME_THRESHOLD)
     
     print("Finished appending RESULTS_TABLE, saving ...")
