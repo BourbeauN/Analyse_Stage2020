@@ -31,16 +31,16 @@ def Adequate_File(Fname,Plateau):
         
         if b > 4e-7:
                       
-	    print ('3')
-	    DISC_TAB.append(b)
+            print ('3')
+    	    DISC_TAB.append(b)
         
             if i==5:
                 print(i,DISC_TAB,GOOD_TAB)
                 
         else :
             
-	    print('4')
-	    GOOD_TAB.append(b)
+            print('4')
+            GOOD_TAB.append(b)
             
             if i==5:
                 print(i,DISC_TAB,GOOD_TAB)
