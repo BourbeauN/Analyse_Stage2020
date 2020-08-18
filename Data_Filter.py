@@ -17,14 +17,18 @@ def File_Import(filename):
 def Adequate_File(Fname,Plateau): 
 
     #Indexing Plateau lengths that are too long
-    LONG_TAB = []
+    DISC_TAB = []
+    GOOD_TAB = []
     
     for i in range(len(Plateau)):
         
         if Plateau[i] > 4e-7:
-            LONG_TAB.append(Fname[i])
+            DISC_TAB.append(Fname[i])
         
-        return LONG_TAB
+        else :
+            GOOD_TAB.append(Fname[i])
+        
+        return DISC_TAB,GOOD_TAB
 
 def main():
             
@@ -38,10 +42,13 @@ def main():
     Fname,Plateau = File_Import(args.INFILE)
     
     #Identifying data sets that are wrong
-    Discard_Tab = Adequate_File(Fname,Plateau)
+    Discard_Tab, Filtered_Tab = Adequate_File(Fname,Plateau)
     
     pd.DataFrame(Discard_Tab, columns = ['Filename', 'Plateau']).to_csv(os.path.join('Temp',
     "Discard_files.csv".format(outfile))) 
+    
+    pd.DataFrame(Filtered_Tab, columns = ['Filename', 'Plateau']).to_csv(os.path.join('Temp',
+    "Filtered_files_{}.csv".format(outfile))) 
     
     return Discard_Tab
 
