@@ -15,12 +15,16 @@ def File_Import(filename):
     return Fname,Plateau
 
 def Adequate_File(Fname,Plateau): 
-
+    
+    print("antoine is a little bitch")    
+    
     #Indexing Plateau lengths that are too long
     DISC_TAB = []
     GOOD_TAB = []
 
     for i in range(len(Plateau)):
+        
+        print(i)
         
         a = Fname[i]
         b = Plateau[i]
