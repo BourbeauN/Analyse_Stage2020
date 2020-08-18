@@ -22,11 +22,16 @@ def Adequate_File(Fname,Plateau):
 
     for i in range(len(Plateau)):
         
-        if Plateau[i] > 4e-7:
-            DISC_TAB.append([Fname[i],Plateau[i]])
+        a = Fname[i]
+        b = Plateau[i]
+        
+        if b > 4e-7:
+                      
+            DISC_TAB.append([a,b])
         
         else :
-            GOOD_TAB.append([Fname[i],Plateau[i]])
+            
+            GOOD_TAB.append([a,b])
         
         return np.asarray(DISC_TAB),np.asarray(GOOD_TAB)
 
@@ -44,10 +49,10 @@ def main():
     #Identifying data sets that are wrong
     Discard_Tab, Filtered_Tab = Adequate_File(Fname,Plateau)
     
-    pd.DataFrame(Discard_Tab).to_csv(os.path.join('Temp',
+    pd.DataFrame(Discard_Tab, columns = ['Filename', 'Plateau']).to_csv(os.path.join('Temp',
     "Discard_files_{}".format(outfile))) 
     
-    pd.DataFrame(Filtered_Tab).to_csv(os.path.join('Temp',
+    pd.DataFrame(Filtered_Tab, columns = ['Filename', 'Plateau']).to_csv(os.path.join('Temp',
     "Filtered_files_{}".format(outfile))) 
     
     return Discard_Tab,Filtered_Tab
