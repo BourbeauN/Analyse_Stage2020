@@ -19,16 +19,16 @@ def Adequate_File(Fname,Plateau):
     #Indexing Plateau lengths that are too long
     DISC_TAB = []
     GOOD_TAB = []
-    
+
     for i in range(len(Plateau)):
         
         if Plateau[i] > 4e-7:
-            DISC_TAB.append(Fname[i])
+            DISC_TAB.append([Fname[i],Plateau[i])
         
         else :
-            GOOD_TAB.append(Fname[i])
+            GOOD_TAB.append([Fname[i],Plateau[i]])
         
-        return DISC_TAB,GOOD_TAB
+        return np.asarray(DISC_TAB),np.asarray(GOOD_TAB)
 
 def main():
             
@@ -36,7 +36,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-f", dest = "INFILE", help = ".csv results file")
     args = parser.parse_args()
-    outfile = args.INFOLDER.split('/')[-1]
+    outfile = args.INFILE.split('/')[-1]
     
     #Importing data
     Fname,Plateau = File_Import(args.INFILE)
@@ -44,12 +44,12 @@ def main():
     #Identifying data sets that are wrong
     Discard_Tab, Filtered_Tab = Adequate_File(Fname,Plateau)
     
-    pd.DataFrame(Discard_Tab, columns = ['Filename', 'Plateau']).to_csv(os.path.join('Temp',
-    "Discard_files.csv".format(outfile))) 
+    pd.DataFrame(Discard_Tab).to_csv(os.path.join('Temp',
+    "Discard_files_{}".format(outfile))) 
     
-    pd.DataFrame(Filtered_Tab, columns = ['Filename', 'Plateau']).to_csv(os.path.join('Temp',
-    "Filtered_files_{}.csv".format(outfile))) 
+    pd.DataFrame(Filtered_Tab).to_csv(os.path.join('Temp',
+    "Filtered_files_{}".format(outfile))) 
     
-    return Discard_Tab
+    return Discard_Tab,Filtered_Tab
 
 main()    
