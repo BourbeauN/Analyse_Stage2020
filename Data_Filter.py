@@ -30,9 +30,9 @@ def Adequate_File(Fname,Plateau):
         b = np.float(Plateau[i])
         
         if b > 4e-7:
-                      
-            print ('3')
-    	    DISC_TAB.append(b)
+            
+            print('3')
+            DISC_TAB.append(b)
         
             if i==5:
                 print(i,DISC_TAB,GOOD_TAB)
@@ -45,7 +45,7 @@ def Adequate_File(Fname,Plateau):
             if i==5:
                 print(i,DISC_TAB,GOOD_TAB)
         
-        return np.asarray(DISC_TAB),np.asarray(GOOD_TAB)
+    return np.asarray(DISC_TAB),np.asarray(GOOD_TAB)
 
 def main():
     pdb.set_trace()
