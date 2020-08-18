@@ -12,8 +12,6 @@ def File_Import(filename):
     Fname = Results.iloc[:,1]
     Plateau = Results.iloc[:,2].values.ravel()
 
-    print('1',Fname[0])
-
     return Fname,Plateau
 
 def Adequate_File(Fname,Plateau): 
@@ -30,7 +28,7 @@ def Adequate_File(Fname,Plateau):
         if b > 4e-7:
             
             DISC_TAB.append([a,b])
-        
+                
         else :
             
             GOOD_TAB.append([a,b])
