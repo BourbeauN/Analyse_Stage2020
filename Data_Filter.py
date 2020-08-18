@@ -23,7 +23,7 @@ def Adequate_File(Fname,Plateau):
     for i in range(len(Plateau)):
         
         if Plateau[i] > 4e-7:
-            DISC_TAB.append([Fname[i],Plateau[i])
+            DISC_TAB.append([Fname[i],Plateau[i]])
         
         else :
             GOOD_TAB.append([Fname[i],Plateau[i]])
