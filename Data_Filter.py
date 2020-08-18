@@ -29,9 +29,15 @@ def Adequate_File(Fname,Plateau):
                       
             DISC_TAB.append([a,b])
         
+            if i==5:
+                print(DISC_TAB,GOOD_TAB)
+                
         else :
             
             GOOD_TAB.append([a,b])
+            
+            if i==5:
+                print(DISC_TAB,GOOD_TAB)
         
         return np.asarray(DISC_TAB),np.asarray(GOOD_TAB)
 
@@ -41,7 +47,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-f", dest = "INFILE", help = ".csv results file")
     args = parser.parse_args()
-    outfile = args.INFILE.split('/')[-1]
+    outfile = args.INFILE.split('/')[-1].replace('.csv','')
     
     #Importing data
     Fname,Plateau = File_Import(args.INFILE)
@@ -50,10 +56,11 @@ def main():
     Discard_Tab, Filtered_Tab = Adequate_File(Fname,Plateau)
     
     pd.DataFrame(Discard_Tab, columns = ['Filename', 'Plateau']).to_csv(os.path.join('Temp',
-    "Discard_files_{}".format(outfile))) 
+    "Discard_files_{}.csv".format(outfile))) 
     
     pd.DataFrame(Filtered_Tab, columns = ['Filename', 'Plateau']).to_csv(os.path.join('Temp',
-    "Filtered_files_{}".format(outfile))) 
+    "Filtered_files_{}.csv".format(outfile))) 
+    
     
     return Discard_Tab,Filtered_Tab
 
