@@ -44,10 +44,10 @@ def main():
     #Identifying data sets that are wrong
     Discard_Tab, Filtered_Tab = Adequate_File(Fname,Plateau)
     
-    pd.DataFrame(Discard_Tab).to_csv(os.path.join('Temp',
+    pd.DataFrame(Discard_Tab, columns = ['Filename', 'Plateau']).to_csv(os.path.join('Temp',
     "Discard_files_{}".format(outfile))) 
     
-    pd.DataFrame(Filtered_Tab).to_csv(os.path.join('Temp',
+    pd.DataFrame(Filtered_Tab, columns = ['Filename', 'Plateau']).to_csv(os.path.join('Temp',
     "Filtered_files_{}".format(outfile))) 
     
     return Discard_Tab,Filtered_Tab
