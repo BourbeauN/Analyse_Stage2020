@@ -35,12 +35,9 @@ def Adequate_File(Fname,Plateau):
             
             GOOD_TAB.append([a,b])
           
-        print(DISC_TAB,GOOD_TAB)    
-        
     return np.asarray(DISC_TAB),np.asarray(GOOD_TAB)
 
 def main():
-
 
     #Parser to read file
     parser = argparse.ArgumentParser()
@@ -53,10 +50,13 @@ def main():
     
     #Identifying data sets that are wrong
     Discard_Tab, Filtered_Tab = Adequate_File(Fname,Plateau)
+
+    print(Discard_Tab)
+    print(Filtered_Tab)
     
-    pd.DataFrame(Discard_Tab, columns = ['Filename', 'Plateau']).to_csv(os.path.join('Temp',"Discard_files_{}.csv".format(outfile))) 
+    pd.DataFrame(Discard_Tab).to_csv(os.path.join('Temp',"Discard_files_{}.csv".format(outfile))) 
     
-    pd.DataFrame(Filtered_Tab, columns = ['Filename', 'Plateau']).to_csv(os.path.join('Temp',"Filtered_files_{}.csv".format(outfile))) 
+    pd.DataFrame(Filtered_Tab).to_csv(os.path.join('Temp',"Filtered_files_{}.csv".format(outfile))) 
     
     
     return Discard_Tab,Filtered_Tab
