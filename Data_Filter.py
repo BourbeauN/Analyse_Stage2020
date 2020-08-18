@@ -23,7 +23,6 @@ def Adequate_File(Fname,Plateau):
     GOOD_TAB = []
 
     for i in range(len(Plateau)):
-        pdb.set_trace()
         
         a = Fname[i]
         b = np.float(Plateau[i])
