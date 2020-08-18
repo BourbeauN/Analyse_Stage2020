@@ -26,8 +26,8 @@ def Adequate_File(Fname,Plateau):
         
         a = Fname[i]
         b = np.float(Plateau[i])
-        
-        print(b)
+
+	print(a)
         
         if b > 4e-7:
             
