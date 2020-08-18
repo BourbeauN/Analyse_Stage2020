@@ -30,19 +30,20 @@ def Adequate_File(Fname,Plateau):
             DISC_TAB.append([a,b])
         
             if i==5:
-                print(DISC_TAB,GOOD_TAB)
+                print(i.DISC_TAB,GOOD_TAB)
                 
         else :
             
             GOOD_TAB.append([a,b])
             
             if i==5:
-                print(DISC_TAB,GOOD_TAB)
+                print(i,DISC_TAB,GOOD_TAB)
         
         return np.asarray(DISC_TAB),np.asarray(GOOD_TAB)
 
 def main():
-            
+    pdb.set_trace()
+
     #Parser to read file
     parser = argparse.ArgumentParser()
     parser.add_argument("-f", dest = "INFILE", help = ".csv results file")
