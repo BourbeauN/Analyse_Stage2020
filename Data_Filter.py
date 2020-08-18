@@ -12,11 +12,11 @@ def File_Import(filename):
     Fname = Results.iloc[:,1]
     Plateau = Results.iloc[:,2].values.ravel()
 
+    print('1',Fname[0])
+
     return Fname,Plateau
 
 def Adequate_File(Fname,Plateau): 
-    
-    print("antoine is a little bitch")    
     
     #Indexing Plateau lengths that are too long
     DISC_TAB = []
@@ -24,21 +24,23 @@ def Adequate_File(Fname,Plateau):
 
     for i in range(len(Plateau)):
         
-        print(i)
+        print('2',Fname[i],Plateau[i])
         
         a = Fname[i]
-        b = Plateau[i]
+        b = np.float(Plateau[i])
         
         if b > 4e-7:
                       
-            DISC_TAB.append([a,b])
+	    print ('3')
+	    DISC_TAB.append(b)
         
             if i==5:
-                print(i.DISC_TAB,GOOD_TAB)
+                print(i,DISC_TAB,GOOD_TAB)
                 
         else :
             
-            GOOD_TAB.append([a,b])
+	    print('4')
+	    GOOD_TAB.append(b)
             
             if i==5:
                 print(i,DISC_TAB,GOOD_TAB)
