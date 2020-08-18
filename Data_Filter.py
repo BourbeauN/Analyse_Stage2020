@@ -28,8 +28,6 @@ def Adequate_File(Fname,Plateau):
         a = Fname[i]
         b = np.float(Plateau[i])
         
-        print(a)
-        
         if b > 4e-7:
             
             DISC_TAB.append([a,b])
@@ -37,7 +35,9 @@ def Adequate_File(Fname,Plateau):
         else :
             
             GOOD_TAB.append([a,b])
-            
+          
+        print(DISC_TAB,GOOD_TAB)    
+        
     return np.asarray(DISC_TAB),np.asarray(GOOD_TAB)
 
 def main():
