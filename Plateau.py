@@ -18,7 +18,7 @@ def find_plateau(voltage,time,voltage_threshold,time_threshold):
                     real_t = k - int(dt)
                     t = time[real_t]
                     
-                    return t
+                    return float(t)
 
         return float("nan"), float("nan") 
     
