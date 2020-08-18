@@ -20,7 +20,7 @@ def find_plateau(voltage,time,voltage_threshold,time_threshold):
                     
                     return float(t)
 
-        return float("nan"), float("nan") 
+        return float("nan") 
     
 def load_data(filename):    
     
@@ -55,6 +55,8 @@ def compute_plateaus_on_data(path,dv,dt):
         
         if progress%50 == 0:
             print(progress)
+        
+    print(type(RESULTS_TABLE))
         
     return np.asarray(RESULTS_TABLE)
 
