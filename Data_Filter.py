@@ -23,11 +23,12 @@ def Adequate_File(Fname,Plateau):
     GOOD_TAB = []
 
     for i in range(len(Plateau)):
+        pdb.set_trace()
         
         a = Fname[i]
         b = np.float(Plateau[i])
-
-	print(a)
+        
+        print(a)
         
         if b > 4e-7:
             
@@ -40,7 +41,7 @@ def Adequate_File(Fname,Plateau):
     return np.asarray(DISC_TAB),np.asarray(GOOD_TAB)
 
 def main():
-    pdb.set_trace()
+
 
     #Parser to read file
     parser = argparse.ArgumentParser()
