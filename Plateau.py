@@ -3,6 +3,10 @@ import numpy as np
 import os
 import argparse
 import pandas as pd
+from scipy.signal import savgol_filter
+
+def Savitsky_Golay(y):
+    return savgol_filter(y,5,2)
 
 def find_plateau(voltage,time,voltage_threshold,time_threshold):
         ## Beginning of plateau phase ##
@@ -41,7 +45,9 @@ def compute_plateaus_on_data(path,dv,dt):
         
         time, voltage, current = load_data(os.path.join(path,f))
         
-        end = find_plateau(voltage,time,dv,dt)       
+        voltage_filtered = Savitsky_Golay(voltage)
+        
+        end = find_plateau(voltage_filtered,time,dv,dt)       
     	   
         if end != 'nan':
             plateau = end
