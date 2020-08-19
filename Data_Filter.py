@@ -54,11 +54,11 @@ def main():
     print(Discard_Tab)
     print(Filtered_Tab)
     
-    pd.DataFrame(Discard_Tab).to_csv(os.path.join('Temp',"Discard_files_{}.csv".format(outfile))) 
+    pd.DataFrame(Discard_Tab, columns = ['Filename','Plateau']).to_csv(os.path.join('Temp',"Discard_files_{}.csv".format(outfile))) 
     
-    pd.DataFrame(Filtered_Tab).to_csv(os.path.join('Temp',"Filtered_files_{}.csv".format(outfile))) 
+    pd.DataFrame(Filtered_Tab, columns = ['Filename','Plateau']).to_csv(os.path.join('Temp',"Filtered_files_{}.csv".format(outfile))) 
     
     
     return Discard_Tab,Filtered_Tab
 
-main()    
+main()
