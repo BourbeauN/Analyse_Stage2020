@@ -96,9 +96,10 @@ def main():
     plt.ylabel("Plateau length in seconds")
     plt.title("Plateau length for {} {} in\n{} with {} configuration".format("variying tensions ",
     "multiple pulse widths", "water", "point-point"),y=1.08)
+    plt.legend()
     plt.tight_layout()
     now_str = datetime.now().timestamp() 
     plt.savefig(os.path.join("OUT_FIG/Multi_Plots/Multi_Plots_{}.pdf".format(now_str)))
-
+    
     pdb.set_trace()
 main()
