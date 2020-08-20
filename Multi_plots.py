@@ -1,6 +1,7 @@
 import matplotlib
 matplotlib.use('Agg')
-
+import os
+import pandas as pd
 from matplotlib import pyplot as plt
 import numpy as np
 import pdb
@@ -25,7 +26,7 @@ def get_elapsed_time(fnames):
         datetimes[f] = datetime.strptime(times,"%Y%m%d%H%M%S%f")
     
     #Allows to track the first part of the time stamp 
-    print("for loop to separate time string complete ...")
+    # print("for loop to separate time string complete ...")
     
     for d in range(len(datetimes)): 
         
@@ -34,9 +35,14 @@ def get_elapsed_time(fnames):
             print(time_deltas[d])
    
    #Tracks seconde part of time stamp
-    print("for loop to obtain time stamp complete...")                 
+    #print("for loop to obtain time stamp complete...")                 
 
     return time_deltas
+def get_experiment_name(folder_name):
+    tension = folder_name.split("_")[5]
+    pulsewidth =folder_name.split("_")[6]
+    return tension, pulsewidth
+
 
 def main():
     
@@ -74,11 +80,10 @@ def main():
     Plateau4 = Results4['Plateau']
     
     #Experiment name from file name
-    tension1, pulsewidth1 = get_experiment_name(fname1)
-    tension2, pulsewidth2 = get_experiment_name(fname2)
-    tension3, pulsewidth3 = get_experiment_name(fname3)
-    tension4, pulsewidth4 = get_experiment_name(fname4)
-
+    tension1, pulsewidth1 = get_experiment_name(args.F1)
+    tension2, pulsewidth2 = get_experiment_name(args.F2)
+    tension3, pulsewidth3 = get_experiment_name(args.F3)
+    tension4, pulsewidth4 = get_experiment_name(args.F4)
     plt.figure(1)
     
     plt.plot(ET_file1, Plateau1,',',markersize = 1, color = 'crimson')
@@ -89,8 +94,11 @@ def main():
     plt.xlabel("Elapsed time in seconds")
     plt.ticklabel_format(axis="x", style="sci")
     plt.ylabel("Plateau length in seconds")
-    plt.title("Plateau length for {} {} in\n{} with {} configuration".format(tension,pulsewidth,args.MEDIUM,args.CONFIGURATION),y=1.08)
+    plt.title("Plateau length for {} {} in\n{} with {} configuration".format("variying tensions ",
+    "multiple pulse widths", "water", "point-point"),y=1.08)
     plt.tight_layout()
-    plt.savefig(os.path.join("OUT_FIG/PlateauLength_TimeElapsed/Multi_Plots"))
+    now_str = datetime.now().timestamp() 
+    plt.savefig(os.path.join("OUT_FIG/PlateauLength_TimeElapsed/Multi_Plots_{}.pdf".format(now_str)))
 
+    pdb.set_trace()
 main()
