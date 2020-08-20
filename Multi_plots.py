@@ -85,11 +85,11 @@ def main():
     tension3, pulsewidth3 = get_experiment_name(args.F3)
     tension4, pulsewidth4 = get_experiment_name(args.F4)
     plt.figure(1)
-    
-    plt.plot(ET_file1, Plateau1,',',markersize = 1, color = 'crimson')
-    plt.plot(ET_file2, Plateau2,',',markersize = 1, color = 'goldenrod')
-    plt.plot(ET_file3, Plateau3,',',markersize = 1, color = 'yellowgreen')
-    plt.plot(ET_file4, Plateau4,',',markersize = 1, color = 'teal')
+    labels = [(tension1,pulsewidth1), (tension2,pulsewidth2),(tension3,pulsewidth3),(tension4,pulsewidth4)]
+    plt.plot(ET_file1, Plateau1,',',markersize = 1, color = 'crimson', label = labels[0])
+    plt.plot(ET_file2, Plateau2,',',markersize = 1, color = 'goldenrod', label = labels[1])
+    plt.plot(ET_file3, Plateau3,',',markersize = 1, color = 'yellowgreen', label = labels[2])
+    plt.plot(ET_file4, Plateau4,',',markersize = 1, color = 'teal', label = labels[3])
     
     plt.xlabel("Elapsed time in seconds")
     plt.ticklabel_format(axis="x", style="sci")
@@ -98,7 +98,7 @@ def main():
     "multiple pulse widths", "water", "point-point"),y=1.08)
     plt.tight_layout()
     now_str = datetime.now().timestamp() 
-    plt.savefig(os.path.join("OUT_FIG/PlateauLength_TimeElapsed/Multi_Plots_{}.pdf".format(now_str)))
+    plt.savefig(os.path.join("OUT_FIG/Multi_Plots/Multi_Plots_{}.pdf".format(now_str)))
 
     pdb.set_trace()
 main()
