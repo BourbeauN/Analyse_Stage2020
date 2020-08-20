@@ -6,7 +6,7 @@ import pandas as pd
 from scipy.signal import savgol_filter
 
 def Savitsky_Golay(y):
-    return savgol_filter(y,5,2)
+    return savgol_filter(y,9,2)
 
 def find_plateau(voltage,time,voltage_threshold,time_threshold):
         ## Beginning of plateau phase ##
@@ -80,7 +80,7 @@ def main():
     
     print("Finished appending RESULTS_TABLE, saving ...")
     
-    pd.DataFrame(RESULTS_TABLE, columns = ['Filename', 'Plateau']).to_csv(os.path.join('OUT_TAB_FIXED_THRESH',
+    pd.DataFrame(RESULTS_TABLE, columns = ['Filename', 'Plateau']).to_csv(os.path.join( 'Temp/Filter_Test',
     "OUT_PLATEAUS_{}_{}dv_{}dt.csv".format(outfile,args.VOLTAGE_THRESHOLD,args.TIME_THRESHOLD))) 
 
 #update
