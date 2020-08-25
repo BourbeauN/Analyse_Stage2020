@@ -10,6 +10,8 @@ def Savitsky_Golay(y):
 
 def find_plateau(voltage,time,voltage_threshold,time_threshold):
         ## Beginning of plateau phase ##
+
+	pdb.set_trace()
         
         dv = np.float(voltage_threshold)
         dt = np.float(time_threshold)
