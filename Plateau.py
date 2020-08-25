@@ -55,7 +55,7 @@ def compute_plateaus_on_data(path,dv,dt):
         
         time, voltage, current = load_data(os.path.join(path,f))
         
-        #voltage_filtered = Savitsky_Golay(voltage)
+        voltage_filtered = Savitsky_Golay(voltage)
         
         end = find_plateau(voltage,time,dv,dt)       
     	   
