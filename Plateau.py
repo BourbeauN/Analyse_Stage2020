@@ -33,9 +33,9 @@ def load_data(filename):
     
     Results = pd.read_csv(filename, skiprows = 11)
     
-    time = Results['TIME']
-    voltage = Results['CH1']
-    current = Results['CH2']
+    time = Results.iloc[:,0].values.ravel()
+    voltage = Results.iloc[:,1].values.ravel()
+    current = Results.iloc[:,2].values.ravel()
     
     print('so hard and got this far 2')
     
