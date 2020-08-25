@@ -5,8 +5,8 @@ import argparse
 import pandas as pd
 from scipy.signal import savgol_filter
 
-def Savitsky_Golay(y):
-    return savgol_filter(y,9,2)
+#def Savitsky_Golay(y):
+    #return savgol_filter(y,9,2)
 
 def find_plateau(voltage,time,voltage_threshold,time_threshold):
         
@@ -27,8 +27,8 @@ def find_plateau(voltage,time,voltage_threshold,time_threshold):
 
     return float("nan") 
     
-def load_data(filename):    
-      
+def load_data(filename):
+     
     Results = pd.read_csv(filename, skiprows = 11)
     
     time = Results['TIME']
@@ -38,8 +38,6 @@ def load_data(filename):
     return time, voltage, current 
 
 def compute_plateaus_on_data(path,dv,dt):
-    
-    pdb.set_trace()
     
     # list of discharge files  
     files = sorted(os.listdir(path))
@@ -51,11 +49,9 @@ def compute_plateaus_on_data(path,dv,dt):
     # cycle through all files 
     for i,f in enumerate(files) :
         
-        pdb.set_trace()
-        
         time, voltage, current = load_data(os.path.join(path,f))
         
-        voltage_filtered = Savitsky_Golay(voltage)
+        #voltage_filtered = Savitsky_Golay(voltage)
         
         end = find_plateau(voltage_filtered,time,dv,dt)       
     	   
@@ -69,10 +65,8 @@ def compute_plateaus_on_data(path,dv,dt):
         
         progress +=1
         
-        #if progress%50 == 0:
-            #print(progress)
-        
-        #print(type(RESULTS_TABLE))
+        if progress%50 == 0:
+            print(progress)
         
         return np.asarray(RESULTS_TABLE)
 
@@ -90,8 +84,7 @@ def main():
     
     print("Finished appending RESULTS_TABLE, saving ...")
     
-    pd.DataFrame(RESULTS_TABLE, columns = ['Filename', 'Plateau']).to_csv(os.path.join( 'Temp/Filter_Test',
-    "OUT_PLATEAUS_{}_{}dv_{}dt.csv".format(outfile,args.VOLTAGE_THRESHOLD,args.TIME_THRESHOLD))) 
+    pd.DataFrame(RESULTS_TABLE, columns = ['Filename', 'Plateau']).to_csv(os.path.join('Temp/Filter_Test',"OUT_PLATEAUS_{}_{}dv_{}dt.csv".format(outfile,args.VOLTAGE_THRESHOLD,args.TIME_THRESHOLD))) 
 
 #update
 main()
