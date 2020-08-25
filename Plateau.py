@@ -28,12 +28,16 @@ def find_plateau(voltage,time,voltage_threshold,time_threshold):
     return float("nan") 
     
 def load_data(filename):
-     
+    
+    print('I try 1')
+    
     Results = pd.read_csv(filename, skiprows = 11)
     
     time = Results['TIME']
     voltage = Results['CH1']
     current = Results['CH2']
+    
+    print('so hard and got this far 2')
     
     return time, voltage, current 
 
