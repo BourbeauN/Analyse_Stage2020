@@ -64,12 +64,12 @@ def compute_plateaus_on_data(path,dv,dt):
         
         progress +=1
         
-        if progress%50 == 0:
-           #print(progress)
+        #if progress%50 == 0:
+            #print(progress)
         
-    #print(type(RESULTS_TABLE))
+        #print(type(RESULTS_TABLE))
         
-    return np.asarray(RESULTS_TABLE)
+        return np.asarray(RESULTS_TABLE)
 
 def main():
     
