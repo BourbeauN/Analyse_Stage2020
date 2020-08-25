@@ -9,9 +9,6 @@ def Savitsky_Golay(y):
     return savgol_filter(y,9,2)
 
 def find_plateau(voltage,time,voltage_threshold,time_threshold):
-    
-    
-    pdb.set_trace()
         
     ## Beginning of plateau phase ##
         
@@ -41,6 +38,7 @@ def load_data(filename):
     return time, voltage, current 
 
 def compute_plateaus_on_data(path,dv,dt):
+pdb.set_trace()
     
     # list of discharge files  
     files = sorted(os.listdir(path))
