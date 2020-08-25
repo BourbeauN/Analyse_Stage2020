@@ -9,24 +9,26 @@ def Savitsky_Golay(y):
     return savgol_filter(y,9,2)
 
 def find_plateau(voltage,time,voltage_threshold,time_threshold):
-        ## Beginning of plateau phase ##
-
-	pdb.set_trace()
+    
+    
+    pdb.set_trace()
         
-        dv = np.float(voltage_threshold)
-        dt = np.float(time_threshold)
+    ## Beginning of plateau phase ##
         
-        ## End of plateau phase ##
-        for k in range(len(voltage)):
-            if np.abs(voltage[k] - voltage[k-np.int(dt)]) > dv:
-                if k  < len(voltage):
-                    
-                    real_t = k - int(dt)
-                    t = time[real_t]
-                    
-                    return float(t)
+    dv = np.float(voltage_threshold)
+    dt = np.float(time_threshold)
+    
+    ## End of plateau phase ##
+    for k in range(len(voltage)):
+        if np.abs(voltage[k] - voltage[k-np.int(dt)]) > dv:
+            if k  < len(voltage):
+                
+                real_t = k - int(dt)
+                t = time[real_t]
+                
+                return float(t)
 
-        return float("nan") 
+    return float("nan") 
     
 def load_data(filename):    
       
