@@ -57,7 +57,7 @@ def compute_plateaus_on_data(path,dv,dt):
         
         #voltage_filtered = Savitsky_Golay(voltage)
         
-        end = find_plateau(voltage_filtered,time,dv,dt)       
+        end = find_plateau(voltage,time,dv,dt)       
     	   
         if end != 'nan':
             plateau = end
