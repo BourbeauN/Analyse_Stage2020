@@ -17,7 +17,7 @@ def find_plateau(voltage,time,voltage_threshold,time_threshold):
     
     ## End of plateau phase ##
     for k in range(len(voltage)):
-        if np.abs(voltage[k] - voltage[k-np.int(dt)]) > dv:
+        :f np.abs(voltage[k] - voltage[k-np.int(dt)]) > dv:
             if k  < len(voltage):
                 
                 real_t = k - int(dt)
@@ -33,9 +33,9 @@ def load_data(filename):
     
     Results = pd.read_csv(filename, skiprows = 11)
     
-    time = Results.iloc[:,0].values.ravel()
-    voltage = Results.iloc[:,1].values.ravel()
-    current = Results.iloc[:,2].values.ravel()
+    time = Results['TIME']
+    voltage = Results['CH1']
+    current = Results['CH2']
     
     print('so hard and got this far 2')
     
