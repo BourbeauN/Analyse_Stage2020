@@ -17,7 +17,7 @@ def find_plateau(voltage,time,voltage_threshold,time_threshold):
     
     ## End of plateau phase ##
     for k in range(len(voltage)):
-        :f np.abs(voltage[k] - voltage[k-np.int(dt)]) > dv:
+        if np.abs(voltage[k] - voltage[k-np.int(dt)]) > dv:
             if k  < len(voltage):
                 
                 real_t = k - int(dt)
