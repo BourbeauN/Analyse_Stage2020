@@ -30,14 +30,18 @@ def find_plateau(voltage,time,voltage_threshold,time_threshold):
 def load_data(filename):
     
     print('I try 1')
-    
-    Results = pd.read_csv(filename, skiprows = 11)
+    Results = pd.read_csv(filename, skiprows = [11], header = [4])
     
     time = Results.iloc[:,0].values.ravel()
+    
+    print(time)
     voltage = Results.iloc[:,1].values.ravel()
+    
+    print(voltage)
+    
     current = Results.iloc[:,2].values.ravel()
     
-    print('so hard and got this far 2')
+    print(current)
     
     return time, voltage, current 
 
@@ -54,8 +58,6 @@ def compute_plateaus_on_data(path,dv,dt):
     for i,f in enumerate(files) :
         
         time, voltage, current = load_data(os.path.join(path,f))
-        
-        voltage_filtered = Savitsky_Golay(voltage)
         
         end = find_plateau(voltage,time,dv,dt)       
     	   
@@ -83,9 +85,9 @@ def main():
     parser.add_argument('-dt', dest = 'TIME_THRESHOLD', help = 'pick a value for time threshold')
     args = parser.parse_args()
     outfile = args.INFOLDER.split('/')[-1] 
-    
-    RESULTS_TABLE = compute_plateaus_on_data(args.INFOLDER,args.VOLTAGE_THRESHOLD, args.TIME_THRESHOLD)
-    
+   
+    RESULTS_TABLE = compute_plateaus_on_data(args.INFOLDER,args.VOLTAGE_THRESHOLD,args.TIME_THRESHOLD)
+
     print("Finished appending RESULTS_TABLE, saving ...")
     
     pd.DataFrame(RESULTS_TABLE, columns = ['Filename', 'Plateau']).to_csv(os.path.join('Temp/Filter_Test',"OUT_PLATEAUS_{}_{}dv_{}dt.csv".format(outfile,args.VOLTAGE_THRESHOLD,args.TIME_THRESHOLD))) 
