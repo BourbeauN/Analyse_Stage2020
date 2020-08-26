@@ -8,23 +8,20 @@ from scipy.signal import savgol_filter
 #def Savitsky_Golay(y):
     #return savgol_filter(y,9,2)
 
-def discharge_time(voltage, time,  dt, dv):
-    pdb.set_trace()
-    for k in time :
-        if np.abs(voltage[k] - voltage[k - int(dt)] ) > dv:
-            if k  < len(voltage):    
-                real_t = k - dt  
-                t = time[real_t]
-                return t
+def discharge_time_index(voltage, time, dv, dk):
+    for k in range(dk, len(time)) :
+        if voltage[k] - voltage[k - dk] < -dv:
+            t = time[k - dk]
+            return t
     return float("nan")
 
-def find_plateau(voltage,time,voltage_threshold,time_threshold):
+def find_plateau(voltage,time, dv, dk):
         
     ## Beginning of plateau phase ##
     
     start = 0
     ## End of plateau phase ##
-    end = discharge_time(voltage, time, time_threshold, voltage_threshold)
+    end = discharge_time_index(voltage, time, dv, dk)
                 
     return start, float(end)
 
@@ -33,16 +30,15 @@ def load_data(filename):
     
     Results = pd.read_csv(filename, skiprows = 10)
     
-    pdb.set_trace() 
-    time = Results.iloc[:,0].values.ravel()
-    
-    voltage = Results.iloc[:,1].values.ravel()
-    
-    current = Results.iloc[:,2].values.ravel()
-    
+    time = Results["TIME"]
+
+    voltage = Results["CH1"]
+
+    current = Results["CH2"]
+
     return time, voltage, current 
 
-def compute_plateaus_on_data(path,dv,dt):
+def compute_plateaus_on_data(path, dv, dk):
     
     # list of discharge files  
     files = sorted(os.listdir(path))
@@ -56,22 +52,18 @@ def compute_plateaus_on_data(path,dv,dt):
         
         time, voltage, current = load_data(os.path.join(path,f))
         
-        end = find_plateau(voltage,time,dv,dt)       
-    	   
-        if end != 'nan':
-            plateau = end
+        start, end = find_plateau(voltage,time, dv, dk)       
         
-        else :
-            plateau = 'nan'
+        plateau = end - start if end == end else float("nan") 
                      
         RESULTS_TABLE.append([f,plateau])
         
         progress +=1
         
         if progress%50 == 0:
-            print(progress)
+            print(progress, plateau)
         
-        return np.asarray(RESULTS_TABLE)
+    return np.asarray(RESULTS_TABLE)
 
 def main():
     
@@ -79,15 +71,14 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-f', dest = 'INFOLDER', help = 'file folder corresponding to experimental set with discharge infos')
     parser.add_argument('-dv',type = float,  dest = 'VOLTAGE_THRESHOLD', help = 'pick a value for voltage threshold')
-    parser.add_argument('-dt',type = float,  dest = 'TIME_THRESHOLD', help = 'pick a value for time threshold')
+    parser.add_argument('-dk',type = int,  dest = 'INDEX_THRESHOLD', help = 'pick a value for time threshold')
     args = parser.parse_args()
     outfile = args.INFOLDER.split('/')[-1] 
-    
-    RESULTS_TABLE = compute_plateaus_on_data(args.INFOLDER,args.VOLTAGE_THRESHOLD,args.TIME_THRESHOLD)
+    RESULTS_TABLE = compute_plateaus_on_data(args.INFOLDER,args.VOLTAGE_THRESHOLD,args.INDEX_THRESHOLD)
 
     print("Finished appending RESULTS_TABLE, saving ...")
     
-    pd.DataFrame(RESULTS_TABLE, columns = ['Filename', 'Plateau']).to_csv(os.path.join('Temp/Filter_Test',"OUT_PLATEAUS_{}_{}dv_{}dt.csv".format(outfile,args.VOLTAGE_THRESHOLD,args.TIME_THRESHOLD))) 
+    pd.DataFrame(RESULTS_TABLE, columns = ['Filename', 'Plateau']).to_csv(os.path.join('OUT_TABLES',"OUT_PLATEAUS_{}_{}dv_{}dt.csv".format(outfile,args.VOLTAGE_THRESHOLD,args.INDEX_THRESHOLD))) 
 
 #update
 main()

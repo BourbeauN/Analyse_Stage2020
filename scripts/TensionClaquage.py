@@ -8,7 +8,11 @@ import pdb
 
 def load_data(filename):    
     
-    time, voltage, current = np.loadtxt(filename, delimiter = ',', skiprows = 12, unpack = True)
+    Results = pd.read_csv(filename, skiprows = 10)
+
+    time = Results['TIME']
+    voltage = Results['CH1']
+    current = Results['CH2']
 
     return np.array(time), np.array(voltage), np.array(current) 
 
@@ -24,20 +28,20 @@ def max_voltage(path):
         max_value = np.amax(voltage)
         
         Voltage_Tab.append([f,max_value])
-       
+        print(f)
         
     return np.asarray(Voltage_Tab)
 
 
 def main ():
-    
+
     parser = argparse.ArgumentParser()
     parser.add_argument('-f', dest = 'INFILE', help = 'discharge file')
     args = parser.parse_args()
-    outfile = args.INFOLDER.split('/')[-1] 
+    outfile = args.INFILE.split('/')[-1] 
 
     MAX_TENSION_TAB = max_voltage(args.INFILE)
 
-    pd.DataFrame(MAX_TENSION_TAB, columns = ['Filename', 'Max Voltage']).to_csv(os.path.join('Voltage_Discharge_{}'.format(outfile))) 
+    pd.DataFrame(MAX_TENSION_TAB, columns = ['Filename', 'Max Voltage']).to_csv(os.path.join('Voltage_Discharge','{}'.format(outfile))) 
 
 main()

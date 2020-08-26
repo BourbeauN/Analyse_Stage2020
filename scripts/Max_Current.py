@@ -8,8 +8,12 @@ import pdb
 
 def load_data(filename):    
     
-    time, voltage, current = np.loadtxt(filename, delimiter = ',', skiprows = 12, unpack = True)
+    Results = pd.read_csv(filename, skiprows = 10)
 
+    time = Results['TIME']
+    voltage = Results['CH1']
+    current = Results['CH2']
+    
     return np.array(time), np.array(voltage), np.array(current) 
 
 def max_current(path):
@@ -36,6 +40,6 @@ def main ():
 
     MAX_CURRENT_TAB = max_current(args.INFILE)
 
-    pd.DataFrame(MAX_CURRENT_TAB, columns = ['Filename', 'Max Current']).to_csv(os.path.join('Max_Current_{}'.format(outfile))) 
+    pd.DataFrame(MAX_CURRENT_TAB, columns = ['Filename', 'Max Current']).to_csv(os.path.join('Max_Current','{}'.format(outfile))) 
 
 main()

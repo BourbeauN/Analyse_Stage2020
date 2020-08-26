@@ -42,10 +42,10 @@ def get_elapsed_time(fnames):
 
 def get_experiment_name(folder_name):
     
-    tension = folder_name.split("_")[5]
-    pulsewidth = folder_name.split("_")[6]
-    configuration = folder_name.split("_")[7]
-    medium = folder_name.split("_")[8]
+    tension = folder_name.split("_")[1]
+    pulsewidth = folder_name.split("_")[2]
+    configuration = folder_name.split("_")[3]
+    medium = folder_name.split("_")[4]
 
     return tension, pulsewidth,configuration,medium    
     
@@ -76,6 +76,6 @@ def main():
     plt.ylabel("Voltage of discharge")
     plt.title("Plateau length for {} {} in\n{} with {} configuration".format(tension,pulsewidth,medium,configuration),y=1.08)
     plt.tight_layout()
-    plt.savefig(os.path.join("OUT_FIG/Max_voltage",outfile))
+    plt.savefig(os.path.join("OUT_FIG/Max_Voltage",outfile))
 
 main()
