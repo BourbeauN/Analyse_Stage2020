@@ -17,7 +17,8 @@ def find_plateau(voltage,time,voltage_threshold,time_threshold):
     
     ## End of plateau phase ##
     for k in range(len(voltage)):
-        if np.abs(voltage[k] - voltage[k-np.int(dt)]) > dv:
+    	
+        if np.abs(voltage[k] - voltage[k- np.int(dt)]) > dv:
             if k  < len(voltage):
                 
                 real_t = k - int(dt)
@@ -85,7 +86,6 @@ def main():
     parser.add_argument('-dt', dest = 'TIME_THRESHOLD', help = 'pick a value for time threshold')
     args = parser.parse_args()
     outfile = args.INFOLDER.split('/')[-1] 
-   
     RESULTS_TABLE = compute_plateaus_on_data(args.INFOLDER,args.VOLTAGE_THRESHOLD,args.TIME_THRESHOLD)
 
     print("Finished appending RESULTS_TABLE, saving ...")
