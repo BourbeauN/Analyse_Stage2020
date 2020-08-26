@@ -39,20 +39,20 @@ def get_elapsed_time(fnames):
 
     return time_deltas
 def get_experiment_name(folder_name):
+    
     tension = folder_name.split("_")[5]
-    pulsewidth =folder_name.split("_")[6]
-    return tension, pulsewidth
-
+    pulsewidth = folder_name.split("_")[6]
+    configuration = folder_name.split("_")[7]
+    medium = folder_name.split("_")[8]
+    
+    return tension, pulsewidth, configuration, medium
 
 def main():
     
     # PARSER #
     parser = argparse.ArgumentParser()
-    parser.add_argument('-f1', dest = 'F1', help = 'File to plot')
-    parser.add_argument('-f2', dest = 'F2', help = 'File to plot')
-    parser.add_argument('-f3', dest = 'F3', help = 'File to plot')
-    parser.add_argument('-f4', dest = 'F4', help = 'File to plot')
-
+    parser.add_argument('-p', dest = 'parameter', help = 'chose a parameter to analyze')
+    
     args = parser.parse_args()
     
     #Reading file
