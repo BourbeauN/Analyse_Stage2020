@@ -119,9 +119,9 @@ def main():
     #plt.plot(square_x,ln_y, color = 'darksalmon', label = 'natural logarithmic function')
     ###CURVEFIT PLOTS###
     plt.plot(ET_file_fl,Sqrt_Fit(ET_file_fl,popt1[0],popt1[1],popt1[2]),color = 'crimson', linewidth = 2, label="Square root fit")
-    pdb.set_trace()
     plt.plot(ET_file_fl,Ln_Fit(ET_file_fl,popt3[0],popt3[1],popt3[2],popt3[3]),color = 'yellowgreen', linewidth = 2, label="Natural logarithm fit")
     
+    pdb.set_trace()
     ###PLOT SETTINGS###
     plt.xlabel("Elapsed time in seconds")
     plt.ticklabel_format(axis="y", style="sci")
