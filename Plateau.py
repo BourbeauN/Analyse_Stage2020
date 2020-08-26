@@ -8,40 +8,37 @@ from scipy.signal import savgol_filter
 #def Savitsky_Golay(y):
     #return savgol_filter(y,9,2)
 
+def discharge_time(voltage, time,  dt, dv):
+    pdb.set_trace()
+    for k in time :
+        if np.abs(voltage[k] - voltage[k - int(dt)] ) > dv:
+            if k  < len(voltage):    
+                real_t = k - dt  
+                t = time[real_t]
+                return t
+    return float("nan")
+
 def find_plateau(voltage,time,voltage_threshold,time_threshold):
         
     ## Beginning of plateau phase ##
-        
-    dv = np.float(voltage_threshold)
-    dt = np.float(time_threshold)
     
+    start = 0
     ## End of plateau phase ##
-    for k in range(len(voltage)):
-        if np.abs(voltage[k] - voltage[k-np.int(dt)]) > dv:
-            if k  < len(voltage):
+    end = discharge_time(voltage, time, time_threshold, voltage_threshold)
                 
-                real_t = k - int(dt)
-                t = time[real_t]
-                
-                return float(t)
+    return start, float(end)
 
-    return float("nan") 
     
 def load_data(filename):
     
-    print('I try 1')
-    Results = pd.read_csv(filename, skiprows = [11], header = [4])
+    Results = pd.read_csv(filename, skiprows = 10)
     
+    pdb.set_trace() 
     time = Results.iloc[:,0].values.ravel()
     
-    print(time)
     voltage = Results.iloc[:,1].values.ravel()
     
-    print(voltage)
-    
     current = Results.iloc[:,2].values.ravel()
-    
-    print(current)
     
     return time, voltage, current 
 
@@ -81,11 +78,11 @@ def main():
     ###PARSER###
     parser = argparse.ArgumentParser()
     parser.add_argument('-f', dest = 'INFOLDER', help = 'file folder corresponding to experimental set with discharge infos')
-    parser.add_argument('-dv', dest = 'VOLTAGE_THRESHOLD', help = 'pick a value for voltage threshold')
-    parser.add_argument('-dt', dest = 'TIME_THRESHOLD', help = 'pick a value for time threshold')
+    parser.add_argument('-dv',type = float,  dest = 'VOLTAGE_THRESHOLD', help = 'pick a value for voltage threshold')
+    parser.add_argument('-dt',type = float,  dest = 'TIME_THRESHOLD', help = 'pick a value for time threshold')
     args = parser.parse_args()
     outfile = args.INFOLDER.split('/')[-1] 
-   
+    
     RESULTS_TABLE = compute_plateaus_on_data(args.INFOLDER,args.VOLTAGE_THRESHOLD,args.TIME_THRESHOLD)
 
     print("Finished appending RESULTS_TABLE, saving ...")
