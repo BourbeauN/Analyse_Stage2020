@@ -3,26 +3,46 @@ import numpy as np
 import os
 import argparse
 import pandas as pd
+from scipy.signal import savgol_filter
+
+#def Savitsky_Golay(y):
+    #return savgol_filter(y,9,2)
 
 def find_plateau(voltage,time,voltage_threshold,time_threshold):
-        ## Beginning of plateau phase ##
         
-        dv = np.float(voltage_threshold)
-        dt = np.float(time_threshold)
+    ## Beginning of plateau phase ##
         
-        begin = np.where(voltage == np.ndarray.max(voltage))[0][0] ### to be validated ( tested on 10 )
-        ## End of plateau phase ##
-        for k in range(begin, len(voltage)):
-            if np.abs(voltage[k] - voltage[k-np.int(dt)]) > dv:
-                if (k + begin )  < len(voltage):
-
-                    return time[begin], time[k + begin]
-
-        return float("nan"), float("nan") 
+    dv = np.float(voltage_threshold)
+    dt = np.float(time_threshold)
     
-def load_data(filename):    
+    ## End of plateau phase ##
+    for k in range(len(voltage)):
+        if np.abs(voltage[k] - voltage[k-np.int(dt)]) > dv:
+            if k  < len(voltage):
+                
+                real_t = k - int(dt)
+                t = time[real_t]
+                
+                return float(t)
+
+    return float("nan") 
     
-    time, voltage, current = np.array(np.loadtxt(filename, dtype = float, delimiter = ',', skiprows = 12, unpack = True))
+def load_data(filename):
+    
+    print('I try 1')
+    Results = pd.read_csv(filename, skiprows = [11], header = [4])
+    
+    time = Results.iloc[:,0].values.ravel()
+    
+    print(time)
+    voltage = Results.iloc[:,1].values.ravel()
+    
+    print(voltage)
+    
+    current = Results.iloc[:,2].values.ravel()
+    
+    print(current)
+    
     return time, voltage, current 
 
 def compute_plateaus_on_data(path,dv,dt):
@@ -39,10 +59,10 @@ def compute_plateaus_on_data(path,dv,dt):
         
         time, voltage, current = load_data(os.path.join(path,f))
         
-        start, end = find_plateau(voltage,time,dv,dt)       
+        end = find_plateau(voltage,time,dv,dt)       
     	   
-        if start != 'nan' and end != 'nan':
-            plateau = end - start
+        if end != 'nan':
+            plateau = end
         
         else :
             plateau = 'nan'
@@ -54,7 +74,7 @@ def compute_plateaus_on_data(path,dv,dt):
         if progress%50 == 0:
             print(progress)
         
-    return np.asarray(RESULTS_TABLE)
+        return np.asarray(RESULTS_TABLE)
 
 def main():
     
@@ -65,16 +85,12 @@ def main():
     parser.add_argument('-dt', dest = 'TIME_THRESHOLD', help = 'pick a value for time threshold')
     args = parser.parse_args()
     outfile = args.INFOLDER.split('/')[-1] 
-    
-    # OUTDATED nao_path = "/Users/Naomi/Documents/GitHub/Analyse_Stage2020/Git_5kv_100nspicpic"
-    # OUTDATED leo_path = "5kv_100nspicpic" 
-    
-    RESULTS_TABLE = compute_plateaus_on_data(args.INFOLDER,args.VOLTAGE_THRESHOLD, args.TIME_THRESHOLD)
-    
+   
+    RESULTS_TABLE = compute_plateaus_on_data(args.INFOLDER,args.VOLTAGE_THRESHOLD,args.TIME_THRESHOLD)
+
     print("Finished appending RESULTS_TABLE, saving ...")
     
-    pd.DataFrame(RESULTS_TABLE, columns = ['Filename', 'Plateau']).to_csv(os.path.join('OUT_TAB_FIXED_THRESH',
-    "OUT_PLATEAUS_{}_{}dv_{}dt.csv".format(outfile,args.VOLTAGE_THRESHOLD,args.TIME_THRESHOLD))) 
+    pd.DataFrame(RESULTS_TABLE, columns = ['Filename', 'Plateau']).to_csv(os.path.join('Temp/Filter_Test',"OUT_PLATEAUS_{}_{}dv_{}dt.csv".format(outfile,args.VOLTAGE_THRESHOLD,args.TIME_THRESHOLD))) 
 
 #update
 main()

@@ -76,6 +76,6 @@ def main():
     plt.ylabel("Plateau length in seconds")
     plt.title("Plateau length for {} {} in\n{} with {} configuration".format(tension,pulsewidth,args.MEDIUM,args.CONFIGURATION),y=1.08)
     plt.tight_layout()
-    plt.savefig(os.path.join("OUT_FIG/PlateauLength_TimeElapsed",outfile))
+    plt.savefig(os.path.join("OUT_FIG/PlateauLength_TimeElapsed/Savitsky_Golay",outfile))
 
 main()
