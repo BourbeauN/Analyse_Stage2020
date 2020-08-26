@@ -76,6 +76,7 @@ def main():
     plt.ylabel("Voltage of discharge")
     plt.title("Plateau length for {} {} in\n{} with {} configuration".format(tension,pulsewidth,medium,configuration),y=1.08)
     plt.tight_layout()
+    pdb.set_trace()
     plt.savefig(os.path.join("OUT_FIG/Max_Voltage",outfile))
 
 main()
