@@ -22,13 +22,12 @@ def max_voltage(path):
     
     # list of discharge files  
     files = sorted(os.listdir(path))
-    
     for i, f in enumerate(files) :
         time, voltage, current = load_data(os.path.join(path,f))
         max_value = np.amax(voltage)
         
         Voltage_Tab.append([f,max_value])
-        if f%50==0:
+        if i%50==0:
 
             print(f)
         
@@ -41,8 +40,6 @@ def main ():
     parser.add_argument('-f', dest = 'INFILE', help = 'discharge file')
     args = parser.parse_args()
     outfile = args.INFILE.split('/')[-1] 
-    
-    pdb.set_trace()
 
     MAX_TENSION_TAB = max_voltage(args.INFILE)
 
