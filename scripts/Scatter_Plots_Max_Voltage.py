@@ -71,7 +71,9 @@ def main():
         if timestamps[i] > args.TIME:
             ET.append(ET_file[i])
             Max_Voltage_Fin.append(Max_Voltage[i])
-
+    
+    ET = np.asarray(ET)
+    Max_Voltage_Fin = np.asarray(Max_Voltage_Fin)
     
     #Present an explicit error message
     if len(Max_Voltage) != len (ET_file):
