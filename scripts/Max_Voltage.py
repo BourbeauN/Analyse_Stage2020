@@ -29,6 +29,7 @@ def max_voltage(path):
         
         Voltage_Tab.append([f,max_value])
         if f%50==0:
+
             print(f)
         
     return np.asarray(Voltage_Tab)

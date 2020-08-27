@@ -68,6 +68,8 @@ def main():
     if len(Max_Voltage) != len (ET_file):
         print("array lengths dont match")
     
+    pdb.set_trace()
+
     ###PLOTS###
     
     plt.plot(ET_file, Max_Voltage,'.',markersize = 1, color = 'crimson')
