@@ -38,7 +38,7 @@ def get_elapsed_time(fnames):
    #Tracks seconde part of time stamp
     print("for loop to obtain time stamp complete...")                 
 
-    return time_deltas
+    return time_deltas,datetimes
 
 def get_experiment_name(folder_name):
     
@@ -54,15 +54,24 @@ def main():
     #Parser to run code in server
     parser = argparse.ArgumentParser()
     parser.add_argument("-f", dest = "INFILE", help = ".csv results file")
+    parser.add_argument("-time", dest = "TIME", help = "time stamp to filter out data")
    
     args = parser.parse_args()
     outfile = args.INFILE.split('/')[-1].replace('.csv','.pdf')
     
     Results = pd.read_csv(args.INFILE)
     fname =  Results['Filename']
-    ET_file = get_elapsed_time(fname)
+    ET_file,timestamps = get_elapsed_time(fname)
     Max_Voltage = Results['Max Voltage']
     tension, pulsewidth,configuration,medium = get_experiment_name(args.INFILE)
+    
+    ET,Max_Voltage_Fin = [],[]
+    
+    for i in range(len(timestamps)):
+        if timestamps[i] > args.TIME:
+            ET.append(ET_file[i])
+            Max_Voltage_Fin.append(Max_Voltage[i])
+
     
     #Present an explicit error message
     if len(Max_Voltage) != len (ET_file):
@@ -72,7 +81,7 @@ def main():
 
     ###PLOTS###
     
-    plt.plot(ET_file, Max_Voltage,'.',markersize = 1, color = 'crimson')
+    plt.plot(ET, Max_Voltage_Fin,'.',markersize = 1, color = 'crimson')
     plt.xlabel("Elapsed time in seconds")
     plt.ticklabel_format(axis="x", style="sci")
     plt.ylabel("Voltage of discharge")
