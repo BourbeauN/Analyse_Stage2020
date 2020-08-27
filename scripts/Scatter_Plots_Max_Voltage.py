@@ -67,8 +67,11 @@ def main():
     
     ET,Max_Voltage_Fin = [],[]
     
+    timestr = args.TIME
+    timethresh = datetime.strptime(timestr,"%Y%m%d%H%M%S%f")
+    
     for i in range(len(timestamps)):
-        if timestamps[i] > args.TIME:
+        if timestamps[i] > timethresh:
             ET.append(ET_file[i])
             Max_Voltage_Fin.append(Max_Voltage[i])
     
