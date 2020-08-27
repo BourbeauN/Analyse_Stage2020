@@ -44,16 +44,16 @@ def get_experiment_name(folder_name):
     
     tension = folder_name.split("_")[5]
     pulsewidth = folder_name.split("_")[6]
+    configuration = folder_name.split("_")[7]
+    medium = folder_name.split("_")[8]
 
-    return tension, pulsewidth    
+    return tension, pulsewidth, configuration, medium    
     
 def main():
     
     #Parser to run code in server
     parser = argparse.ArgumentParser()
     parser.add_argument("-f", dest = "INFILE", help = ".csv results file")
-    parser.add_argument("-m", dest = "MEDIUM", help = "in what medium is the experiment taking place", default = "water")
-    parser.add_argument("-c", dest = "CONFIGURATION", help = "electrode configuration", default = "point-point")
 
     args = parser.parse_args()
     outfile = args.INFILE.split('/')[-1].replace('.csv','.pdf')
@@ -62,7 +62,7 @@ def main():
     fname =  Results['Filename']
     ET_file = get_elapsed_time(fname)
     Plateau = Results['Plateau']
-    tension, pulsewidth = get_experiment_name(args.INFILE)
+    tension, pulsewidth, configuration, medium = get_experiment_name(args.INFILE)
     
     #Present an explicit error message
     if len(Plateau) != len (ET_file):
@@ -74,7 +74,7 @@ def main():
     plt.xlabel("Elapsed time in seconds")
     plt.ticklabel_format(axis="x", style="sci")
     plt.ylabel("Plateau length in seconds")
-    plt.title("Plateau length for {} {} in\n{} with {} configuration".format(tension,pulsewidth,args.MEDIUM,args.CONFIGURATION),y=1.08)
+    plt.title("Plateau length for {} {} in\n{} with {} configuration".format(tension,pulsewidth,medium,configuration),y=1.08)
     plt.tight_layout()
     plt.savefig(os.path.join("OUT_FIG/PlateauLength_TimeElapsed/Savitsky_Golay",outfile))
 

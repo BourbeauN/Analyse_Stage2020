@@ -36,7 +36,7 @@ def main ():
     parser = argparse.ArgumentParser()
     parser.add_argument('-f', dest = 'INFILE', help = 'discharge file')
     args = parser.parse_args()
-    outfile = args.INFOLDER.split('/')[-1] 
+    outfile = args.INFILE.split('/')[-1] 
 
     MAX_CURRENT_TAB = max_current(args.INFILE)
 
