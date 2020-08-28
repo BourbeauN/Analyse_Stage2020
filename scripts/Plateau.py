@@ -11,18 +11,19 @@ from scipy.signal import savgol_filter
 def discharge_time_index(voltage, time, dv, dk):
     for k in range(dk, len(time)) :
         if voltage[k] - voltage[k - dk] < -dv:
-	    index = k - dk
-	    return index
+            index = k - dk
+            return index
+   
     return float("nan")
 
 def load_data(filename):
-    
+
+    #loading data    
     Results = pd.read_csv(filename, skiprows = 10)
     
+    #creating arrays for time, voltage and current
     time = Results["TIME"]
-
     voltage = Results["CH1"]
-
     current = Results["CH2"]
 
     return time, voltage, current 
@@ -42,19 +43,20 @@ def Plateaus_Discharge(path, dv, dk):
         
         time, voltage, current = load_data(os.path.join(path,f))
         
-	index = discharge_time_index(voltage, time, dv, dk)
+        index = discharge_time_index(voltage, time, dv, dk)
+        plateau_end = time[index]
 
-	plateau = time[index]
+        if plateau_end == plateau_end:
 
-	if plateau_end == plateau_end:
-		plateau = plateau_end
-	else 
-		plateau = "nan"
+            plateau = plateau_end
+        
+        else :
+            plateau = "nan"
 	
-	volt_dis = voltage[index]
+        volt_dis = voltage[index]
         
         PLATEAU_TABLE.append([f,plateau])
-	VOLT_DIS_TABLE.append([f,volt_dis])
+        VOLT_DIS_TABLE.append([f,volt_dis])
         
         progress +=1
         
@@ -77,8 +79,7 @@ def main():
     print("Finished appending RESULTS_TABLE, saving ...")
     
     pd.DataFrame(RESULTS_TABLE, columns = ['Filename', 'Plateau']).to_csv(os.path.join('OUT_TABLES',"PLATEAU_{}_{}dv_{}dk.csv".format(outfile,args.VOLTAGE_THRESHOLD,args.INDEX_THRESHOLD)))
-    pd.DataFrame(VOLT_DIS, columns =
-    ['Filename','Voltage']).to_csv(os.path.join('OUT_TABLES',"VOLT_DIS_{}_{}dv_{}dk.csv".format(outfile,args.VOLTAGE_THRESHOLD,args.INDEX_THRESHOLD)))
+    pd.DataFrame(VOLT_DIS, columns = ['Filename','Voltage']).to_csv(os.path.join('OUT_TABLES',"VOLT_DIS_{}_{}dv_{}dk.csv".format(outfile,args.VOLTAGE_THRESHOLD,args.INDEX_THRESHOLD)))
 
 #update
 main()
