@@ -5,16 +5,16 @@ import argparse
 import pandas as pd
 
 def discharge_time_index(voltage, time, dv, dk):
+    
     for k in range(dk, len(time)) :
-        if (voltage[k] - voltage[k - dk]) < dv:
-            
+        if (voltage[k-dk] - voltage[k]) > dv:
             index = k - dk
             end = time[index]
             voltage_dis = voltage[index]
                         
             return end,voltage_dis
         
-        return float("nan")
+    return float("nan"),float("nan")
 
 def load_data(filename):
 
@@ -44,7 +44,7 @@ def Plateau_Discharge(path, dv, dk):
         time, voltage, current = load_data(os.path.join(path,f))
         
         end, volt_dis = discharge_time_index(voltage, time, dv, dk)
-
+        
         PLATEAU_TABLE.append([f,end])
         VOLT_DIS_TABLE.append([f,volt_dis])
         
@@ -60,7 +60,7 @@ def main():
     ###PARSER###
     parser = argparse.ArgumentParser()
     parser.add_argument('-f', dest = 'INFOLDER', help = 'file folder corresponding to experimental set with discharge infos')
-    parser.add_argument('-dv',type = float,  dest = 'VOLTAGE_THRESHOLD', help = 'pick a value for voltage threshold')
+    parser.add_argument('-dv',type = int,  dest = 'VOLTAGE_THRESHOLD', help = 'pick a value for voltage threshold')
     parser.add_argument('-dk',type = int,  dest = 'INDEX_THRESHOLD', help = 'pick a value for time threshold')
     args = parser.parse_args()
     outfile = args.INFOLDER.split('/')[-1] 
