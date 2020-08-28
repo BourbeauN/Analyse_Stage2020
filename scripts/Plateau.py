@@ -5,14 +5,13 @@ import argparse
 import pandas as pd
 from scipy.signal import savgol_filter
 
-#def Savitsky_Golay(y):
-    #return savgol_filter(y,9,2)
-
 def discharge_time_index(voltage, time, dv, dk):
     for k in range(dk, len(time)) :
         if voltage[k] - voltage[k - dk] < -dv:
             index = k - dk
-            return index
+	    end = time[index]
+	    voltage_dis = voltage[index]
+            return end,voltage_dis
    
     return float("nan")
 
@@ -28,7 +27,7 @@ def load_data(filename):
 
     return time, voltage, current 
 
-def Plateaus_Discharge(path, dv, dk):
+def Plateau_Discharge(path, dv, dk):
     
     # list of discharge files  
     files = sorted(os.listdir(path))
@@ -43,19 +42,9 @@ def Plateaus_Discharge(path, dv, dk):
         
         time, voltage, current = load_data(os.path.join(path,f))
         
-        index = discharge_time_index(voltage, time, dv, dk)
-        plateau_end = time[index]
+        end, volt_dis = discharge_time_index(voltage, time, dv, dk)
 
-        if plateau_end == plateau_end:
-
-            plateau = plateau_end
-        
-        else :
-            plateau = "nan"
-	
-        volt_dis = voltage[index]
-        
-        PLATEAU_TABLE.append([f,plateau])
+        PLATEAU_TABLE.append([f,end])
         VOLT_DIS_TABLE.append([f,volt_dis])
         
         progress +=1
@@ -74,7 +63,7 @@ def main():
     parser.add_argument('-dk',type = int,  dest = 'INDEX_THRESHOLD', help = 'pick a value for time threshold')
     args = parser.parse_args()
     outfile = args.INFOLDER.split('/')[-1] 
-    PLATEAU, VOLT_DIS = compute_plateaus_on_data(args.INFOLDER,args.VOLTAGE_THRESHOLD,args.INDEX_THRESHOLD)
+    PLATEAU, VOLT_DIS = Plateau_Discharge(args.INFOLDER,args.VOLTAGE_THRESHOLD,args.INDEX_THRESHOLD)
 
     print("Finished appending RESULTS_TABLE, saving ...")
     
