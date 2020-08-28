@@ -11,21 +11,10 @@ from scipy.signal import savgol_filter
 def discharge_time_index(voltage, time, dv, dk):
     for k in range(dk, len(time)) :
         if voltage[k] - voltage[k - dk] < -dv:
-            t = time[k - dk]
-            return t
+	    index = k - dk
+	    return index
     return float("nan")
 
-def find_plateau(voltage,time, dv, dk):
-        
-    ## Beginning of plateau phase ##
-    
-    start = 0
-    ## End of plateau phase ##
-    end = discharge_time_index(voltage, time, dv, dk)
-                
-    return start, float(end)
-
-    
 def load_data(filename):
     
     Results = pd.read_csv(filename, skiprows = 10)
@@ -38,7 +27,7 @@ def load_data(filename):
 
     return time, voltage, current 
 
-def compute_plateaus_on_data(path, dv, dk):
+def Plateaus_Discharge(path, dv, dk):
     
     # list of discharge files  
     files = sorted(os.listdir(path))
@@ -46,24 +35,33 @@ def compute_plateaus_on_data(path, dv, dk):
     progress = 0
     
     # RESULTS
-    RESULTS_TABLE = []
+    PLATEAU_TABLE = []
+    VOLT_DIS_TABLE = []
     # cycle through all files 
     for i,f in enumerate(files) :
         
         time, voltage, current = load_data(os.path.join(path,f))
         
-        start, end = find_plateau(voltage,time, dv, dk)       
+	index = discharge_time_index(voltage, time, dv, dk)
+
+	plateau = time[index]
+
+	if plateau_end == plateau_end:
+		plateau = plateau_end
+	else 
+		plateau = "nan"
+	
+	volt_dis = voltage[index]
         
-        plateau = end - start if end == end else float("nan") 
-                     
-        RESULTS_TABLE.append([f,plateau])
+        PLATEAU_TABLE.append([f,plateau])
+	VOLT_DIS_TABLE.append([f,volt_dis])
         
         progress +=1
         
         if progress%50 == 0:
             print(progress, plateau)
         
-    return np.asarray(RESULTS_TABLE)
+    return np.asarray(PLATEAU_TABLE),np.asarray(VOLT_DIS_TABLE)
 
 def main():
     
@@ -74,11 +72,13 @@ def main():
     parser.add_argument('-dk',type = int,  dest = 'INDEX_THRESHOLD', help = 'pick a value for time threshold')
     args = parser.parse_args()
     outfile = args.INFOLDER.split('/')[-1] 
-    RESULTS_TABLE = compute_plateaus_on_data(args.INFOLDER,args.VOLTAGE_THRESHOLD,args.INDEX_THRESHOLD)
+    PLATEAU, VOLT_DIS = compute_plateaus_on_data(args.INFOLDER,args.VOLTAGE_THRESHOLD,args.INDEX_THRESHOLD)
 
     print("Finished appending RESULTS_TABLE, saving ...")
     
-    pd.DataFrame(RESULTS_TABLE, columns = ['Filename', 'Plateau']).to_csv(os.path.join('OUT_TABLES',"OUT_PLATEAUS_{}_{}dv_{}dt.csv".format(outfile,args.VOLTAGE_THRESHOLD,args.INDEX_THRESHOLD))) 
+    pd.DataFrame(RESULTS_TABLE, columns = ['Filename', 'Plateau']).to_csv(os.path.join('OUT_TABLES',"PLATEAU_{}_{}dv_{}dk.csv".format(outfile,args.VOLTAGE_THRESHOLD,args.INDEX_THRESHOLD)))
+    pd.DataFrame(VOLT_DIS, columns =
+    ['Filename','Voltage']).to_csv(os.path.join('OUT_TABLES',"VOLT_DIS_{}_{}dv_{}dk.csv".format(outfile,args.VOLTAGE_THRESHOLD,args.INDEX_THRESHOLD)))
 
 #update
 main()

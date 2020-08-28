@@ -62,7 +62,7 @@ def main():
     Results = pd.read_csv(args.INFILE)
     fname =  Results['Filename']
     ET_file,timestamps = get_elapsed_time(fname)
-    Max_Current = Results['Max Voltage']
+    Max_Current = Results['Max Current']
     tension, pulsewidth,configuration,medium = get_experiment_name(args.INFILE)
     
     ET,Max_Current_Fin = [],[]
