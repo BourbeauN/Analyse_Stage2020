@@ -3,14 +3,15 @@ import numpy as np
 import os
 import argparse
 import pandas as pd
-from scipy.signal import savgol_filter
 
 def discharge_time_index(voltage, time, dv, dk):
     for k in range(dk, len(time)) :
         if voltage[k] - voltage[k - dk] < -dv:
+            
             index = k - dk
-	    end = time[index]
-	    voltage_dis = voltage[index]
+            end = time[index]
+            voltage_dis = voltage[index]
+            
             return end,voltage_dis
    
     return float("nan")
@@ -50,9 +51,9 @@ def Plateau_Discharge(path, dv, dk):
         progress +=1
         
         if progress%50 == 0:
-            print(progress, plateau)
+            print(progress, end)
         
-    return np.asarray(PLATEAU_TABLE),np.asarray(VOLT_DIS_TABLE)
+        return np.asarray(PLATEAU_TABLE),np.asarray(VOLT_DIS_TABLE)
 
 def main():
     
