@@ -11,10 +11,10 @@ def discharge_time_index(voltage, time, dv, dk):
             index = k - dk
             end = time[index]
             voltage_dis = voltage[index]
-            
+                        
             return end,voltage_dis
-   
-    return float("nan")
+        
+        return float("nan")
 
 def load_data(filename):
 
@@ -25,7 +25,7 @@ def load_data(filename):
     time = Results["TIME"]
     voltage = Results["CH1"]
     current = Results["CH2"]
-
+    
     return time, voltage, current 
 
 def Plateau_Discharge(path, dv, dk):
@@ -43,8 +43,6 @@ def Plateau_Discharge(path, dv, dk):
         
         time, voltage, current = load_data(os.path.join(path,f))
         
-	print(time, voltage, current)
-
         end, volt_dis = discharge_time_index(voltage, time, dv, dk)
 
         PLATEAU_TABLE.append([f,end])
@@ -55,7 +53,7 @@ def Plateau_Discharge(path, dv, dk):
         if progress%50 == 0:
             print(progress, end)
         
-        return np.asarray(PLATEAU_TABLE),np.asarray(VOLT_DIS_TABLE)
+    return np.asarray(PLATEAU_TABLE),np.asarray(VOLT_DIS_TABLE)
 
 def main():
     
