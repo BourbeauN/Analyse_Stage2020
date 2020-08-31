@@ -101,22 +101,28 @@ def main():
             ET.append(ET_file[i])
             Max_Voltage_Fin.append(Max_Voltage[i])
     
-    #Transforming final lists of data to array
-    ET = np.asarray(ET)
-    Max_Voltage_Fin = np.asarray(Max_Voltage_Fin)
-    
-    #Present an explicit error message
-    if len(Max_Voltage) != len (ET_file):
-        print("array lengths dont match")
+            #Transforming final lists of data to array
+            ET = np.asarray(ET)
+            Max_Voltage_Fin = np.asarray(Max_Voltage_Fin)
 
-    ###PLOTS###
-    plt.plot(ET, Max_Voltage_Fin,'.',markersize = 1, color = 'crimson')
-    plt.plot(ET_file, Max_Voltage,'.',maerkersize = 1, color = 'crimson')
-    plt.xlabel("Elapsed time in seconds")
-    plt.ticklabel_format(axis="x", style="sci")
-    plt.ylabel("Voltage of discharge")
-    plt.title("Discharge voltage for {} {} in\n{} with {} configuration".format(tension,pulsewidth,medium,configuration),y=1.08)
-    plt.tight_layout()
-    plt.savefig(os.path.join("OUT_FIG/Max_Voltage",outfile))
+    if bound == "s" or bound == "b":
+        ###PLOTS###
+        plt.plot(ET, Max_Voltage_Fin,'.',markersize = 1, color = 'crimson')
+        plt.xlabel("Elapsed time in seconds")
+        plt.ticklabel_format(axis="x", style="sci")
+        plt.ylabel("Voltage of discharge")
+        plt.title("Discharge voltage for {} {} in\n{} with {} configuration".format(tension,pulsewidth,medium,configuration),y=1.08)
+        plt.tight_layout()
+        plt.savefig(os.path.join("OUT_FIG/Max_Voltage",outfile))
+
+    else :
+        ###PLOTS###
+        plt.plot(ET_file, Max_Voltage,'.',markersize = 1, color = 'crimson')
+        plt.xlabel("Elapsed time in seconds")
+        plt.ticklabel_format(axis="x", style="sci")
+        plt.ylabel("Voltage of discharge")
+        plt.title("Discharge voltage for {} {} in\n{} with {} configuration".format(tension,pulsewidth,medium,configuration),y=1.08)
+        plt.tight_layout()
+        plt.savefig(os.path.join("OUT_FIG/Max_Voltage",outfile))
 
 main()
