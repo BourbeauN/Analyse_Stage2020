@@ -91,8 +91,8 @@ def main():
         if filename == Data_Filter[i]:
 
             bound = TimeStamp_Filter[i].split("_")[0]
-            timethresh_temp = TimeStamp_Filter[i].split("_")[1]
-            timethresh_final = datetime.strptime(timethresh_temp,"%Y%m%d%H%M%S%f")
+            timethreshold = TimeStamp_Filter[i].split("_")[1]
+            timethresh_final = datetime.strptime(timethreshold,"%Y%m%d%H%M%S%f")
     
     #Filtering of files in analyzed folder
     for i in range(len(timestamps)):
