@@ -40,6 +40,6 @@ def main ():
 
     MAX_CURRENT_TAB = max_current(args.INFILE)
 
-    pd.DataFrame(MAX_CURRENT_TAB, columns = ['Filename', 'Max Current']).to_csv(os.path.join('Max_Current','{}'.format(outfile))) 
+    pd.DataFrame(MAX_CURRENT_TAB, columns = ['Filename', 'Max Current']).to_csv(os.path.join('Max_Current','{}.csv'.format(outfile))) 
 
 main()

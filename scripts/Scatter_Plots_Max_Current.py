@@ -75,7 +75,7 @@ def main():
     #List of folders in need of data filtering
     ## Manually append when there are new folders to filter
     ## Add corresponding file filter to TimeStamp_Filter list with the same position
-    Data_Filter = ["TAB_PLATEAU_VOLTDIS/VOLT_DIS_20kv_500ns_point-point_water_5000dv_15dk.csv","TAB_PLATEAU_VOLTDIS/VOLT_DIS_5kv_500ns_point-point_water_3000dv_15dk.csv","TAB_PLATEAU_VOLTDIS/VOLT_DIS_20kv_500ns_point-point_heptane_5000dv_15dk.csv"]
+    Data_Filter = ["Max_Current/20kv_500ns_point-point_water.csv","Max_Current/5kv_500ns_point-point_water.csv","Max_Current/20kv_500ns_point-point_heptane.csv"]
 
     #File from which to start analyzing
     ##Certain experiments have saved old data in the folder with the new data
@@ -109,11 +109,9 @@ def main():
     Max_Current_Fin = np.asarray(Max_Current_Fin)
     
     #Present an explicit error message
-    if len(Max_Current_Fin) != len (ET_file):
+    if len(Max_Current_Fin) != len (ET):
         print("array lengths dont match")
     
-    pdb.set_trace()
-
     ###PLOTS###
     
     plt.plot(ET, Max_Current_Fin,'.',markersize = 1, color = 'crimson')
@@ -122,7 +120,6 @@ def main():
     plt.ylabel("Current of discharge")
     plt.title("Plateau length for {} {} in\n{} with {} configuration".format(tension,pulsewidth,medium,configuration),y=1.08)
     plt.tight_layout()
-    pdb.set_trace()
     plt.savefig(os.path.join("OUT_FIG/Max_Current",outfile))
 
 main()
