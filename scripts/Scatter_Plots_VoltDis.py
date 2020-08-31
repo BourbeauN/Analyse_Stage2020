@@ -46,15 +46,14 @@ def get_elapsed_time(fnames):
 #Get the parameters of the experience analyzed for plot title
 def get_experiment_name(folder_name):
     
-    tension = folder_name.split("_")[1]
-    pulsewidth = folder_name.split("_")[2]
-    configuration = folder_name.split("_")[3]
-    medium = folder_name.split("_")[4]
+    tension = folder_name.split("/")[1].split("_")[2]
+    pulsewidth = folder_name.split("/")[1].split("_")[3]
+    configuration = folder_name.split("/")[1].split("_")[4]
+    medium = folder_name.split("/")[1].split(".csv")[0].split("_")[5]
 
     return tension, pulsewidth,configuration,medium    
     
 def main():
-    
     #Parser to run code in server
     parser = argparse.ArgumentParser()
     parser.add_argument("-f", dest = "INFILE", help = ".csv results file")
@@ -72,23 +71,24 @@ def main():
     
     #Create list to append filtered data
     ET,Max_Voltage_Fin = [],[]
-
     #List of folders in need of data filtering
     ## Manually append when there are new folders to filter
     ## Add corresponding file filter to TimeStamp_Filter list with the same position
-    Data_Filter = ["Max_Current/20kv_500ns_point-point_water.csv","Max_Current/5kv_500ns_point-point_water.csv","Max_Current/20kv_500ns_point-point_heptane.csv","Max_Current/20kv_100ns_point-point_water.csv"]
+    Data_Filter = ["TAB_PLATEAU_VOLTDIS/VOLT_DIS_20kv_500ns_point-point_water.csv","TAB_PLATEAU_VOLTDIS/VOLT_DIS_5kv_500ns_point-point_water.csv","TAB_PLATEAU_VOLTDIS/VOLT_DIS_20kv_500ns_point-point_heptane.csv","TAB_PLATEAU_VOLTDIS/VOLT_DIS_20kv_100ns_point-point_water.csv"]
 
     #File from which to start analyzing
     ##Certain experiments have saved old data in the folder with the new data
-    TimeStamp_Filter = ["b_20200630101319295","b_20200821110000743","b_20200703110232131","s_20200821101719058"]
+    TimeStamp_Filter = ["b_20200630101319295","b_20200821110000743","b_20200703110232131","s_20200821095026045"]
 
+    ##If the experiment doesnt need to be filtered, this step is to assign a baseline value to the filter
+    
     filename = str(args.INFILE)
-    
-     ##If the experiment doesnt need to be filtered, this step is to assign a baseline value to the filter
-    timethreshold = filename[0].split("_")[-1].split(".csv")[-1]
-    
+    timethreshold = fname[0].split("_")[-1].split(".csv")[-1]
+    bound = "none"
+
    #To filter through the files in need of filtering and changing file_filter with the TimeStamp_Filter value associated with the filtered infolder
     for i in range(len(Data_Filter)):
+        #pdb.set_trace()
         if filename == Data_Filter[i]:
 
             bound = TimeStamp_Filter[i].split("_")[0]
@@ -101,7 +101,6 @@ def main():
             ET.append(ET_file[i])
             Max_Voltage_Fin.append(Max_Voltage[i])
     
-    
     #Transforming final lists of data to array
     ET = np.asarray(ET)
     Max_Voltage_Fin = np.asarray(Max_Voltage_Fin)
@@ -112,10 +111,11 @@ def main():
 
     ###PLOTS###
     plt.plot(ET, Max_Voltage_Fin,'.',markersize = 1, color = 'crimson')
+    plt.plot(ET_file, Max_Voltage,'.',maerkersize = 1, color = 'crimson')
     plt.xlabel("Elapsed time in seconds")
     plt.ticklabel_format(axis="x", style="sci")
     plt.ylabel("Voltage of discharge")
-    plt.title("Plateau length for {} {} in\n{} with {} configuration".format(tension,pulsewidth,medium,configuration),y=1.08)
+    plt.title("Discharge voltage for {} {} in\n{} with {} configuration".format(tension,pulsewidth,medium,configuration),y=1.08)
     plt.tight_layout()
     plt.savefig(os.path.join("OUT_FIG/Max_Voltage",outfile))
 
