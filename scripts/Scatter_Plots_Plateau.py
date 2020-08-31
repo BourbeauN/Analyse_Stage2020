@@ -69,12 +69,12 @@ def main():
     tension, pulsewidth, configuration, medium = get_experiment_name(args.INFILE)
     
     #Create list to append filtered data
-    ET,Max_Voltage_Fin = [],[]
+    ET,Plateau_Fin = [],[]
         
     #List of folders in need of data filtering
     ## Manually append when there are new folders to filter
     ## Add corresponding file filter to TimeStamp_Filter list with the same position
-    Data_Filter = ["TAB_PLATEAU_VOLTDIS/VOLT_DIS_20kv_500ns_point-point_water_5000dv_15dk.csv","TAB_PLATEAU_VOLTDIS/VOLT_DIS_5kv_500ns_point-point_water_3000dv_15dk.csv","TAB_PLATEAU_VOLTDIS/VOLT_DIS_20kv_500ns_point-point_heptane_5000dv_15dk.csv"]
+    Data_Filter = ["TAB_PLATEAU_VOLTDIS/PLATEAU_20kv_500ns_point-point_water_5000dv_15dk.csv","TAB_PLATEAU_VOLTDIS/PLATEAU_5kv_500ns_point-point_water_3000dv_15dk.csv","TAB_PLATEAU_VOLTDIS/PLATEAU_20kv_500ns_point-point_heptane_5000dv_15dk.csv"]
 
     #File from which to start analyzing
     ##Certain experiments have saved old data in the folder with the new data
@@ -84,7 +84,9 @@ def main():
     
     ##If the experiment doesnt need to be filtered, this step is to assign a baseline value to the filter
     file_filter = fname[0]
-    
+   
+    #pdb.set_trace()
+
     #To filter through the files in need of filtering and changing file_filter with the TimeStamp_Filter value associated with the filtered infolder
     for i in range(len(Data_Filter)):
         
@@ -101,24 +103,24 @@ def main():
     for i in range(len(timestamps)):
         if timestamps[i] >= timethresh:
             ET.append(ET_file[i])
-            Max_Voltage_Fin.append(Plateau[i])
+            Plateau_Fin.append(Plateau[i])
     
     #Transforming final lists of data to array
     ET = np.asarray(ET)
-    Max_Voltage_Fin = np.asarray(Max_Voltage_Fin)
+    Plateau_Fin = np.asarray(Plateau_Fin)
     
     #Present an explicit error message
-    if len(Plateau) != len (ET):
+    if len(Plateau_Fin) != len (ET):
         print("array lengths dont match")
     
     ###PLOTS###
     
-    plt.plot(ET_file, Plateau,'.',markersize = 1, color = 'crimson')
+    plt.plot(ET, Plateau_Fin,'.',markersize = 1, color = 'crimson')
     plt.xlabel("Elapsed time in seconds")
     plt.ticklabel_format(axis="x", style="sci")
     plt.ylabel("Plateau length in seconds")
     plt.title("Plateau length for {} {} in\n{} with {} configuration".format(tension,pulsewidth,medium,configuration),y=1.08)
     plt.tight_layout()
-    plt.savefig(os.path.join("OUT_FIG/PlateauLength_TimeElapsed/Savitsky_Golay",outfile))
+    plt.savefig(os.path.join("OUT_FIG/Plateau_Length",outfile))
 
 main()
