@@ -68,8 +68,8 @@ def main():
 
     print("Finished appending, saving tables...")
     
-    pd.DataFrame(PLATEAU, columns = ['Filename', 'Plateau']).to_csv(os.path.join('OUT_TABLES',"PLATEAU_{}_{}dv_{}dk.csv".format(outfile,args.VOLTAGE_THRESHOLD,args.INDEX_THRESHOLD)))
-    pd.DataFrame(VOLT_DIS, columns = ['Filename','Voltage']).to_csv(os.path.join('OUT_TABLES',"VOLT_DIS_{}_{}dv_{}dk.csv".format(outfile,args.VOLTAGE_THRESHOLD,args.INDEX_THRESHOLD)))
+    pd.DataFrame(PLATEAU, columns = ['Filename', 'Plateau']).to_csv(os.path.join('TAB_PLATEAU_VOLTDIS',"PLATEAU_{}_{}dv_{}dk.csv".format(outfile,args.VOLTAGE_THRESHOLD,args.INDEX_THRESHOLD)))
+    pd.DataFrame(VOLT_DIS, columns = ['Filename','Voltage']).to_csv(os.path.join('TAB_PLATEAU_VOLTDIS',"VOLT_DIS_{}_{}dv_{}dk.csv".format(outfile,args.VOLTAGE_THRESHOLD,args.INDEX_THRESHOLD)))
 
 #update
 main()
