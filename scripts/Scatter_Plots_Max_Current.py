@@ -31,7 +31,10 @@ def get_elapsed_time(fnames):
     
     for d in range(len(datetimes)): 
         
+        #Converting time difference to seconds
         time_deltas[d] = (datetimes[d] - datetimes[0]).total_seconds()
+        
+        #print to follow evolution of code during execution
         if d%50 == 0 :
             print(time_deltas[d])
    
@@ -40,6 +43,7 @@ def get_elapsed_time(fnames):
 
     return time_deltas,datetimes
 
+#Get the parameters of the experience analyzed for plot title
 def get_experiment_name(folder_name):
     
     tension = folder_name.split("_")[1]
@@ -65,21 +69,47 @@ def main():
     Max_Current = Results['Max Current']
     tension, pulsewidth,configuration,medium = get_experiment_name(args.INFILE)
     
+    #Create list to append filtered data
     ET,Max_Current_Fin = [],[]
+
+    #List of folders in need of data filtering
+    ## Manually append when there are new folders to filter
+    ## Add corresponding file filter to TimeStamp_Filter list with the same position
+    Data_Filter = ["TAB_PLATEAU_VOLTDIS/VOLT_DIS_20kv_500ns_point-point_water_5000dv_15dk.csv","TAB_PLATEAU_VOLTDIS/VOLT_DIS_5kv_500ns_point-point_water_3000dv_15dk.csv","TAB_PLATEAU_VOLTDIS/VOLT_DIS_20kv_500ns_point-point_heptane_5000dv_15dk.csv"]
+
+    #File from which to start analyzing
+    ##Certain experiments have saved old data in the folder with the new data
+    TimeStamp_Filter = ["20200630101319295","20200821110000743","20200703110232131"]
+
+    filename = str(args.INFILE)
     
-    timestr = args.TIME
-    timethresh = datetime.strptime(timestr,"%Y%m%d%H%M%S%f")
+    ##If the experiment doesnt need to be filtered, this step is to assign a baseline value to the filter
+    file_filter = fname[0]
     
+    #To filter through the files in need of filtering and changing file_filter with the TimeStamp_Filter value associated with the filtered infolder
+    for i in range(len(Data_Filter)):
+        
+        if filename == Data_Filter[i]:
+            file_filter = TimeStamp_Filter[i]
+    
+    #Transforming the file_filter to be analyzed with datetime
+    timetemp = file_filter.split("_")[-1].split(".csv")[0]
+    
+    #converting str to float with numerical value
+    timethresh = datetime.strptime(timetemp,"%Y%m%d%H%M%S%f")
+
+    #Filtering of files in analyzed folder
     for i in range(len(timestamps)):
-        if timestamps[i] > timethresh:
+        if timestamps[i] >= timethresh:
             ET.append(ET_file[i])
             Max_Current_Fin.append(Max_Current[i])
     
+    #Transforming final lists of data to array
     ET = np.asarray(ET)
     Max_Current_Fin = np.asarray(Max_Current_Fin)
     
     #Present an explicit error message
-    if len(Max_Current) != len (ET_file):
+    if len(Max_Current_Fin) != len (ET_file):
         print("array lengths dont match")
     
     pdb.set_trace()
