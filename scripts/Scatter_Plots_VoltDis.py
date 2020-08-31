@@ -76,34 +76,31 @@ def main():
     #List of folders in need of data filtering
     ## Manually append when there are new folders to filter
     ## Add corresponding file filter to TimeStamp_Filter list with the same position
-    Data_Filter = ["TAB_PLATEAU_VOLTDIS/VOLT_DIS_20kv_500ns_point-point_water_5000dv_15dk.csv","TAB_PLATEAU_VOLTDIS/VOLT_DIS_5kv_500ns_point-point_water_3000dv_15dk.csv","TAB_PLATEAU_VOLTDIS/VOLT_DIS_20kv_500ns_point-point_heptane_5000dv_15dk.csv"]
+    Data_Filter = ["Max_Current/20kv_500ns_point-point_water.csv","Max_Current/5kv_500ns_point-point_water.csv","Max_Current/20kv_500ns_point-point_heptane.csv","Max_Current/20kv_100ns_point-point_water.csv"]
 
     #File from which to start analyzing
     ##Certain experiments have saved old data in the folder with the new data
-    TimeStamp_Filter = ["20200630101319295","20200821110000743","20200703110232131"]
+    TimeStamp_Filter = ["b_20200630101319295","b_20200821110000743","b_20200703110232131","s_20200821101719058"]
 
     filename = str(args.INFILE)
     
-    ##If the experiment doesnt need to be filtered, this step is to assign a baseline value to the filter
-    file_filter = fname[0]
+     ##If the experiment doesnt need to be filtered, this step is to assign a baseline value to the filter
+    timethreshold = filename[0].split("_")[-1].split(".csv")[-1]
     
-    #To filter through the files in need of filtering and changing file_filter with the TimeStamp_Filter value associated with the filtered infolder
+   #To filter through the files in need of filtering and changing file_filter with the TimeStamp_Filter value associated with the filtered infolder
     for i in range(len(Data_Filter)):
-        
         if filename == Data_Filter[i]:
-            file_filter = TimeStamp_Filter[i]
-    
-    #Transforming the file_filter to be analyzed with datetime
-    timetemp = file_filter.split("_")[-1].split(".csv")[0]
-    
-    #converting str to float with numerical value
-    timethresh = datetime.strptime(timetemp,"%Y%m%d%H%M%S%f")
 
+            bound = TimeStamp_Filter[i].split("_")[0]
+            timethreshold = TimeStamp_Filter[i].split("_")[1]
+            timethresh_final = datetime.strptime(timethreshold,"%Y%m%d%H%M%S%f")
+    
     #Filtering of files in analyzed folder
     for i in range(len(timestamps)):
-        if timestamps[i] >= timethresh:
+        if bound == "b" and timestamps[i] >= timethresh_final or bound == "s" and timestamps[i] <= timethresh_final:
             ET.append(ET_file[i])
             Max_Voltage_Fin.append(Max_Voltage[i])
+    
     
     #Transforming final lists of data to array
     ET = np.asarray(ET)
