@@ -33,7 +33,7 @@ def get_elapsed_time(fnames):
     #Converting time difference to seconds
     for d in range(len(datetimes)): 
         
-        time_deltas[d] = ((datetimes[d] - datetimes[0]).total_seconds())/60
+        time_deltas[d] = (datetimes[d] - datetimes[0]).total_seconds()
         
         #print to follow evolution of code during execution
         if d%50 == 0 :
@@ -98,7 +98,7 @@ def main():
     #Filtering of files in analyzed folder
     for i in range(len(timestamps)):
         if bound == "b" and timestamps[i] >= timethresh_final or bound == "s" and timestamps[i] <= timethresh_final:
-            ET.append(ET_file[i])
+            ET.append(((timestamps[i] - timestamps[0]).total_seconds())/60)
             Max_Voltage_Fin.append(Max_Voltage[i])
     
             #Transforming final lists of data to array
