@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib
 matplotlib.use('Agg')
+from matplotlib import axes as ax
 from matplotlib import pyplot as plt
 import numpy as np
 import pdb
@@ -32,7 +33,7 @@ def get_elapsed_time(fnames):
     #Converting time difference to seconds
     for d in range(len(datetimes)): 
         
-        time_deltas[d] = (datetimes[d] - datetimes[0]).total_seconds()
+        time_deltas[d] = ((datetimes[d] - datetimes[0]).total_seconds())/60
         
         #print to follow evolution of code during execution
         if d%50 == 0 :
@@ -46,8 +47,8 @@ def get_elapsed_time(fnames):
 #Get the parameters of the experience analyzed for plot title
 def get_experiment_name(folder_name):
     
-    tension = folder_name.split("/")[1].split("_")[2]
-    pulsewidth = folder_name.split("/")[1].split("_")[3]
+    tension = folder_name.split("/")[1].split("_")[2].split(" ")
+    pulsewidth = folder_name.split("/")[1].split("_")[3].split(" ")
     configuration = folder_name.split("/")[1].split("_")[4]
     medium = folder_name.split("/")[1].split(".csv")[0].split("_")[5]
 
@@ -107,21 +108,19 @@ def main():
     if bound == "s" or bound == "b":
         ###PLOTS###
         plt.plot(ET, Max_Voltage_Fin,'.',markersize = 1, color = 'crimson')
-        plt.xlabel("Elapsed time in seconds")
-        plt.ticklabel_format(axis="x", style="sci")
-        plt.ylabel("Voltage of discharge")
-        plt.title("Discharge voltage for {} {} in\n{} with {} configuration".format(tension,pulsewidth,medium,configuration),y=1.08)
-        plt.tight_layout()
+        plt.xlabel("Elapsed time (minutes)")
+        plt.ticklabel_format(axis="y", style="sci", scilimits = (2,2))
+        plt.ylabel("Discharge voltage(kV)")
+        plt.title("Discharge voltage for {} {} in\n{} with {}configuration".format(tension,pulsewidth,medium,configuration), y=1.08)
         plt.savefig(os.path.join("OUT_FIG/Max_Voltage",outfile))
 
     else :
         ###PLOTS###
         plt.plot(ET_file, Max_Voltage,'.',markersize = 1, color = 'crimson')
-        plt.xlabel("Elapsed time in seconds")
-        plt.ticklabel_format(axis="x", style="sci")
-        plt.ylabel("Voltage of discharge")
+        plt.xlabel("Elapsed time (minutes)")
+        plt.ticklabel_format(axis="y", style="sci", scilimits=(2,2))
+        plt.ylabel("Discharge voltage")
         plt.title("Discharge voltage for {} {} in\n{} with {} configuration".format(tension,pulsewidth,medium,configuration),y=1.08)
-        plt.tight_layout()
         plt.savefig(os.path.join("OUT_FIG/Max_Voltage",outfile))
 
 main()

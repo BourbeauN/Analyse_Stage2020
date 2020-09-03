@@ -32,7 +32,7 @@ def get_elapsed_time(fnames):
     #Converting time difference to seconds
     for d in range(len(datetimes)): 
         
-        time_deltas[d] = (datetimes[d] - datetimes[0]).total_seconds()
+        time_deltas[d] = (datetimes[d] - datetimes[0]).total_minutes()
         
         #print to follow evolution of code during execution
         if d%50 == 0 :
@@ -46,8 +46,8 @@ def get_elapsed_time(fnames):
 #/Get the parameters of the experience analyzed for plot title
 def get_experiment_name(folder_name):
     
-    tension = folder_name.split("_")[3]
-    pulsewidth = folder_name.split("_")[4]
+    tension = folder_name.split("_")[3].split(" ")
+    pulsewidth = folder_name.split("_")[4].split(" ")
     configuration = folder_name.split("_")[5]
     medium = folder_name.split("_")[6]
 
@@ -110,13 +110,10 @@ def main():
     ###PLOTS###
     
     plt.plot(ET, Plateau_Fin,'.',markersize = 1, color = 'crimson')
-    plt.plot(ET, Plateau_Fin, color = 'black', linewidth = 1)
-    plt.ylim(bottom = (0.7 * len(Plateau_Fin)))
-    plt.xlim(bottom = (0.7*len(ET)))
-    plt.xlabel("Elapsed time in seconds")
+    plt.xlabel("Elapsed (minutes)")
     plt.ticklabel_format(axis="x", style="sci")
-    plt.ylabel("Plateau length in seconds")
-    plt.title("Plateau length for {} {} in\n{} with {} configuration".format(tension,pulsewidth,medium,configuration),y=1.08)
+    plt.ylabel("Discharge Delay (ns)")
+    plt.title("Discharge delay for {} {} in\n{} with {} configuration".format(tension,pulsewidth,medium,configuration),y=1.08)
     plt.tight_layout()
     plt.savefig(os.path.join("OUT_FIG/Plateau_Length/FullLine",outfile))
 
