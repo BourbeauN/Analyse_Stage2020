@@ -110,11 +110,14 @@ def main():
     ###PLOTS###
     
     plt.plot(ET, Plateau_Fin,'.',markersize = 1, color = 'crimson')
+    plt.plot(ET, Plateau_Fin, color = 'black', linewidth = 1)
+    plt.ylim(bottom = (0.7 * len(Plateau_Fin)))
+    plt.xlim(bottom = (0.7*len(ET)))
     plt.xlabel("Elapsed time in seconds")
     plt.ticklabel_format(axis="x", style="sci")
     plt.ylabel("Plateau length in seconds")
     plt.title("Plateau length for {} {} in\n{} with {} configuration".format(tension,pulsewidth,medium,configuration),y=1.08)
     plt.tight_layout()
-    plt.savefig(os.path.join("OUT_FIG/Plateau_Length",outfile))
+    plt.savefig(os.path.join("OUT_FIG/Plateau_Length/FullLine",outfile))
 
 main()
