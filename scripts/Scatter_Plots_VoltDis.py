@@ -68,7 +68,6 @@ def main():
     
     #calling function for folder parameters for plot title
     tension, pulsewidth,configuration,medium = get_experiment_name(args.INFILE)
-    
     #Create list to append filtered data
     ET,Max_Voltage_Fin = [],[]
     #List of folders in need of data filtering
@@ -102,8 +101,8 @@ def main():
             Max_Voltage_Fin.append(Max_Voltage[i])
     
             #Transforming final lists of data to array
-            ET = np.asarray(ET)
-            Max_Voltage_Fin = np.asarray(Max_Voltage_Fin)
+    ET = np.asarray(ET)
+    Max_Voltage_Fin = np.asarray(Max_Voltage_Fin)
 
     if bound == "s" or bound == "b":
         ###PLOTS###
