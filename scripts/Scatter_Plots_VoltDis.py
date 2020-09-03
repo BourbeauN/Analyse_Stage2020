@@ -70,7 +70,7 @@ def main():
     #calling function for folder parameters for plot title
     tension, pulsewidth,configuration,medium = get_experiment_name(args.INFILE)
     #Create list to append filtered data
-    ET,Max_Voltage_Fin = [],[]
+    temp_stamp,ET,Max_Voltage_Fin = [],[],[]
     #List of folders in need of data filtering
     ## Manually append when there are new folders to filter
     ## Add corresponding file filter to TimeStamp_Filter list with the same position
@@ -98,29 +98,32 @@ def main():
     #Filtering of files in analyzed folder
     for i in range(len(timestamps)):
         if bound == "b" and timestamps[i] >= timethresh_final or bound == "s" and timestamps[i] <= timethresh_final:
-            ET.append(((timestamps[i] - timestamps[0]).total_seconds())/60)
+            
+            temp_stamp.append(timestamps[i])
             Max_Voltage_Fin.append(Max_Voltage[i])
-    
+   
+   for i in range(len(temp_stamp)):
+        ET.append(((temp_stamp[i]-temp_stamp[0]).total_seconds())/60)
+
             #Transforming final lists of data to array
-    ET = np.asarray(ET)
-    Max_Voltage_Fin = np.asarray(Max_Voltage_Fin)
+   ET = np.asarray(ET)
+   Max_Voltage_Fin = np.asarray(Max_Voltage_Fin)
 
-    if bound == "s" or bound == "b":
+   if bound == "s" or bound == "b":
         ###PLOTS###
-        plt.plot(ET, Max_Voltage_Fin,'.',markersize = 1, color = 'crimson')
-        plt.xlabel("Elapsed time (minutes)")
-        plt.ticklabel_format(axis="y", style="sci", scilimits = (2,2))
-        plt.ylabel("Discharge voltage(kV)")
-        plt.title("Discharge voltage for {} {} in\n{} with {}configuration".format(tension,pulsewidth,medium,configuration), y=1.08)
-        plt.savefig(os.path.join("OUT_FIG/Max_Voltage",outfile))
+       plt.plot(ET, Max_Voltage_Fin,'.',markersize = 1, color = 'crimson')
+       plt.xlabel("Elapsed time (minutes)")
+       plt.ticklabel_format(axis="y", style="sci", scilimits = (2,2))
+       plt.ylabel("Discharge voltage(kV)")
+       plt.title("Discharge voltage for {} {} in\n{} with {}configuration".format(tension,pulsewidth,medium,configuration), y=1.08)
+       plt.savefig(os.path.join("OUT_FIG/Max_Voltage",outfile))
 
-    else :
-        ###PLOTS###
-        plt.plot(ET_file, Max_Voltage,'.',markersize = 1, color = 'crimson')
-        plt.xlabel("Elapsed time (minutes)")
-        plt.ticklabel_format(axis="y", style="sci", scilimits=(2,2))
-        plt.ylabel("Discharge voltage")
-        plt.title("Discharge voltage for {} {} in\n{} with {} configuration".format(tension,pulsewidth,medium,configuration),y=1.08)
-        plt.savefig(os.path.join("OUT_FIG/Max_Voltage",outfile))
-
+   else :
+       ###PLOTS###
+       plt.plot(ET_file, Max_Voltage,'.',markersize = 1, color = 'crimson')
+       plt.xlabel("Elapsed time (minutes)")
+       plt.ticklabel_format(axis="y", style="sci", scilimits=(2,2))
+       plt.ylabel("Discharge voltage")
+       plt.title("Discharge voltage for {} {} in\n{} with {} configuration".format(tension,pulsewidth,medium,configuration),y=1.08)
+       plt.savefig(os.path.join("OUT_FIG/Max_Voltage",outfile))
 main()
