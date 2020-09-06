@@ -69,7 +69,7 @@ def main():
     tension, pulsewidth, configuration, medium = get_experiment_name(args.INFILE)
     
     #Create list to append filtered data
-    ET,Plateau_Fin = [],[]
+    temp_stamp, ET, Plateau_Fin = [],[],[]
         
     #List of folders in need of data filtering
     ## Manually append when there are new folders to filter
@@ -81,40 +81,51 @@ def main():
     TimeStamp_Filter = ["b_20200630101319295","b_20200821105944770","b_20200703110232131","s_20200821095026045"]
 
     filename = str(args.INFILE)
+    timethreshold = fname[0].split("_")[-1].split(".csv")[-1]
+    bound = "none"
     
     ##If the experiment doesnt need to be filtered, this step is to assign a baseline value to the filter
     timethreshold = filename[0].split("_")[-1].split(".csv")[-1]
 
-   #To filter through the files in need of filtering and changing file_filter with the TimeStamp_Filter value associated with the filtered infolder
+    #To filter through the files in need of filtering and changing file_filter with the TimeStamp_Filter value associated with the filtered infolder
     for i in range(len(Data_Filter)):
+        #pdb.set_trace()
         if filename == Data_Filter[i]:
 
             bound = TimeStamp_Filter[i].split("_")[0]
             timethreshold = TimeStamp_Filter[i].split("_")[1]
             timethresh_final = datetime.strptime(timethreshold,"%Y%m%d%H%M%S%f")
-
+    
     #Filtering of files in analyzed folder
     for i in range(len(timestamps)):
         if bound == "b" and timestamps[i] >= timethresh_final or bound == "s" and timestamps[i] <= timethresh_final:
-            ET.append(ET_file[i]/60)
+            
+            temp_stamp.append(timestamps[i])
             Plateau_Fin.append(Plateau[i])
-    
-    #Transforming final lists of data to array
+   
+    for i in range(len(temp_stamp)):
+        ET.append(((temp_stamp[i]-temp_stamp[0]).total_seconds())/60)
+
+            #Transforming final lists of data to array
     ET = np.asarray(ET)
     Plateau_Fin = np.asarray(Plateau_Fin)
-    
-    #Present an explicit error message
-    if len(Plateau_Fin) != len (ET):
-        print("array lengths dont match")
-    
-    ###PLOTS###
-    
-    plt.plot(ET, (Plateau_Fin * 1e-9),'.',markersize = 1, color = 'crimson')
-    plt.xlabel("Elapsed (minutes)")
-    plt.ticklabel_format(axis="x", style="sci")
-    plt.ylabel("Discharge Delay (ns)")
-    plt.title("Discharge delay for {} {} in\n{} with {} configuration".format(tension,pulsewidth,medium,configuration),y=1.08)
-    plt.tight_layout()
-    plt.savefig(os.path.join("OUT_FIG/Plateau_Length/FullLine",outfile))
+
+    if bound == "s" or bound == "b":
+        ###PLOTS###
+        plt.plot(ET, (Plateau_Fin * 1e-9),'.',markersize = 1, color = 'crimson')
+        plt.xlabel("Elapsed time (minutes)")
+        plt.ticklabel_format(axis="y", style="sci", scilimits = [3,3])
+        plt.ylabel("Discharge voltage(kV)")
+        plt.title("Discharge voltage for {} {} in\n{} with {}configuration".format(tension,pulsewidth,medium,configuration))
+        plt.savefig(os.path.join("OUT_FIG/Max_Voltage",outfile))
+
+    else :
+        ###PLOTS###
+        plt.plot(ET_file, (Plateau * 1e-9),'.',markersize = 1, color = 'crimson')
+        plt.xlabel("Elapsed time (minutes)")
+        plt.ticklabel_format(axis="y", style="sci", scilimits = [3,3])
+        plt.ylabel("Discharge voltage")
+        plt.title("Discharge voltage for {} {} in\n{} with {} configuration".format(tension,pulsewidth,medium,configuration))
+        plt.savefig(os.path.join("OUT_FIG/Max_Voltage",outfile))
 
 main()
