@@ -32,7 +32,7 @@ def get_elapsed_time(fnames):
     #Converting time difference to seconds
     for d in range(len(datetimes)): 
         
-        time_deltas[d] = (datetimes[d] - datetimes[0]).total_minutes()
+        time_deltas[d] = (datetimes[d] - datetimes[0]).total_seconds()
         
         #print to follow evolution of code during execution
         if d%50 == 0 :
@@ -78,7 +78,7 @@ def main():
 
     #File from which to start analyzing
     ##Certain experiments have saved old data in the folder with the new data
-    TimeStamp_Filter = ["b_20200630101319295","b_20200821110000743","b_20200703110232131","s_20200821095026045"]
+    TimeStamp_Filter = ["b_20200630101319295","b_20200821105944770","b_20200703110232131","s_20200821095026045"]
 
     filename = str(args.INFILE)
     
@@ -96,7 +96,7 @@ def main():
     #Filtering of files in analyzed folder
     for i in range(len(timestamps)):
         if bound == "b" and timestamps[i] >= timethresh_final or bound == "s" and timestamps[i] <= timethresh_final:
-            ET.append(ET_file[i])
+            ET.append(ET_file[i]/60)
             Plateau_Fin.append(Plateau[i])
     
     #Transforming final lists of data to array
@@ -109,7 +109,7 @@ def main():
     
     ###PLOTS###
     
-    plt.plot(ET, Plateau_Fin,'.',markersize = 1, color = 'crimson')
+    plt.plot(ET, (Plateau_Fin * 1e-9),'.',markersize = 1, color = 'crimson')
     plt.xlabel("Elapsed (minutes)")
     plt.ticklabel_format(axis="x", style="sci")
     plt.ylabel("Discharge Delay (ns)")

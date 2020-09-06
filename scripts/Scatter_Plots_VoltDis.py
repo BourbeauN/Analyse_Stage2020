@@ -78,7 +78,7 @@ def main():
 
     #File from which to start analyzing
     ##Certain experiments have saved old data in the folder with the new data
-    TimeStamp_Filter = ["b_20200630101319295","b_20200821110000743","b_20200703110232131","s_20200821095026045"]
+    TimeStamp_Filter = ["b_20200630101319295","b_20200821105944770","b_20200703110232131","s_20200821095026045"]
 
     ##If the experiment doesnt need to be filtered, this step is to assign a baseline value to the filter
     
@@ -113,18 +113,18 @@ def main():
         ###PLOTS###
         plt.plot(ET, Max_Voltage_Fin,'.',markersize = 1, color = 'crimson')
         plt.xlabel("Elapsed time (minutes)")
-        plt.ticklabel_format(axis="y", style="sci", scilimits = (2,2))
+        plt.ticklabel_format(axis="y", style="sci", scilimits = [3,3])
         plt.ylabel("Discharge voltage(kV)")
-        plt.title("Discharge voltage for {} {} in\n{} with {}configuration".format(tension,pulsewidth,medium,configuration), y=1.08)
+        plt.title("Discharge voltage for {} {} in\n{} with {}configuration".format(tension,pulsewidth,medium,configuration))
         plt.savefig(os.path.join("OUT_FIG/Max_Voltage",outfile))
 
     else :
         ###PLOTS###
         plt.plot(ET_file, Max_Voltage,'.',markersize = 1, color = 'crimson')
         plt.xlabel("Elapsed time (minutes)")
-        plt.ticklabel_format(axis="y", style="sci", scilimits=(2,2))
+        plt.ticklabel_format(axis="y", style="sci", scilimits = [3,3])
         plt.ylabel("Discharge voltage")
-        plt.title("Discharge voltage for {} {} in\n{} with {} configuration".format(tension,pulsewidth,medium,configuration),y=1.08)
+        plt.title("Discharge voltage for {} {} in\n{} with {} configuration".format(tension,pulsewidth,medium,configuration))
         plt.savefig(os.path.join("OUT_FIG/Max_Voltage",outfile))
 
 main()

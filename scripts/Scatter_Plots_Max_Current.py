@@ -79,7 +79,7 @@ def main():
 
     #File from which to start analyzing
     ##Certain experiments have saved old data in the folder with the new data
-    TimeStamp_Filter = ["b_20200630101319295","b_20200821110000743","b_20200703110232131","s_2020082109502605"]
+    TimeStamp_Filter = ["b_20200630101319295","b_20200821105944770","b_20200703110232131","s_2020082109502605"]
 
     filename = str(args.INFILE)
     
