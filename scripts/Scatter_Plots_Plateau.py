@@ -74,7 +74,7 @@ def main():
     #List of folders in need of data filtering
     ## Manually append when there are new folders to filter
     ## Add corresponding file filter to TimeStamp_Filter list with the same position
-    Data_Filter = ["Max_Current/20kv_500ns_point-point_water.csv","Max_Current/5kv_500ns_point-point_water.csv","Max_Current/20kv_500ns_point-point_heptane.csv","Max_Current/20kv_100ns_point-point_water.csv"]
+    Data_Filter = ["TAB_PLATEAU_VOLTDIS/PLATEAU_20kv_500ns_point-point_water_6000dv_15dk.csv","TAB_PLATEAU_VOLTDIS/PLATEAU_5kv_500ns_point-point_water_3000dv_15dk.csv","TAB_PLATEAU_VOLTDIS/PLATEAU_20kv_500ns_point-point_heptane_6000dv_15dk.csv","TAB_PLATEAU_VOLTDIS/PLATEAU_20kv_100ns_point-point_water_6000dv_15dk.csv"]
 
     #File from which to start analyzing
     ##Certain experiments have saved old data in the folder with the new data
@@ -112,20 +112,20 @@ def main():
 
     if bound == "s" or bound == "b":
         ###PLOTS###
-        plt.plot(ET, (Plateau_Fin * 1e-9),'.',markersize = 1, color = 'crimson')
+        plt.plot(ET, (Plateau_Fin * 1e9),'.',markersize = 1, color = 'crimson')
         plt.xlabel("Elapsed time (minutes)")
-        plt.ticklabel_format(axis="y", style="sci", scilimits = [3,3])
-        plt.ylabel("Discharge voltage(kV)")
-        plt.title("Discharge voltage for {} {} in\n{} with {}configuration".format(tension,pulsewidth,medium,configuration))
-        plt.savefig(os.path.join("OUT_FIG/Max_Voltage",outfile))
+        plt.ticklabel_format(axis='y', style = 'sci')
+        plt.ylabel("Discharge delay (ns)")
+        plt.title("Discharge delay for {} {} in\n{} with {}configuration".format(tension,pulsewidth,medium,configuration))
+        plt.savefig(os.path.join("OUT_FIG/Plateau_Length",outfile))
 
     else :
         ###PLOTS###
-        plt.plot(ET_file, (Plateau * 1e-9),'.',markersize = 1, color = 'crimson')
+        plt.plot(ET_file, (Plateau * 1e9),'.',markersize = 1, color = 'crimson')
         plt.xlabel("Elapsed time (minutes)")
-        plt.ticklabel_format(axis="y", style="sci", scilimits = [3,3])
-        plt.ylabel("Discharge voltage")
-        plt.title("Discharge voltage for {} {} in\n{} with {} configuration".format(tension,pulsewidth,medium,configuration))
-        plt.savefig(os.path.join("OUT_FIG/Max_Voltage",outfile))
+        plt.ticklabel_format(axis="y", style="sci")
+        plt.ylabel("Discharge delay (ns)")
+        plt.title("Discharge delay for {} {} in\n{} with {} configuration".format(tension,pulsewidth,medium,configuration))
+        plt.savefig(os.path.join("OUT_FIG/Plateau_Length",outfile))
 
 main()

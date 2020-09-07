@@ -111,18 +111,18 @@ def main():
 
     if bound == "s" or bound == "b":
         ###PLOTS###
-        plt.plot(ET, Max_Voltage_Fin,'.',markersize = 1, color = 'crimson')
+        plt.plot(ET, (Max_Voltage_Fin * 1e-3),'.',markersize = 1, color = 'crimson')
         plt.xlabel("Elapsed time (minutes)")
-        plt.ticklabel_format(axis="y", style="sci", scilimits = [3,3])
+        #plt.ticklabel_format(axis="y", style="sci", scilimits = [3,3])
         plt.ylabel("Discharge voltage(kV)")
         plt.title("Discharge voltage for {} {} in\n{} with {}configuration".format(tension,pulsewidth,medium,configuration))
         plt.savefig(os.path.join("OUT_FIG/Max_Voltage",outfile))
 
     else :
         ###PLOTS###
-        plt.plot(ET_file, Max_Voltage,'.',markersize = 1, color = 'crimson')
+        plt.plot(ET_file, (Max_Voltage * 1e-3),'.',markersize = 1, color = 'crimson')
         plt.xlabel("Elapsed time (minutes)")
-        plt.ticklabel_format(axis="y", style="sci", scilimits = [3,3])
+        #plt.ticklabel_format(axis="y", style="sci", scilimits = [3,3])
         plt.ylabel("Discharge voltage")
         plt.title("Discharge voltage for {} {} in\n{} with {} configuration".format(tension,pulsewidth,medium,configuration))
         plt.savefig(os.path.join("OUT_FIG/Max_Voltage",outfile))

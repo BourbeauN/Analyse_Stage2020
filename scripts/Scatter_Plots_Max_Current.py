@@ -108,10 +108,10 @@ def main():
     
     ###PLOTS###
     
-    plt.plot(ET, Max_Current_Fin,'.',markersize = 1, color = 'crimson')
-    plt.xlabel("Elapsed time in seconds")
+    plt.plot((ET/60), Max_Current_Fin,'.',markersize = 1, color = 'crimson')
+    plt.xlabel("Elapsed time (minutes)")
     plt.ticklabel_format(axis="x", style="sci")
-    plt.ylabel("Current of discharge")
+    plt.ylabel("Current of discharge (A)")
     plt.title("Maximum current intensity for {} and {} pulsewidth in\n{} with {} configuration".format(tension,pulsewidth,medium,configuration),y=1.08)
     plt.tight_layout()
     plt.savefig(os.path.join("OUT_FIG/Max_Current",outfile))
