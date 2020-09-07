@@ -70,7 +70,7 @@ def main():
     tension, pulsewidth,configuration,medium = get_experiment_name(args.INFILE)
     
     #Create list to append filtered data
-    ET,Max_Current_Fin = [],[]
+    temp_stamp,ET,Max_Current_Fin = [],[],[]
 
     #List of folders in need of data filtering
     ## Manually append when there are new folders to filter
@@ -82,10 +82,15 @@ def main():
     TimeStamp_Filter = ["b_20200630101319295","b_20200821105944770","b_20200703110232131","s_2020082109502605"]
 
     filename = str(args.INFILE)
+    timethreshold = fname[0].split("_")[-1].split(".csv")[-1]
+    bound = "none"
     
-    
+    ##If the experiment doesnt need to be filtered, this step is to assign a baseline value to the filter
+    timethreshold = filename[0].split("_")[-1].split(".csv")[-1]
+
     #To filter through the files in need of filtering and changing file_filter with the TimeStamp_Filter value associated with the filtered infolder
     for i in range(len(Data_Filter)):
+        #pdb.set_trace()
         if filename == Data_Filter[i]:
 
             bound = TimeStamp_Filter[i].split("_")[0]
@@ -95,26 +100,31 @@ def main():
     #Filtering of files in analyzed folder
     for i in range(len(timestamps)):
         if bound == "b" and timestamps[i] >= timethresh_final or bound == "s" and timestamps[i] <= timethresh_final:
-            ET.append(ET_file[i])
+            
+            temp_stamp.append(timestamps[i])
             Max_Current_Fin.append(Max_Current[i])
-    
-    #Transforming final lists of data to array
+   
+    for i in range(len(temp_stamp)):
+        ET.append(((temp_stamp[i]-temp_stamp[0]).total_seconds())/60)
+
+            #Transforming final lists of data to array
     ET = np.asarray(ET)
     Max_Current_Fin = np.asarray(Max_Current_Fin)
-    
-    #Present an explicit error message
-    if len(Max_Current_Fin) != len (ET):
-        print("array lengths dont match")
-    
-    ###PLOTS###
-    
-    plt.plot((ET/60), Max_Current_Fin,'.',markersize = 1, color = 'crimson')
-    plt.xlabel("Elapsed time (minutes)")
-    plt.ticklabel_format(axis="x", style="sci")
-    plt.ylabel("Current of discharge (A)")
-    plt.title("Maximum current intensity for {} and {} pulsewidth in\n{} with {} configuration".format(tension,pulsewidth,medium,configuration),y=1.08)
-    plt.tight_layout()
-    plt.savefig(os.path.join("OUT_FIG/Max_Current",outfile))
+
+    if bound == "s" or bound == "b":
+        ###PLOTS###
+        plt.plot((ET/60), Max_Current_Fin,'.',markersize = 1, color = 'crimson')
+        plt.xlabel("Elapsed time (minutes)")
+        plt.ylabel("Current of discharge (A)")
+        plt.title("Current of discharge for {} {} in\n{} with {}configuration".format(tension,pulsewidth,medium,configuration))
+        plt.savefig(os.path.join("OUT_FIG/Plateau_Length",outfile))
+
+    else :
+        ###PLOTS###
+        plt.plot((ET_file/60), Max_Current,'.',markersize = 1, color = 'crimson')
+        plt.xlabel("Elapsed time (minutes)")
+        plt.ylabel("Current of discharge (A)")
+        plt.title("Current of discharge for {} {} in\n{} with {} configuration".format(tension,pulsewidth,medium,configuration))
+        plt.savefig(os.path.join("OUT_FIG/Plateau_Length",outfile))
 
 main()
-
