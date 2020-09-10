@@ -104,7 +104,7 @@ def main():
             Plateau_Fin.append(Plateau[i])
    
     for i in range(len(temp_stamp)):
-        ET.append(((temp_stamp[i]-temp_stamp[0]).total_seconds())/60)
+        ET.append(((temp_stamp[i]-temp_stamp[0]).total_seconds()))
 
             #Transforming final lists of data to array
     ET = np.asarray(ET)
@@ -112,7 +112,7 @@ def main():
 
     if bound == "s" or bound == "b":
         ###PLOTS###
-        plt.plot(ET, (Plateau_Fin * 1e9),'.',markersize = 1, color = 'crimson')
+        plt.plot((ET/60), (Plateau_Fin * 1e9),'.',markersize = 1, color = 'crimson')
         plt.xlabel("Elapsed time (minutes)")
         plt.ticklabel_format(axis='y', style = 'sci')
         plt.ylabel("Discharge delay (ns)")
@@ -121,7 +121,7 @@ def main():
 
     else :
         ###PLOTS###
-        plt.plot(ET_file, (Plateau * 1e9),'.',markersize = 1, color = 'crimson')
+        plt.plot((ET_file/60), (Plateau * 1e9),'.',markersize = 1, color = 'crimson')
         plt.xlabel("Elapsed time (minutes)")
         plt.ticklabel_format(axis="y", style="sci")
         plt.ylabel("Discharge delay (ns)")

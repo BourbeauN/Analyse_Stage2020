@@ -105,7 +105,7 @@ def main():
             Max_Current_Fin.append(Max_Current[i])
    
     for i in range(len(temp_stamp)):
-        ET.append(((temp_stamp[i]-temp_stamp[0]).total_seconds())/60)
+        ET.append(((temp_stamp[i]-temp_stamp[0]).total_seconds()))
 
             #Transforming final lists of data to array
     ET = np.asarray(ET)
@@ -117,7 +117,7 @@ def main():
         plt.xlabel("Elapsed time (minutes)")
         plt.ylabel("Current of discharge (A)")
         plt.title("Current of discharge for {} {} in\n{} with {}configuration".format(tension,pulsewidth,medium,configuration))
-        plt.savefig(os.path.join("OUT_FIG/Plateau_Length",outfile))
+        plt.savefig(os.path.join("OUT_FIG/Max_Current",outfile))
 
     else :
         ###PLOTS###
@@ -125,6 +125,6 @@ def main():
         plt.xlabel("Elapsed time (minutes)")
         plt.ylabel("Current of discharge (A)")
         plt.title("Current of discharge for {} {} in\n{} with {} configuration".format(tension,pulsewidth,medium,configuration))
-        plt.savefig(os.path.join("OUT_FIG/Plateau_Length",outfile))
+        plt.savefig(os.path.join("OUT_FIG/Max_Current",outfile))
 
 main()

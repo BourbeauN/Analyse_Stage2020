@@ -1,6 +1,6 @@
 import pdb
 import numpy as np
-import scipy as sc
+import scipy.integrate as sc
 import os
 import argparse
 import pandas as pd
@@ -23,12 +23,12 @@ def Trapeze_Integration(ydata,xdata,dx):
     return Integrate_Trap
 
 def Simpson_Integration(ydata,xdata,dx):
-    Integrate_Simp = sc.integrate.simps(ydata,xdata,dx)
+    Integrate_Simp = sc.simps(ydata,xdata,dx)
     
     return Integrate_Simp
 
-def Romberg_Integration(ydata,dx):
-    Integrate_Romb = sc.integrate.romb(ydata,dx)
+def Romberg_Integration(ydata):
+    Integrate_Romb = sc.romb(ydata)
     
     return Integrate_Romb
 
@@ -41,6 +41,8 @@ def Integration(path,dv,dk):
     
     TRAP, SIMP, ROMB = [], [], []
     
+    progress = 0
+
     for i,f in enumerate(files) :
         
         time, voltage, current = load_data(os.path.join(path,f))
@@ -53,11 +55,15 @@ def Integration(path,dv,dk):
             TIME_TO_INT.append(time[j])
             CURR_TO_INT.append(np.abs(current[j]))
        
-        TRAP.append([f,Trapeze_Integration(CURR_TO_INT,TIME_TO_INT,(1/len(TIME_TO_INT)))])
-        SIMP.append([f,Simpson_Integration(CURR_TO_INT,TIME_TO_INT,(1/len(TIME_TO_INT)))])
-        ROMB.append([f,Romberg_Integration(CURR_TO_INT,(1/len(TIME_TO_INT)))])
+        TRAP.append([f,Trapeze_Integration(CURR_TO_INT,TIME_TO_INT,1)])
+        SIMP.append([f,Simpson_Integration(CURR_TO_INT,TIME_TO_INT,1)])
+        #ROMB.append([f,Romberg_Integration(CURR_TO_INT)])
+        
+        progress += 1
+        if progress%50 == 0:
+            print(progress)
 
-    return np.asarray(TRAP),np.asarray(SIMP), np.asarray(ROMB)
+    return np.asarray(TRAP),np.asarray(SIMP)
 
 def main():
     
@@ -72,13 +78,13 @@ def main():
     dk = args.INDEX_THRESHOLD
     dv = args.VOLTAGE_THRESHOLD
     
-    TRAP_TAB, SIMP_TAB, ROMB_TAB = Integration(args.INFOLDER,dv,dk)
+    TRAP_TAB, SIMP_TAB = Integration(args.INFOLDER,dv,dk)
     
     print("Finished appending, saving tables...")
     
     pd.DataFrame(TRAP_TAB, columns = ['Filename', 'Integration']).to_csv(os.path.join('Injected_Charges/Trapeze',"{}.csv".format(outfile)))
     pd.DataFrame(SIMP_TAB, columns = ['Filename', 'Integration']).to_csv(os.path.join('Injected_Charges/Simpson',"{}.csv".format(outfile)))
-    pd.DataFrame(ROMB_TAB, columns = ['Filename', 'Integration']).to_csv(os.path.join('Injected_Charges/Romberg',"{}.csv".format(outfile)))
+    #pd.DataFrame(ROMB_TAB, columns = ['Filename', 'Integration']).to_csv(os.path.join('Injected_Charges/Romberg',"{}.csv".format(outfile)))
     
 main()
         
