@@ -48,15 +48,16 @@ def get_elapsed_time(fnames):
 def get_experiment_name(folder_name):
     
     tension = folder_name.split("/")[2].split("_")[0]
-    pulsewidth = folder_name.split("/")[1].split("_")[1]
-    configuration = folder_name.split("/")[1].split("_")[2]
-    medium = folder_name.split("/")[1].split(".csv")[0].split("_")[3]
+    pulsewidth = folder_name.split("/")[2].split("_")[1]
+    configuration = folder_name.split("/")[2].split("_")[2]
+    medium = folder_name.split("/")[2].split(".csv")[0].split("_")[3]
 
     return tension, pulsewidth,configuration,medium    
 
 def main():
     #Parser to run code in server
     parser = argparse.ArgumentParser()
+    parser.add_argument("-m", dest = "METHOD", help = "integration method")
     parser.add_argument("-f", dest = "INFILE", help = ".csv results file")
     args = parser.parse_args()
     outfile = args.INFILE.split('/')[-1].replace('.csv','.pdf')
@@ -107,7 +108,7 @@ def main():
             Integration_Fin.append(Integration[i])
    
     for i in range(len(temp_stamp)):
-        ET.append(((temp_stamp[i]-temp_stamp[0]).total_seconds())/60)
+        ET.append(((temp_stamp[i]-temp_stamp[0]).total_seconds()))
 
             #Transforming final lists of data to array
     ET = np.asarray(ET)
@@ -115,20 +116,20 @@ def main():
 
     if bound == "s" or bound == "b":
         ###PLOTS###
-        plt.plot(ET/60, Integration_Fin,'.',markersize = 1, color = 'crimson')
+        plt.plot(ET/60, Integration_Fin,'.',markersize = 1, color = 'crimson', linestyle = None)
         plt.xlabel("Elapsed time (minutes)")
         #plt.ticklabel_format(axis="y", style="sci", scilimits = [3,3])
         plt.ylabel("Injected Charges)")
         plt.title("Injected charges for {} {} in\n{} with {}configuration".format(tension,pulsewidth,medium,configuration))
-        plt.savefig(os.path.join("OUT_FIG/Inj_Charges",outfile))
+        plt.savefig(os.path.join("OUT_FIG/Inj_Charges/{}".format(args.METHOD),outfile))
 
     else :
         ###PLOTS###
-        plt.plot(ET_file/60, Integration,'.',markersize = 1, color = 'crimson')
+        plt.plot(ET_file/60, Integration,'.',markersize = 1, color = 'crimson', linestyle = None)
         plt.xlabel("Elapsed time (minutes)")
         #plt.ticklabel_format(axis="y", style="sci", scilimits = [3,3])
         plt.ylabel("Injected Charges")
         plt.title("Injected charges for {} {} in\n{} with {} configuration".format(tension,pulsewidth,medium,configuration))
-        plt.savefig(os.path.join("OUT_FIG/Inj_Charges",outfile))
+        plt.savefig(os.path.join("OUT_FIG/Inj_Charges/{}".format(args.METHOD),outfile))
 
 main()

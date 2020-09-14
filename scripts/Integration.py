@@ -27,11 +27,6 @@ def Simpson_Integration(ydata,xdata,dx):
     
     return Integrate_Simp
 
-def Romberg_Integration(ydata):
-    Integrate_Romb = sc.romb(ydata)
-    
-    return Integrate_Romb
-
 def Integration(path,dv,dk):
     
     # list of discharge files  
@@ -39,7 +34,7 @@ def Integration(path,dv,dk):
     
     CURR_TO_INT, TIME_TO_INT = [], []
     
-    TRAP, SIMP, ROMB = [], [], []
+    TRAP, SIMP = [], []
     
     progress = 0
 
@@ -54,14 +49,17 @@ def Integration(path,dv,dk):
         for j in range(index, len(time)) :
             TIME_TO_INT.append(time[j])
             CURR_TO_INT.append(np.abs(current[j]))
-       
+        
+        #pdb.set_trace()
+
         TRAP.append([f,Trapeze_Integration(CURR_TO_INT,TIME_TO_INT,1)])
         SIMP.append([f,Simpson_Integration(CURR_TO_INT,TIME_TO_INT,1)])
-        #ROMB.append([f,Romberg_Integration(CURR_TO_INT)])
         
         progress += 1
         if progress%50 == 0:
             print(progress)
+
+    print(f)
 
     return np.asarray(TRAP),np.asarray(SIMP)
 
@@ -84,7 +82,6 @@ def main():
     
     pd.DataFrame(TRAP_TAB, columns = ['Filename', 'Integration']).to_csv(os.path.join('Injected_Charges/Trapeze',"{}.csv".format(outfile)))
     pd.DataFrame(SIMP_TAB, columns = ['Filename', 'Integration']).to_csv(os.path.join('Injected_Charges/Simpson',"{}.csv".format(outfile)))
-    #pd.DataFrame(ROMB_TAB, columns = ['Filename', 'Integration']).to_csv(os.path.join('Injected_Charges/Romberg',"{}.csv".format(outfile)))
     
 main()
         
