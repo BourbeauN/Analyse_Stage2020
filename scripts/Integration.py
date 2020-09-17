@@ -78,65 +78,7 @@ def Simpson_Integration(path,dk,dv):
             progress += 1
     
     return np.asarray(SIMP)
-
-def Rectangle_Integration(path,dk,dv):
-     # list of discharge files  
-    files = sorted(os.listdir(path))
-    
-    ydata, xdata = [], []
-    
-    RECT = []
-    
-    progress = 0
-
-    for i,f in enumerate(files) :
         
-        time, voltage, current = load_data(os.path.join(path,f))
-        
-        for k in range(dk, len(time)) :
-            if (voltage[k-dk] - voltage[k]) > dv:
-                index = k
-        
-        for j in range(index, len(time)) :
-            xdata.append(time[j])
-            ydata.append(np.abs(current[j]))
-            
-        dx, dy = [], []
-    
-        for k in range(len(ydata)-1):
-            dy.append((ydata[k]+ydata[k+1])/2)
-    
-        for l in range(len(xdata)-1):
-            dx.append(xdata[l+1]-xdata[l])
-    
-        dx=np.asarray(dx)
-        dy=np.asarray(dy)
-    
-        Integral_Rect = np.dot(dx,dy)
-
-        RECT.append([f,Integral_Rect])
-        
-        if progress%50 == 0:
-            print(progress)
-            progress += 1
-    
-    return np.asarray(RECT)
-        
-def Rectangle(ydata,xdata):
-    dx, dy = [], []
-    
-    for i in range(len(ydata)-1):
-        dy.append((ydata[i]+ydata[i+1])/2)
-    
-    for j in range(len(xdata)-1):
-        dx.append(xdata[i+1]-xdata[i])
-    
-    dx=np.asarray(dx)
-    dy=np.asarray(dy)
-    
-    Integral_Rect = np.dot(dx,dy)
-    
-    return Integral_Rect
     
 def Integration(path,dv,dk):
     
@@ -145,7 +87,7 @@ def Integration(path,dv,dk):
     
     CURR_TO_INT, TIME_TO_INT = [], []
     
-    TRAP, SIMP, RECT = [], [], []
+    TRAP, SIMP = [], [], []
     
     progress = 0
 
@@ -166,15 +108,13 @@ def Integration(path,dv,dk):
         TRAP.append([f,np.trapz(CURR_TO_INT,TIME_TO_INT,1)])
         #print("Simpson")
         SIMP.append([f,sc.simps(CURR_TO_INT,TIME_TO_INT,1)])
-        #print("Rectangle")
-        RECT.append([f,Rectangle(CURR_TO_INT,TIME_TO_INT)])
         
         #if progress%50 == 0:
             #print(progress)
             #progress += 1
     print(progress)
 
-    return np.asarray(TRAP),np.asarray(SIMP),np.asarray(RECT)
+    return np.asarray(TRAP),np.asarray(SIMP)
 
 def main():
     pdb.set_trace() 
@@ -193,12 +133,11 @@ def main():
     print("Finished appending, saving tables...")
     
     if args.METHOD == 'all':
-        TRAP_TAB, SIMP_TAB, RECT_TAB = Integration(args.INFOLDER,dv,dk)
+        TRAP_TAB, SIMP_TAB = Integration(args.INFOLDER,dv,dk)
         
         pd.DataFrame(TRAP_TAB, columns = ['Filename', 'Integration']).to_csv(os.path.join('Injected_Charges/Trapeze',"{}.csv".format(outfile)))
         pd.DataFrame(SIMP_TAB, columns = ['Filename', 'Integration']).to_csv(os.path.join('Injected_Charges/Simpson',"{}.csv".format(outfile)))
-        pd.DataFrame(RECT_TAB, columns = ['Filename', 'Integration']).to_csv(os.path_join('Injected_Charges/Rectangle',"{}.csv".format(outfile)))
-    
+
     if args.METHOD == 'Trapeze':
         TRAP_TAB = Trapeze_Integration(args.INFOLDER,dk,dv)
         pd.DataFrame(TRAP_TAB, columns = ['Filename', 'Integration']).to_csv(os.path.join('Injected_Charges/Trapeze',"{}.csv".format(outfile)))
@@ -206,6 +145,7 @@ def main():
     if args.METHOD == 'Simpson':
         SIMP_TAB = Simpson_Integration(args.INFOLDER,dk,dv)
         pd.DataFrame(SIMP_TAB, columns = ['Filename', 'Integration']).to_csv(os.path.join('Injected_Charges/Simpson',"{}.csv".format(outfile)))
+<<<<<<< HEAD
     pdb.set_trace()    
     if args.METHOD == 'Rectangle':
         RECT_TAB == Rectangle_Integration(args.INFOLDER,dk,dv)
