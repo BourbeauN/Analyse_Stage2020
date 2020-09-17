@@ -27,6 +27,22 @@ def Simpson_Integration(ydata,xdata,dx):
     
     return Integrate_Simp
 
+def Rectangle_Integration(ydata,xdata):
+    dx, dy = [], []
+    
+    for i in range(len(ydata)-1):
+        dy.append((ydata[i]+ydata[i+1])/2)
+    
+    for j in range(len(xdata)-1):
+        dx.append(xdata[i+1]-xdata[i])
+    
+    dx=np.asarray(dx)
+    dy=np.asarray(dy)
+    
+    Integral_Rect = np.dot(dx,dy)
+    
+    return Integral_Rect
+    
 def Integration(path,dv,dk):
     
     # list of discharge files  
@@ -34,7 +50,7 @@ def Integration(path,dv,dk):
     
     CURR_TO_INT, TIME_TO_INT = [], []
     
-    TRAP, SIMP = [], []
+    TRAP, SIMP, RECT = [], [], []
     
     progress = 0
 
@@ -54,6 +70,7 @@ def Integration(path,dv,dk):
 
         TRAP.append([f,Trapeze_Integration(CURR_TO_INT,TIME_TO_INT,1)])
         SIMP.append([f,Simpson_Integration(CURR_TO_INT,TIME_TO_INT,1)])
+        RECT.append([f,Rectangle_Integration(CURR_TO_INT,TIME_TO_INT)])
         
         progress += 1
         if progress%50 == 0:
@@ -61,7 +78,7 @@ def Integration(path,dv,dk):
 
     print(f)
 
-    return np.asarray(TRAP),np.asarray(SIMP)
+    return np.asarray(TRAP),np.asarray(SIMP),np.asarray(RECT)
 
 def main():
     
@@ -76,13 +93,12 @@ def main():
     dk = args.INDEX_THRESHOLD
     dv = args.VOLTAGE_THRESHOLD
     
-    TRAP_TAB, SIMP_TAB = Integration(args.INFOLDER,dv,dk)
+    TRAP_TAB, SIMP_TAB, RECT_TAB = Integration(args.INFOLDER,dv,dk)
     
     print("Finished appending, saving tables...")
     
     pd.DataFrame(TRAP_TAB, columns = ['Filename', 'Integration']).to_csv(os.path.join('Injected_Charges/Trapeze',"{}.csv".format(outfile)))
     pd.DataFrame(SIMP_TAB, columns = ['Filename', 'Integration']).to_csv(os.path.join('Injected_Charges/Simpson',"{}.csv".format(outfile)))
+    pd.DataFrame(RECT_TAB, columns = ['Filename', 'Integration']).to_csv(os.path_join('Injected_Charges/Rectangle',"{}.csv".format(outfile)))
     
 main()
-        
-    
