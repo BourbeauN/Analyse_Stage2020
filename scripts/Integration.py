@@ -162,25 +162,26 @@ def Integration(path,dv,dk):
             CURR_TO_INT.append(np.abs(current[j]))
         
         #pdb.set_trace()
-
+        #print("Trapeze")
         TRAP.append([f,np.trapz(CURR_TO_INT,TIME_TO_INT,1)])
+        #print("Simpson")
         SIMP.append([f,sc.simps(CURR_TO_INT,TIME_TO_INT,1)])
+        #print("Rectangle")
         RECT.append([f,Rectangle(CURR_TO_INT,TIME_TO_INT)])
         
-        if progress%50 == 0:
-            print(progress)
-            progress += 1
-
-    print(f)
+        #if progress%50 == 0:
+            #print(progress)
+            #progress += 1
+    print(progress)
 
     return np.asarray(TRAP),np.asarray(SIMP),np.asarray(RECT)
 
 def main():
-    
+    pdb.set_trace() 
     ###PARSER###
     parser = argparse.ArgumentParser()
     parser.add_argument('-f', dest = 'INFOLDER', help = 'file folder corresponding to experimental set with discharge infos')
-    parser.add_argument('-m', dest = 'METHOD', type = str, default = 'all', help = 'Chose integration method, default is Trapeze, Simpson and Rectangle')
+    parser.add_argument('-m', dest = 'METHOD', default = 'all', help = 'Chose integration method, default is Trapeze, Simpson and Rectangle')
     parser.add_argument('-dv',type = int,  dest = 'VOLTAGE_THRESHOLD', help = 'pick a value for voltage threshold')
     parser.add_argument('-dk',type = int,  dest = 'INDEX_THRESHOLD', help = 'pick a value for time threshold')
     args = parser.parse_args()
@@ -205,7 +206,7 @@ def main():
     if args.METHOD == 'Simpson':
         SIMP_TAB = Simpson_Integration(args.INFOLDER,dk,dv)
         pd.DataFrame(SIMP_TAB, columns = ['Filename', 'Integration']).to_csv(os.path.join('Injected_Charges/Simpson',"{}.csv".format(outfile)))
-        
+    pdb.set_trace()    
     if args.METHOD == 'Rectangle':
         RECT_TAB == Rectangle_Integration(args.INFOLDER,dk,dv)
         pd.DataFrame(RECT_TAB, columns = ['Filename', 'Integration']).to_csv(os.path.join('Injected_Charges/Rectangle',"{}.csv".format(outfile)))
