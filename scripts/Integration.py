@@ -106,8 +106,9 @@ def Integration(path,dv,dk):
         TRAP.append([f,np.trapz(CURR_TO_INT,TIME_TO_INT)])
         SIMP.append([f,sc.simps(CURR_TO_INT,TIME_TO_INT)])
         
-        #if progress%50 == 0:
-        print(progress)
+        if progress%50 == 0:
+            print(progress)
+        
         progress += 1
    
     return np.asarray(TRAP),np.asarray(SIMP)

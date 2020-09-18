@@ -116,19 +116,19 @@ def main():
 
     if bound == "s" or bound == "b":
         ###PLOTS###
-        plt.plot(ET/60, Integration_Fin,'.',markersize = 1, color = 'crimson', linestyle = None)
+        plt.plot(ET/60, Integration_Fin*1e6,'.',markersize = 1, color = 'crimson', linewidth = 0)
         plt.xlabel("Elapsed time (minutes)")
-        #plt.ticklabel_format(axis="y", style="sci", scilimits = [3,3])
-        plt.ylabel("Injected Charges)")
+        plt.ticklabel_format(axis="y", style="sci")
+        plt.ylabel(r"Injected Charges ($\mu$C)")
         plt.title("Injected charges for {} {} in\n{} with {}configuration".format(tension,pulsewidth,medium,configuration))
         plt.savefig(os.path.join("OUT_FIG/Inj_Charges/{}".format(args.METHOD),outfile))
 
     else :
         ###PLOTS###
-        plt.plot(ET_file/60, Integration,'.',markersize = 1, color = 'crimson', linestyle = None)
+        plt.plot(ET_file/60, Integration*1e6,'.',markersize = 1, color = 'crimson', linewidth = 0)
         plt.xlabel("Elapsed time (minutes)")
-        #plt.ticklabel_format(axis="y", style="sci", scilimits = [3,3])
-        plt.ylabel("Injected Charges")
+        plt.ticklabel_format(axis="y", style="sci")
+        plt.ylabel(r"Injected Charges ($\mu$C)")
         plt.title("Injected charges for {} {} in\n{} with {} configuration".format(tension,pulsewidth,medium,configuration))
         plt.savefig(os.path.join("OUT_FIG/Inj_Charges/{}".format(args.METHOD),outfile))
 
