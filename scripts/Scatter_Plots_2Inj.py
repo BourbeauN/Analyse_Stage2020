@@ -74,7 +74,7 @@ def main():
     
     #calling function for folder parameters for plot title
     tension1, pulsewidth1, configuration1, medium1, method1 = get_experiment_name(args.INFILE1)
-    tension2, pulsewidth2, configuration2, medium2, method2 = get_experiment_name(args.INFILE1)
+    tension2, pulsewidth2, configuration2, medium2, method2 = get_experiment_name(args.INFILE2)
     #Create list to append filtered data
     temp_stamp,ET,Integration_Fin1, Integration_Fin2 = [],[],[],[]
     #List of folders in need of data filtering
