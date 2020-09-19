@@ -61,7 +61,7 @@ def main():
     parser.add_argument("-f1", dest = "INFILE1", help = ".csv results file")
     parser.add_argument("-f2", dest = "INFILE2", help = ".csv results file")
     args = parser.parse_args()
-    outfile = args.INFILE.split('/')[-1].replace('.csv','.pdf')
+    outfile = args.INFILE1.split('/')[-1].replace('.csv','.pdf')
     
     #Obtaining data in arrays
     Results1 = pd.read_csv(args.INFILE1)
@@ -74,7 +74,7 @@ def main():
     
     #calling function for folder parameters for plot title
     tension1, pulsewidth1, configuration1, medium1, method1 = get_experiment_name(args.INFILE1)
-    tension2, pulsewidth2, configuration2, medium2, method2 = get_experiment_name(args.INFILE1)
+    tension2, pulsewidth2, configuration2, medium2, method2 = get_experiment_name(args.INFILE2)
     #Create list to append filtered data
     temp_stamp,ET,Integration_Fin1, Integration_Fin2 = [],[],[],[]
     #List of folders in need of data filtering
@@ -92,8 +92,8 @@ def main():
 
     ##If the experiment doesnt need to be filtered, this step is to assign a baseline value to the filter
     
-    filename = str(args.INFILE)
-    timethreshold = fname[0].split("_")[-1].split(".csv")[-1]
+    filename = str(args.INFILE1)
+    timethreshold = fname1[0].split("_")[-1].split(".csv")[-1]
     bound = "none"
 
    #To filter through the files in need of filtering and changing file_filter with the TimeStamp_Filter value associated with the filtered infolder
@@ -129,7 +129,7 @@ def main():
         plt.legend()
         plt.ylabel(r"Injected Charges ($\mu$C))")
         plt.title("Injected charges for {} {} in\n{} with {}configuration".format(tension1,pulsewidth1,medium1,configuration1))
-        plt.savefig(os.path.join("OUT_FIG/Inj_Charges/{}".format(args.METHOD),outfile))
+        plt.savefig(os.path.join("OUT_FIG/Compare_Inj_Charges",outfile))
 
     else :
         ###PLOTS###
@@ -139,6 +139,6 @@ def main():
         plt.legend()
         plt.ylabel(r"Injected Charges ($\mu$C)")
         plt.title("Injected charges for {} {} in\n{} with {} configuration".format(tension1,pulsewidth1,medium1,configuration1))
-        plt.savefig(os.path.join("OUT_FIG/Inj_Charges/{}".format(args.METHOD),outfile))
+        plt.savefig(os.path.join("OUT_FIG/Compare_Inj_Charges",outfile))
 
 main()
