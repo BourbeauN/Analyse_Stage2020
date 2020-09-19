@@ -62,7 +62,7 @@ def main():
         CURR_TO_INT = np.asarray(CURR_TO_INT)
         VOLT_TO_INT = np.asarray(VOLT_TO_INT)
             
-        Y_DATA = CURR_TO_INT * VOLT_TO_INT
+        Y_DATA = np.abs(CURR_TO_INT * VOLT_TO_INT)
         
         INT_TAB.append([f,Integration(Y_DATA,TIME_TO_INT)])
         
