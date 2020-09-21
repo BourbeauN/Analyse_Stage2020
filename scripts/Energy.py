@@ -40,36 +40,37 @@ def main():
     # list of discharge files  
     files = sorted(os.listdir(path))
     
-    CURR_TO_INT, TIME_TO_INT, VOLT_TO_INT = [], [], []
-    
     INT_TAB = []
     
     progress = 0
     
     for i,f in enumerate(files) :
         
+        TIME_TO_INT, Y_DATA = [], []
+
         time, voltage, current = load_data(os.path.join(path,f))
         
         for k in range(dk, len(time)) :
             if (voltage[k-dk] - voltage[k]) > dv:
                 index = k
+                break
         
         for j in range(index, len(time)) :
+            #pdb.set_trace()
             TIME_TO_INT.append(time[j])
-            CURR_TO_INT.append(current[j])
-            VOLT_TO_INT.append(voltage[j])
+            Y_DATA.append(np.abs(current[j]*voltage[j]))
+
+        TIME_TO_INT = np.asarray(TIME_TO_INT)
+        Y_DATA = np.asarray(Y_DATA)
             
-        CURR_TO_INT = np.asarray(CURR_TO_INT)
-        VOLT_TO_INT = np.asarray(VOLT_TO_INT)
-            
-        Y_DATA = np.abs(CURR_TO_INT * VOLT_TO_INT)
-        
         INT_TAB.append([f,Integration(Y_DATA,TIME_TO_INT)])
-        
+
         if progress%50==0:
             print(progress)
-        
+
         progress += 1
+       
+    INT_TAB = np.asarray(INT_TAB)
    
     print("finished calculating now saving ... ")
     pd.DataFrame(INT_TAB, columns = ['Filename', 'Integration']).to_csv(os.path.join('Energy',"{}.csv".format(outfile)))
