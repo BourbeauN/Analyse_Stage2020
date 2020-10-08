@@ -46,10 +46,10 @@ def get_elapsed_time(fnames):
 #/Get the parameters of the experience analyzed for plot title
 def get_experiment_name(folder_name):
     
-    tension = folder_name.split("_")[3].split(" ")
-    pulsewidth = folder_name.split("_")[4].split(" ")
-    configuration = folder_name.split("_")[5]
-    medium = folder_name.split("_")[6]
+    tension = folder_name.split("/")[1].split("_")[1].split(" ")
+    pulsewidth = folder_name.split("/")[1].split("_")[2].split(" ")
+    configuration = folder_name.split("/")[1].split("_")[3]
+    medium = folder_name.split('/')[4].split("_")[6]
 
     return tension, pulsewidth, configuration, medium    
     

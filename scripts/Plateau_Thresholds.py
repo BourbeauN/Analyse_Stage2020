@@ -76,6 +76,7 @@ def main():
     RESULTS_TABLE = compute_plateaus_on_data(args.INFOLDER)
     
     pd.DataFrame(RESULTS_TABLE, columns = ["fname", "time_delta", "voltage_delta", "plateau_length",
-    "success"]).to_csv(os.path.join('OUT_TAB_VAR_THRESH', "OUT_PLATEAUS_{}.csv".format(outfile))) 
+    "success"]).to_csv(os.path.join('Dv_Dt_Determination/OUT_TAB_FIXED_THRESH', "OUT_PLATEAUS_{}.csv".format(outfile))) 
+
 
 main()
