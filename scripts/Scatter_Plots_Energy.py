@@ -57,7 +57,6 @@ def get_experiment_name(folder_name):
 def main():
     #Parser to run code in server
     parser = argparse.ArgumentParser()
-    parser.add_argument("-m", dest = "METHOD", help = "integration method")
     parser.add_argument("-f", dest = "INFILE", help = ".csv results file")
     args = parser.parse_args()
     outfile = args.INFILE.split('/')[-1].replace('.csv','.pdf')
@@ -117,7 +116,7 @@ def main():
         plt.ticklabel_format(axis="y", style="sci")
         plt.ylabel("Energy (J)")
         plt.title("Energy of discharge for {} {} in\n{} with {}configuration".format(tension,pulsewidth,medium,configuration))
-        plt.savefig(os.path.join("OUT_FIG/Energy/{}".format(args.METHOD),outfile))
+        plt.savefig(os.path.join("OUT_FIG/Energy",outfile))
 
     else :
         ###PLOTS###
@@ -126,6 +125,6 @@ def main():
         plt.ticklabel_format(axis="y", style="sci")
         plt.ylabel("Energy (J)")
         plt.title("Energy of discharge for {} {} in\n{} with {} configuration".format(tension,pulsewidth,medium,configuration))
-        plt.savefig(os.path.join("OUT_FIG/Energy/{}".format(args.METHOD),outfile))
+        plt.savefig(os.path.join("OUT_FIG/Energy",outfile))
 
 main()
