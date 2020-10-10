@@ -54,18 +54,24 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-f", dest = "INFILE", help = ".csv results file")
     args = parser.parse_args()
-    
     #Obtaining data in arrays
+    
     Results = pd.read_csv(args.INFILE)
     fname =  Results['Filename']
-    data = Results.iloc[1]
     
+    Data = Results.iloc[:,2]
+
+    #pdb.set_trace()
+    data = np.asarray(Data.values)
+
     foldername = args.INFILE.split("/")[1]
     
     ET_file,timestamps = get_elapsed_time(fname)
 
     parameter = get_information(args.INFILE)
+    DATA = np.column_stack((ET_file,data))
 
-    DATA = ET_file.combine(data)
+    pd.DataFrame(DATA, columns = ['Elapsed_Time', 'Data']).to_csv(os.path.join('Final',"{}_{}".format(parameter,foldername)))
 
-    pd.DataFrame(DATA, columns = ['Filename', 'Data']).to_csv(os.path.join('Final',"{}_{}.csv".format(parameter,foldername)))
+main()
+
