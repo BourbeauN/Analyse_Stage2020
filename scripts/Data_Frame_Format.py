@@ -60,8 +60,8 @@ def main():
     fname =  Results['Filename']
     
     Data = Results.iloc[:,2]
-
-    #pdb.set_trace()
+    
+    pdb.set_trace()
     data = np.asarray(Data.values)
 
     foldername = args.INFILE.split("/")[1]

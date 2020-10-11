@@ -34,6 +34,7 @@ def main():
     ###PARSER###
     parser = argparse.ArgumentParser()
     parser.add_argument('-f', dest = 'INFILE', help = 'file folder corresponding to experimental set with discharge infos')
+    parser.add_argument('-i', type = int, dest = 'INTERVAL', help = 'size of data interval to compute probabilitmy calculation on')
     args = parser.parse_args()
     
     info = get_discharge_information(args.INFILE)
@@ -45,7 +46,8 @@ def main():
     #pdb.set_trace()
 
     #a is the size of the sample of data over which we want to find the success rate
-    a = 20 
+    a = args.INTERVAL
+    
     mod = len(Data)%a
 
     if mod == 0:
