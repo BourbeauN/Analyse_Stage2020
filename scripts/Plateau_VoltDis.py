@@ -29,7 +29,7 @@ def load_data(filename):
     return time, voltage, current 
 
 def Plateau_Discharge(path, dv, dk):
-    
+    #pdb.set_trace() 
     # list of discharge files  
     files = sorted(os.listdir(path))
     
@@ -42,6 +42,8 @@ def Plateau_Discharge(path, dv, dk):
     # cycle through all files 
     for i,f in enumerate(files) :
         
+        print(f)
+
         time, voltage, current = load_data(os.path.join(path,f))
         
         end, volt_dis = discharge_time_index(voltage, time, dv, dk)
@@ -54,6 +56,7 @@ def Plateau_Discharge(path, dv, dk):
         if progress%50 == 0:
             print(progress, end)
         
+
     return np.asarray(PLATEAU_TABLE),np.asarray(VOLT_DIS_TABLE)
 
 def main():
@@ -65,7 +68,7 @@ def main():
     parser.add_argument('-dk',type = int,  dest = 'INDEX_THRESHOLD', help = 'pick a value for time threshold')
     args = parser.parse_args()
     outfile = args.INFOLDER.split('/')[-1] 
-    PLATEAU, VOLT_DIS, DTIME = Plateau_Discharge(args.INFOLDER,args.VOLTAGE_THRESHOLD,args.INDEX_THRESHOLD)
+    PLATEAU, VOLT_DIS = Plateau_Discharge(args.INFOLDER,args.VOLTAGE_THRESHOLD,args.INDEX_THRESHOLD)
 
     print("Finished appending, saving tables...")
     
