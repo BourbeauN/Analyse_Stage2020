@@ -28,7 +28,7 @@ def Integration(path,dk,dv):
     progress = 0
      
     for i,f in enumerate(files) :
-        pdb.set_trace()
+        #pdb.set_trace()
         CURR_TO_INT,TIME_TO_INT,VOLT_TO_INT = [],[],[]
 
         time, voltage, current = load_data(os.path.join(path,f))
@@ -42,11 +42,13 @@ def Integration(path,dk,dv):
             TIME_TO_INT.append(time[j])
             CURR_TO_INT.append(np.abs(current[j]))
             VOLT_TO_INT.append(np.abs(voltage[j]))           
-        
-        POWER = np.asarray(CURR_TO_INT)*np.asarray(VOLT_TO_INT)
+        TIME_TO_INT = np.asarray(TIME_TO_INT)
+        CURR_TO_INT = np.asarray(CURR_TO_INT)
+        VOLT_TO_INT = np.asarray(VOLT_TO_INT)
+        POWER = CURR_TO_INT*VOLT_TO_INT
 
-        INJ.append([f,integrate.simps(CURR_TO_INT,TIME_TO_INT)])
-        ENER.append([f,integrate.simps(POWER,TIME_TO_INT)])
+        INJ.append([f,integrate.simps(CURR_TO_INT[CURR_TO_INT<1e208],TIME_TO_INT[CURR_TO_INT<1e208])])
+        ENER.append([f,integrate.simps(POWER[POWER<1e208],TIME_TO_INT[POWER<1e208])])
         #print(progress)
         if progress%100 == 0:
             print(progress)
