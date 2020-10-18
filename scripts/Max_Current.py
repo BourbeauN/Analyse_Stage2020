@@ -19,7 +19,7 @@ def load_data(filename):
 def max_current(path):
     
     Current_Tab = []    
-    
+    count = 0
     # list of discharge files  
     files = sorted(os.listdir(path))
     
@@ -27,6 +27,11 @@ def max_current(path):
         time, voltage, current = load_data(os.path.join(path,f))
         max_value = np.amax(current)
         
+        if count%100 == 0:
+            print(count)
+        
+        count += 1
+
         Current_Tab.append([f,max_value])
         
     return np.asarray(Current_Tab)

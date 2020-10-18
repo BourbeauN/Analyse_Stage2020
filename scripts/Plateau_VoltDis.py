@@ -42,7 +42,7 @@ def Plateau_Discharge(path, dv, dk):
     # cycle through all files 
     for i,f in enumerate(files) :
         
-        print(f)
+        #print(f)
 
         time, voltage, current = load_data(os.path.join(path,f))
         
