@@ -15,21 +15,21 @@ def main():
     outfile = args.INFILE.split('/')[-1].replace('.csv','.pdf')
     
     foldername = args.INFILE
-    parameter = foldername.split("/")[1].split(".")[0].split("_")[-4:]
-    
+    experiment = foldername.split("/")[1].split(".")[0]
+    parameter = foldername.split("/")[0]
+
     #Obtaining data in arrays
     Results = pd.read_csv(args.INFILE)
     x_data =  Results.iloc[:,1]
     y_data = Results.iloc[:,2]
-
-    data_title = np.str(y_data.iloc[0])
-    plot_data = y_data.iloc[1:]
+    
+    pdb.set_trace()
 
     ###PLOTS###
-    plt.plot(x_data, plot_data,'.',markersize = 1, color = 'crimson', linewidth = 0)
+    plt.plot(x_data, y_data,'.',markersize = 1, color = 'crimson', linewidth = 0)
     plt.xlabel("Elapsed time (minutes)")
     plt.ticklabel_format(axis="y", style="sci")
-    plt.ylabel("{}".format(data_title))
-    plt.savefig(os.path.join("PLOTS/{}_{}".format(data_title,parameter),outfile))
+    plt.ylabel("{}".format(parameter))
+    plt.savefig(os.path.join("PLOTS/{}_{}".format(parameter,experiment),outfile))
 
 main()
