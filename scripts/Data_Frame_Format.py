@@ -71,7 +71,6 @@ def main():
     parameter = get_information(args.INFILE)
     DATA = np.column_stack((ET_file,data))
 
-    pd.DataFrame(DATA, columns = ['Elapsed_Time', 'Data']).to_csv(os.path.join('Final',"{}_{}".format(parameter,foldername)))
+    pd.DataFrame(DATA, columns = ['Elapsed_Time', '{}'.format(parameter)]).to_csv(os.path.join('Final',"{}_{}".format(parameter,foldername)))
 
 main()
-
