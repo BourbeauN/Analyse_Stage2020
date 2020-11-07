@@ -72,7 +72,7 @@ def main():
 
     print("Finished appending, saving tables...")
     
-    pd.DataFrame(PLATEAU, columns = ['Filename','Plateau']).to_csv(os.path.join('Discharge_Delay',"{}_{}dv_{}dk.csv".format(outfile,args.VOLTAGE_THRESHOLD,args.INDEX_THRESHOLD)))
+    pd.DataFrame(PLATEAU, columns = ['Filename','Plateau']).to_csv(os.path.join('Discharge_Delay',"{}.csv".format(outfile)))
     pd.DataFrame(VOLT_DIS, columns = ['Filename','Voltage']).to_csv(os.path.join('Discharge_Voltage',"{}.csv".format(outfile)))
    
 #update
