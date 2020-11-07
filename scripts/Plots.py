@@ -54,6 +54,13 @@ def main():
     experiment = foldername.split("/")[1].split(".")[0]
     parameter = foldername.split("/")[1].split(".")[0].split("_")[0:-4]
 
+    if len(parameter) != 1:
+        s = ' '
+        p_final = s.join(parameter)
+    
+    else :
+        p_final = parameter
+    
     #Obtaining data in arrays
     Results = pd.read_csv(args.INFILE)
     x_data =  Results.iloc[:,1]
@@ -67,7 +74,7 @@ def main():
     plt.plot(x_data, y_data,'.',markersize = 1, color = 'crimson', linewidth = 0)
     plt.xlabel("Elapsed time (minutes)")
     plt.ticklabel_format(axis="y", style="sci")
-    plt.ylabel("{}".format(parameter))
-    plt.savefig(os.path.join("PLOTS/{}_{}".format(parameter,experiment),outfile))
+    plt.ylabel("{}".format(p_final))
+    plt.savefig(os.path.join("PLOTS/{}_{}".format(p_final,experiment),outfile))
 
 main()
