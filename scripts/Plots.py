@@ -52,7 +52,7 @@ def main():
     
     foldername = args.INFILE
     experiment = foldername.split("/")[1].split(".")[0]
-    parameter = foldername.split("/")[0]
+    parameter = foldername.split("/")[1].split(".")[0].split("_")[0:-4]
 
     #Obtaining data in arrays
     Results = pd.read_csv(args.INFILE)
