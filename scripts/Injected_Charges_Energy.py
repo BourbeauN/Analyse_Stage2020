@@ -32,16 +32,19 @@ def Integration(path,dk,dv):
         CURR_TO_INT,TIME_TO_INT,VOLT_TO_INT = [],[],[]
 
         time, voltage, current = load_data(os.path.join(path,f))
-
+        
         for k in range(dk, len(time)) :
             if (voltage[k-dk] - voltage[k]) > dv:
+                #pdb.set_trace()
                 index = k-dk
                 break
-        
+        #pdb.set_trace()
+
         for j in range(index, len(time)) :
             TIME_TO_INT.append(time[j])
             CURR_TO_INT.append(np.abs(current[j]))
             VOLT_TO_INT.append(np.abs(voltage[j]))           
+        
         TIME_TO_INT = np.asarray(TIME_TO_INT)
         CURR_TO_INT = np.asarray(CURR_TO_INT)
         VOLT_TO_INT = np.asarray(VOLT_TO_INT)
