@@ -26,7 +26,7 @@ def Success_Rate_Partial(Data,Success_Rate,a):
     
 def get_discharge_information(folder_name):
     
-    parameter= folder_name.split("/")[1].split(".")[0].split("_")[1:5]
+    parameter= folder_name.split("/")[1].split(".")[0].split("_")[0:5]
     d = "_"
     info = d.join(parameter)
 
@@ -70,6 +70,6 @@ def main():
 
     DATA = np.column_stack((ydata_range,Final_Probability))
 
-    pd.DataFrame(DATA, columns = ['ID','Probability']).to_csv(os.path.join('Probability',"{}.csv".format(info)))
+    pd.DataFrame(DATA, columns = ['ID','Probability']).to_csv(os.path.join('Probability',"{}_{}.csv".format(a,info)))
         
 main()
