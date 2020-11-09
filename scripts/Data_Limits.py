@@ -15,8 +15,8 @@ def Limit_Whole(x_data,y_data,a):
         temp_y = y_data[i:i+(a-1)]
         temp_x = x_data[i:i+(a-1)]
         
-	if i = 2295 :
-	    pdb.set_trace()
+        if i == 2295 :
+            pdb.set_trace()
         
         if np.sum(~np.isnan(temp_y)) != 0 :
 
