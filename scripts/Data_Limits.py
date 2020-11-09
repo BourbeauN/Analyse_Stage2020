@@ -9,27 +9,26 @@ def Limit_Whole(x_data,y_data,a):
     Max_yarray, Min_yarray = [],[]
     Max_xarray, Min_xarray = [],[]
 
-    #pdb.set_trace()
+    pdb.set_trace()
     for i in index:
         print(i)
         temp_y = y_data[i:i+(a-1)]
         temp_x = x_data[i:i+(a-1)]
-        #pdb.set_trace()
         
-        if i == 2190:
-            pdb.set_trace()
-
-        not_nan = temp_y[np.where(~np.isnan(temp_y))[0]]
+	if i = 2295 :
+	    pdb.set_trace()
         
+        if np.sum(~np.isnan(temp_y)) != 0 :
 
+            not_nan = temp_y[np.where(~np.isnan(temp_y))[0]]
 
-        max_index = np.where(not_nan == np.max(not_nan))[0][0]
-        min_index = np.where(not_nan == np.min(not_nan))[0][0]
+            max_index = np.where(not_nan == np.max(not_nan))[0][0]
+            min_index = np.where(not_nan == np.min(not_nan))[0][0]
 
-        Max_yarray.append(temp_y[max_index])
-        Max_xarray.append(temp_x[max_index])
-        Min_yarray.append(temp_y[min_index])
-        Min_xarray.append(temp_x[min_index])
+            Max_yarray.append(temp_y[max_index])
+            Max_xarray.append(temp_x[max_index])
+            Min_yarray.append(temp_y[min_index])
+            Min_xarray.append(temp_x[min_index])
 
     return Max_yarray,Min_yarray,Max_xarray,Min_xarray
 
@@ -84,7 +83,7 @@ def main():
         x_data_1 = x_data[0:-mod]
         y_data_2 = y_data[-mod:]
         x_data_2 = x_data[-mod:]
-        pdb.set_trace()
+        #pdb.set_trace()
         
         Max_ytab,Min_ytab,Max_xtab,Min_xtab = Limit_Whole(x_data_1,y_data_1,a)
         
