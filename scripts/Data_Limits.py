@@ -9,14 +9,11 @@ def Limit_Whole(x_data,y_data,a):
     Max_yarray, Min_yarray = [],[]
     Max_xarray, Min_xarray = [],[]
 
-    pdb.set_trace()
+    #pdb.set_trace()
     for i in index:
         print(i)
         temp_y = y_data[i:i+(a-1)]
         temp_x = x_data[i:i+(a-1)]
-        
-        if i == 2295 :
-            pdb.set_trace()
         
         if np.sum(~np.isnan(temp_y)) != 0 :
 
@@ -33,14 +30,16 @@ def Limit_Whole(x_data,y_data,a):
     return Max_yarray,Min_yarray,Max_xarray,Min_xarray
 
 def Limit_Partial(x_data,y_data,Max_yarray,Min_yarray,Max_xarray,Min_xarray):
-   
-    max_index = np.where(y_data == np.max(y_data))[0][0]
-    min_index = np.where(y_data == np.min(y_data))[0][0]
 
-    Max_yarray.append(y_data[max_index])
-    Max_xarray.append(x_data[max_index])
-    Min_yarray.append(y_data[min_index])
-    Min_xarray.append(x_data[min_index])
+    if np.sum(~np.isnan(y_data)) != 0 :    
+
+        max_index = np.where(y_data == np.max(y_data))[0][0]
+        min_index = np.where(y_data == np.min(y_data))[0][0]
+
+        Max_yarray.append(y_data[max_index])
+        Max_xarray.append(x_data[max_index])
+        Min_yarray.append(y_data[min_index])
+        Min_xarray.append(x_data[min_index])
 
     return Max_yarray,Min_yarray,Max_xarray,Min_xarray
     
@@ -100,11 +99,8 @@ def main():
     Max_xArray_Final = np.asarray(Max_xarray_Final)
     Min_xArray_Final = np.asarray(Min_xarray_Final)
 
-    MAX_DATA = np.column_stack((Max_xArray_Final,Max_yArray_Final))
-    MIN_DATA = np.column_stack((Min_xArray_Final,Min_yArray_Final))
+    DATA = np.column_stack((Max_xArray_Final,Max_yArray_Final,Min_xArray_Final,Min_yArray_Final))
 
-    pd.DataFrame(MAX_DATA, columns = ['x','y']).to_csv(os.path.join('Limits',"{}.csv".format(info)))
-    pd.DataFrame(MIN_DATA, columns = ['x','y']).to_csv(os.path.join('Limits','{}.csv'.format(info))) 
-
+    pd.DataFrame(DATA, columns = ['x_max','y_max','x_min','y_min']).to_csv(os.path.join('Limits',"{}.csv".format(info)))
       
 main()
