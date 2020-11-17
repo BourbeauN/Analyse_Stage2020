@@ -46,7 +46,7 @@ def get_elapsed_time(fnames):
 
 def get_information(folder_name):
     
-    parameter = folder_name.split("/")[0].split(".")[0]
+    parameter = folder_name.split("/")[2].split(".")[0]
     return parameter
 
 def main():
@@ -60,7 +60,7 @@ def main():
     fname =  Results['Filename']
     
     Data = Results.iloc[:,2]
-    
+
     #pdb.set_trace()
     data = np.asarray(Data.values)
 
@@ -71,6 +71,7 @@ def main():
     parameter = get_information(args.INFILE)
     DATA = np.column_stack((ET_file,data))
 
-    pd.DataFrame(DATA, columns = ['Elapsed_Time', '{}'.format(parameter)]).to_csv(os.path.join('Final',"{}_{}".format(parameter,foldername)))
+    pd.DataFrame(DATA, columns = ['Elapsed_Time', 'Data']).to_csv(os.path.join('AudrenFinal',"{}_{}".format(foldername,parameter)))
 
 main()
+
