@@ -45,11 +45,10 @@ def Limit_Partial(x_data,y_data,Max_yarray,Min_yarray,Max_xarray,Min_xarray):
     
 def get_discharge_information(folder_name):
     
-    parameter = folder_name.split("/")[1].split(".")[0].split("_")[1:5]
-    d = "_"
-    info = d.join(parameter)
+    parameter = folder_name.split("/")[1].split(".")[0]
+    folder = folder_name.split("/")[0]
 
-    return info 
+    return parameter,folder
 
 def main():
     ###PARSER###
@@ -58,7 +57,7 @@ def main():
     parser.add_argument('-i', type = int, dest = 'INTERVAL', help = 'size of data interval to compute probabilitmy calculation on')
     args = parser.parse_args()
     
-    info = get_discharge_information(args.INFILE)
+    parameter,folder = get_discharge_information(args.INFILE)
     
     Results = pd.read_csv(args.INFILE)
     xData_Pandas = Results.iloc[:,1]
@@ -101,6 +100,7 @@ def main():
 
     DATA = np.column_stack((Max_xArray_Final,Max_yArray_Final,Min_xArray_Final,Min_yArray_Final))
 
-    pd.DataFrame(DATA, columns = ['x_max','y_max','x_min','y_min']).to_csv(os.path.join('Limits',"{}.csv".format(info)))
+    pd.DataFrame(DATA, columns =
+    ['x_max','y_max','x_min','y_min']).to_csv(os.path.join('Limits/{}'.format(folder),"{}.csv".format(parameter)))
       
 main()
