@@ -72,8 +72,9 @@ def main():
             
             plt.figure(1)
             plt.plot(x_data,y_data,marker='.',markersize=1,color = 'black', linewidth=0)
-            plt.plot(x_min,Exponential(x_min,popt_min[0],popt_min[1],popt_min[2],popt_min[3]),linewidth=1,color = "salmon",legend = "sigma {}".format(perr_min))
-            plt.plot(x_max,Exponential(x_max,popt_max[0],popt_max[1],popt_max[2],popt_max[3]),linewidth=1,color = "crimson",legend = "sigma {}".format(perr_max))
+            plt.plot(x_min,Exponential(x_min,popt_min[0],popt_min[1],popt_min[2],popt_min[3]),linewidth=1,color = "salmon",label = "sigma {}".format(perr_min))
+            plt.plot(x_max,Exponential(x_max,popt_max[0],popt_max[1],popt_max[2],popt_max[3]),linewidth=1,color = "crimson",label = "sigma {}".format(perr_max))
+            plt.legend()
             plt.savefig(os.path.join("PLOTS/{}_{}.pdf".format(parameter,args.DISTRIBUTION)))
             plt.savefig(os.path.join("PLOTS/{}_{}.png".format(parameter,args.DISTRIBUTION)))
             
@@ -87,8 +88,8 @@ def main():
             plt.plot(x_data,y_data,marker='.',markersize=1,color = 'black', linewidth=0)
             plt.plot(x_min,Ln(x_min,popt_min[0],popt_min[1],popt_min[2],popt_min[3]),linewidth=1,color = "salmon",label = "sigma {}".format(perr_min))
             plt.plot(x_max,Ln(x_max,popt_max[0],popt_max[1],popt_max[2],popt_max[3]),linewidth=1,color = "crimson",label = "sigma {}".format(perr_max))
-                plt.legend()
-	    plt.savefig(os.path.join("PLOTS/{}_{}.pdf".format(parameter.args.DISTRIBUTION)))
+            plt.legend()
+            plt.savefig(os.path.join("PLOTS/{}_{}.pdf".format(parameter.args.DISTRIBUTION)))
             plt.savefig(os.path.join("PLOTS/{}_{}.png".format(parameter,args.DISTRIBUTION)))
             
         if i == "sqrt":
