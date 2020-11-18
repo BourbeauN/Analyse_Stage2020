@@ -102,7 +102,7 @@ def main():
             plt.plot(x_data,y_data,marker='.',markersize=1,color = 'black', linewidth=0)
             plt.plot(x_min,Sqrt(x_min,popt_min[0],popt_min[1],popt_min[2],popt_min[3]),linewidth=1,color = "salmon",label = "sigma {}".format(perr_min))
             plt.plot(x_max,Sqrt(x_max,popt_max[0],popt_max[1],popt_max[2],popt_max[3]),linewidth=1,color = "crimson",label = "sigma {}".format(perr_max))
-	    plt.leged()
+            plt.leged()
             plt.savefig(os.path.join("PLOTS/{}_{}.pdf".format(parameter.args.DISTRIBUTION)))
             plt.savefig(os.path.join("PLOTS/{}_{}.png".format(parameter,args.DISTRIBUTION)))
             
@@ -114,22 +114,23 @@ def main():
             
             plt.figure(1)
             plt.plot(x_data,y_data,marker='.',markersize=1,color = 'black', linewidth=0)
-            plt.plot(x_min,Quadratic(x_min,popt_min[0],popt_min[1],popt_min[2],popt_min[3],popt_min[4]),linewidth=1,color
-	    = "salmon",label = "sigma {}".format(perr_min))
-            plt.plot(x_max,Quadratic(x_max,popt_max[0],popt_max[1],popt_max[2],popt_max[3],popt_min[4]),linewidth=1,color = "crimson",legend = "sigma {}".format(perr_max))
+            plt.plot(x_min,Quadratic(x_min,popt_min[0],popt_min[1],popt_min[2],popt_min[3],popt_min[4]),linewidth=1,color= "salmon",label = "sigma {}".format(perr_min))
+            plt.plot(x_max,Quadratic(x_max,popt_max[0],popt_max[1],popt_max[2],popt_max[3],popt_min[4]),linewidth=1,color = "crimson",label = "sigma {}".format(perr_max))
+            plt.legend()
             plt.savefig(os.path.join("PLOTS/{}_{}.pdf".format(parameter.args.DISTRIBUTION)))
             plt.savefig(os.path.join("PLOTS/{}_{}.png".format(parameter,args.DISTRIBUTION)))     
             
         if i == "weibull":
-            popt_min,pcov_min = curve_fit(Weibull,x_min,y_min)  
-            popt_max,pcov_max = curve_fit(Weibull,x_max,y_max)
+            popt_min,pcov_min = curve_fit(Weibull,x_min,y_min,maxfev=10000)  
+            popt_max,pcov_max = curve_fit(Weibull,x_max,y_max,maxfev=10000)
             perr_min = np.sqrt(np.diag(pcov_min))
             perr_max = np.sqrt(np.diag(pcov_max))
         
             plt.figure(1)
             plt.plot(x_data,y_data,marker='.',markersize=1,color = 'black', linewidth=0)
-            plt.plot(x_min,Weibull(x_min,popt_min[0],popt_min[1]),linewidth=1,color = "salmon",legend = "sigma {}".format(perr_min))
-            plt.plot(x_max,Weibull(x_max,popt_max[0],popt_max[1]),linewidth=1,color = "crimson",legend = "sigma {}".format(perr_max))
+            plt.plot(x_min,Weibull(x_min,popt_min[0],popt_min[1]),linewidth=1,color = "salmon",label = "sigma {}".format(perr_min))
+            plt.plot(x_max,Weibull(x_max,popt_max[0],popt_max[1]),linewidth=1,color = "crimson",label = "sigma {}".format(perr_max))
+            plt.legend()
             plt.savefig(os.path.join("PLOTS/{}_{}.pdf".format(parameter.args.DISTRIBUTION)))
             plt.savefig(os.path.join("PLOTS/{}_{}.png".format(parameter,args.DISTRIBUTION)))
       
