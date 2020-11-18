@@ -14,7 +14,7 @@ def Limit_Whole(x_data,y_data,a):
         print(i)
         temp_y = y_data[i:i+(a-1)]
         temp_x = x_data[i:i+(a-1)]
-        pdb.set_trace()
+        #pdb.set_trace()
         if np.sum(~np.isnan(temp_y)) != 0 :
 
             not_nan = temp_y[np.where(~np.isnan(temp_y))[0]]
@@ -22,8 +22,8 @@ def Limit_Whole(x_data,y_data,a):
             max_val = np.max(not_nan)
             min_val = np.min(not_nan)
             
-            max_ind = np.where[temp_y == max_val][0][0]
-            min_ind = np.where[temp_y == min_val][0][0]
+            max_ind = np.where(temp_y == max_val)[0][0]
+            min_ind = np.where(temp_y == min_val)[0][0]
 
             Max_yarray.append(max_val)
             Max_xarray.append(temp_x[max_ind])
