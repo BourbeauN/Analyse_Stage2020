@@ -19,10 +19,10 @@ def Limit_Whole(x_data,y_data,a):
 
             not_nan = temp_y[np.where(~np.isnan(temp_y))[0]]
             
-	    max_val = np.max(not_nan)
-	    min_val = np.min(not_nan)
-
-	    max_ind = np.where[temp_y == max_val][0][0]
+            max_val = np.max(not_nan)
+            min_val = np.min(not_nan)
+            
+            max_ind = np.where[temp_y == max_val][0][0]
             min_ind = np.where[temp_y == min_val][0][0]
 
             Max_yarray.append(max_val)
@@ -37,10 +37,10 @@ def Limit_Partial(x_data,y_data,Max_yarray,Min_yarray,Max_xarray,Min_xarray):
     if np.sum(~np.isnan(y_data)) != 0 :    
 
         max_val = np.max(y_data)
-	min_val = np.min(x_data)
-
-	max_ind = np.where(y_data == max_val)[0][0]
-	min_ind = np.where(y_data == min_val)[0][0]
+        min_val = np.min(x_data)
+        
+        max_ind = np.where(y_data == max_val)[0][0]
+        min_ind = np.where(y_data == min_val)[0][0]
 
         Max_yarray.append(max_val)
         Max_xarray.append(x_data[max_ind])
