@@ -12,22 +12,23 @@ def Limit_Whole(x_data,y_data,a):
     #pdb.set_trace()
     for i in index:
         print(i)
-        pdb.set_trace()
         temp_y = y_data[i:i+(a-1)]
         temp_x = x_data[i:i+(a-1)]
-        #if i == 5985:
-	        #pdb.set_trace()
+        pdb.set_trace()
         if np.sum(~np.isnan(temp_y)) != 0 :
 
             not_nan = temp_y[np.where(~np.isnan(temp_y))[0]]
+            
+	    max_val = np.max(not_nan)
+	    min_val = np.min(not_nan)
 
-            max_index = np.where(not_nan == np.max(not_nan))[0][0]
-            min_index = np.where(not_nan == np.min(not_nan))[0][0]
+	    max_ind = np.where[temp_y == max_val][0][0]
+            min_ind = np.where[temp_y == min_val][0][0]
 
-            Max_yarray.append(temp_y[max_index])
-            Max_xarray.append(temp_x[max_index])
-            Min_yarray.append(temp_y[min_index])
-            Min_xarray.append(temp_x[min_index])
+            Max_yarray.append(max_val)
+            Max_xarray.append(temp_x[max_ind])
+            Min_yarray.append(min_val)
+            Min_xarray.append(temp_x[min_ind])
 
     return Max_yarray,Min_yarray,Max_xarray,Min_xarray
 
@@ -35,13 +36,16 @@ def Limit_Partial(x_data,y_data,Max_yarray,Min_yarray,Max_xarray,Min_xarray):
 
     if np.sum(~np.isnan(y_data)) != 0 :    
 
-        max_index = np.where(y_data == np.max(y_data))[0][0]
-        min_index = np.where(y_data == np.min(y_data))[0][0]
+        max_val = np.max(y_data)
+	min_val = np.min(x_data)
 
-        Max_yarray.append(y_data[max_index])
-        Max_xarray.append(x_data[max_index])
-        Min_yarray.append(y_data[min_index])
-        Min_xarray.append(x_data[min_index])
+	max_ind = np.where(y_data == max_val)[0][0]
+	min_ind = np.where(y_data == min_val)[0][0]
+
+        Max_yarray.append(max_val)
+        Max_xarray.append(x_data[max_ind])
+        Min_yarray.append(min_val)
+        Min_xarray.append(x_data[min_ind])
 
     return Max_yarray,Min_yarray,Max_xarray,Min_xarray
     
