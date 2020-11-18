@@ -36,7 +36,7 @@ def Weibull(x,a,b):
     return f
 
 def get_information(folder_name):
-    parameter = folder_name.split("/")[1,:].split(".")[0]
+    parameter = folder_name.split("/")[1].split(".")[0]
     return parameter
 
 def main():   
@@ -59,9 +59,9 @@ def main():
     Data = pd.read_csv(args.INFILE)
     x_data = Data.iloc[:,1]
     y_data = Data.iloc[:,2]
-    
+    pdb.set_trace() 
     distribution_list = Distribution_info(args.DISTRIBUTION)
-    parameter = get_information(args.LIMITS)
+    parameter = get_information(args.INFILE)
     
     for i in distribution_list:
         if i == "exp":

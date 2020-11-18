@@ -12,6 +12,7 @@ def Limit_Whole(x_data,y_data,a):
     #pdb.set_trace()
     for i in index:
         print(i)
+	        pdb.set_trace()
         temp_y = y_data[i:i+(a-1)]
         temp_x = x_data[i:i+(a-1)]
         #if i == 5985:
