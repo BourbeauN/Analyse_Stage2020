@@ -14,7 +14,8 @@ def Limit_Whole(x_data,y_data,a):
         print(i)
         temp_y = y_data[i:i+(a-1)]
         temp_x = x_data[i:i+(a-1)]
-        
+        #if i == 5985:
+	        #pdb.set_trace()
         if np.sum(~np.isnan(temp_y)) != 0 :
 
             not_nan = temp_y[np.where(~np.isnan(temp_y))[0]]
@@ -45,10 +46,14 @@ def Limit_Partial(x_data,y_data,Max_yarray,Min_yarray,Max_xarray,Min_xarray):
     
 def get_discharge_information(folder_name):
     
-    parameter = folder_name.split("/")[1].split(".")[0]
-    folder = folder_name.split("/")[0]
+    parameter = folder_name.split("/")[1].split(".")[0].split("_")[2:]
+    d = "_"
+    folder = folder_name.split("/")[1].split(".")[0].split("_")[0:2]
 
-    return parameter,folder
+    param = d.join(parameter)
+    fol = d.join(folder)
+
+    return param,fol
 
 def main():
     ###PARSER###
@@ -57,7 +62,7 @@ def main():
     parser.add_argument('-i', type = int, dest = 'INTERVAL', help = 'size of data interval to compute probabilitmy calculation on')
     args = parser.parse_args()
     
-    parameter,folder = get_discharge_information(args.INFILE)
+    param,fol = get_discharge_information(args.INFILE)
     
     Results = pd.read_csv(args.INFILE)
     xData_Pandas = Results.iloc[:,1]
@@ -73,7 +78,7 @@ def main():
 
 
     if mod == 0:
-        Max_yarray_Final,Min_yArray_Final,Max_xarray_Final,Min_xarray_Final = Limit_Whole(x_data,y_data,a)
+        Max_yarray_Final,Min_yarray_Final,Max_xarray_Final,Min_xarray_Final = Limit_Whole(x_data,y_data,a)
 
     else :
         
@@ -92,7 +97,7 @@ def main():
             Min_yarray_Final = Min_ytab
             Max_xarray_Final = Max_xtab
             Min_xarray_Final = Min_xtab
-
+    #pdb.set_trace()
     Max_yArray_Final = np.asarray(Max_yarray_Final)
     Min_yArray_Final = np.asarray(Min_yarray_Final)
     Max_xArray_Final = np.asarray(Max_xarray_Final)
@@ -101,6 +106,6 @@ def main():
     DATA = np.column_stack((Max_xArray_Final,Max_yArray_Final,Min_xArray_Final,Min_yArray_Final))
 
     pd.DataFrame(DATA, columns =
-    ['x_max','y_max','x_min','y_min']).to_csv(os.path.join('Limits/{}'.format(folder),"{}.csv".format(parameter)))
+    ['x_max','y_max','x_min','y_min']).to_csv(os.path.join('Limits/{}'.format(fol),"{}.csv".format(param)))
       
 main()
