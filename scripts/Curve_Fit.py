@@ -106,7 +106,7 @@ def main():
             print('sqrt',np.sqrt(np.diag(pcov_min)))
             print('sqrt',np.sqrt(np.diag(pcov_max)))
             print('min',popt_min)
-	    print('max',popt_max)
+            print('max',popt_max)
             plt.figure(1)
             plt.plot(x_data,y_data,marker='.',markersize=1,color = 'black', linewidth=0)
             #plt.plot(x_min,Sqrt(x_min,popt_min[0],popt_min[1],popt_min[2],popt_min[3]),linewidth=1,color = "salmon")
