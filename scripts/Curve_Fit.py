@@ -23,8 +23,8 @@ def Ln(x,a,b,c,d):
     f = a*np.log((b*x)+c)+d
     return f
 
-def Exponential(x,a,b,c,d):
-    f = a*np.exp((b*x)+c)+d 
+def Exponential(x,a,b):
+    f = a*np.exp(x)+b 
     return f
 
 def Quadratic(x,a,b,c,d,e):
@@ -33,6 +33,10 @@ def Quadratic(x,a,b,c,d,e):
 
 def Weibull(x,a,b):
     f = (a/b)*((x/b)**(a-1))*(np.exp(-((x/b)**a)))
+    return f
+
+def Linear(x,a,b):
+    f = (a*x)+b
     return f
 
 def get_information(folder_name):
@@ -70,6 +74,8 @@ def main():
     distribution_list.append(args.DISTRIBUTION)
     parameter,fname = get_information(args.INFILE)
     
+    y_min = y_min*(10**6)
+    y_max = y_max*(10**6)
 
     for i in distribution_list:
         if i == "exp":
@@ -79,12 +85,13 @@ def main():
             print('exp',np.sqrt(np.diag(pcov_max)))
             
             plt.figure(1)
-            plt.plot(x_data,y_data,marker='.',markersize=1,color = 'black', linewidth=0)
-            plt.plot(x_min,Exponential(x_min,popt_min[0],popt_min[1],popt_min[2],popt_min[3]),linewidth=1,color = "salmon")
-            plt.plot(x_max,Exponential(x_max,popt_max[0],popt_max[1],popt_max[2],popt_max[3]),linewidth=1,color = "crimson")
+            plt.plot(x_data,y_data*(10**6),marker='.',markersize=1,color = 'black', linewidth=0)
+            #plt.plot(x_min,Exponential(x_min,popt_min[0]),linewidth=1,color = "salmon")
+            #plt.plot(x_max,Exponential(x_max,popt_max[0],popt_max[1]),linewidth=1,color = "crimson")
+            plt.plot(x_min,y_min,marker='.',color='yellowgreen',linewidth=0)
+            plt.plot(x_max,y_max,marker='.',color='yellowgreen',linewidth=0)
             plt.legend()
             plt.savefig(os.path.join("PLOTS/{}/{}_{}.pdf".format(parameter,fname,i)))
-            plt.savefig(os.path.join("PLOTS/{}/{}_{}.png".format(parameter,fname,i)))
             
         if i == "log":
             popt_min,pcov_min = curve_fit(Ln,x_min,y_min,maxfev=10000)  
@@ -96,9 +103,10 @@ def main():
             plt.plot(x_data,y_data,marker='.',markersize=1,color = 'black', linewidth=0)
             plt.plot(x_min,Ln(x_min,popt_min[0],popt_min[1],popt_min[2],popt_min[3]),linewidth=1,color = "salmon")
             plt.plot(x_max,Ln(x_max,popt_max[0],popt_max[1],popt_max[2],popt_max[3]),linewidth=1,color = "crimson")
+            plt.plot(x_min,y_min,color="yellowgreen",linewidth=0,markersize=1,marker='.')
+            plt.plot(x_max,y_max,color="yellowgreen",linewidth=0,markersize=1,marker='.')
             plt.legend()
             plt.savefig(os.path.join("PLOTS/{}/{}_{}.pdf".format(parameter,fname,i)))
-            plt.savefig(os.path.join("PLOTS/{}/{}_{}.png".format(parameter,fname,i)))
             
         if i == "sqrt":
             popt_min,pcov_min = curve_fit(Sqrt,x_min,y_min,maxfev=10000)  
@@ -113,7 +121,6 @@ def main():
             plt.plot(x_max,Sqrt(x_max,popt_max[0],popt_max[1],popt_max[2],popt_max[3]),linewidth=1,color = "crimson")
             plt.legend()
             plt.savefig(os.path.join("PLOTS/{}/{}_{}.pdf".format(parameter,fname,i)))
-            plt.savefig(os.path.join("PLOTS/{}/{}_{}.png".format(parameter,fname,i)))
             
         if i == "quad":
             popt_min,pcov_min = curve_fit(Quadratic,x_min,y_min,maxfev=10000)  
@@ -127,7 +134,6 @@ def main():
             plt.plot(x_max,Quadratic(x_max,popt_max[0],popt_max[1],popt_max[2],popt_max[3],popt_min[4]),linewidth=1,color = "crimson")
             plt.legend()
             plt.savefig(os.path.join("PLOTS/{}/{}_{}.pdf".format(parameter,fname,i)))
-            plt.savefig(os.path.join("PLOTS/{}/{}_{}.png".format(parameter,fname,i)))     
             
         if i == "weibull":
             popt_min,pcov_min = curve_fit(Weibull,x_min,y_min,maxfev=10000)  
@@ -141,7 +147,22 @@ def main():
             plt.plot(x_max,Weibull(x_max,popt_max[0],popt_max[1]),linewidth=1,color = "crimson")
             plt.legend()
             plt.savefig(os.path.join("PLOTS/{}/{}_{}.pdf".format(parameter,fname,i)))
-            plt.savefig(os.path.join("PLOTS/{}/{}_{}.png".format(parameter,fname,i)))
-      
+        if i == "lin":
+            popt_min,pcov_min = curve_fit(Linear,x_min,y_min,maxfev=10000)
+            popt_max,pcov_max = curve_fit(Linear,x_max,y_max,maxfev=10000)
+            var_min = np.sqrt(np.diag(pcov_min))
+            var_max = np.sqrt(np.diag(pcov_max))
+            
+            print('linear', var_max )
+            print('linear', var_min )
+
+            plt.figure(1)
+            plt.plot(x_data,y_data,marker='.',markersize=1,color='black',linewidth=0)
+            #plt.plot(x_min,Linear(x_min,popt_min[0],popt_min[1]),linewidth=1,color='salmon',label=f"y={popt_min[0]} +/- {var_min[0]}x + {popt_min[1] +/- {var_min[1]}")
+            plt.plot(x_max,Linear(x_max,popt_max[0],popt_max[1]),linewidth=1,color='crimson')
+            plt.plot(x_min,x_max,marker='.',markersize=3,color='yellowgreen')
+            plt.legend()
+            plt.savefig(os.path.join("PLOTS/{}/{}_{}.pdf".format(parameter,fname,i)))
+
      
 main()
