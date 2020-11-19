@@ -94,7 +94,7 @@ def main():
             
             plt.figure(1)
             plt.plot(x_data,y_data,marker='.',markersize=1,color = 'black', linewidth=0)
-            #plt.plot(x_min,Ln(x_min,popt_min[0],popt_min[1],popt_min[2],popt_min[3]),linewidth=1,color = "salmon")
+            plt.plot(x_min,Ln(x_min,popt_min[0],popt_min[1],popt_min[2],popt_min[3]),linewidth=1,color = "salmon")
             plt.plot(x_max,Ln(x_max,popt_max[0],popt_max[1],popt_max[2],popt_max[3]),linewidth=1,color = "crimson")
             plt.legend()
             plt.savefig(os.path.join("PLOTS/{}/{}_{}.pdf".format(parameter,fname,i)))
@@ -105,7 +105,8 @@ def main():
             popt_max,pcov_max = curve_fit(Sqrt,x_max,y_max,maxfev=10000)
             print('sqrt',np.sqrt(np.diag(pcov_min)))
             print('sqrt',np.sqrt(np.diag(pcov_max)))
-            
+            print('min',popt_min)
+	    print('max',popt_max)
             plt.figure(1)
             plt.plot(x_data,y_data,marker='.',markersize=1,color = 'black', linewidth=0)
             #plt.plot(x_min,Sqrt(x_min,popt_min[0],popt_min[1],popt_min[2],popt_min[3]),linewidth=1,color = "salmon")
