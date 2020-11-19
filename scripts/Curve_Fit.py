@@ -66,8 +66,8 @@ def main():
     y_data = Data.iloc[:,2]
     pdb.set_trace() 
     #distribution_list = Distribution_info(args.DISTRIBUTION)
-        distribution_list = []
-	distribution_list.append(args.DISTRIBUTION)
+    distribution_list = []
+    distribution_list.append(args.DISTRIBUTION)
     parameter,fname = get_information(args.INFILE)
     
 
