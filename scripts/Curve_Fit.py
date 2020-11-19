@@ -23,12 +23,12 @@ def Ln(x,a,b,c,d):
     f = a*np.log((b*x)+c)+d
     return f
 
-def Exponential(x,a,b):
-    f = a*np.exp(x)+b 
+def Exponential(x,a,b,c):
+    f = a*np.exp(b*x)+c 
     return f
 
-def Quadratic(x,a,b,c,d,e):
-    f = (a*(x+b)**2)+(c*(x+d))+e
+def Quadratic(x,a,b,c):
+    f = a*(x**2)+b*x+c
     return f
 
 def Weibull(x,a,b):
@@ -73,9 +73,6 @@ def main():
     distribution_list = []
     distribution_list.append(args.DISTRIBUTION)
     parameter,fname = get_information(args.INFILE)
-    
-    y_min = y_min*(10**6)
-    y_max = y_max*(10**6)
 
     for i in distribution_list:
         if i == "exp":
@@ -86,8 +83,8 @@ def main():
             
             plt.figure(1)
             plt.plot(x_data,y_data*(10**6),marker='.',markersize=1,color = 'black', linewidth=0)
-            #plt.plot(x_min,Exponential(x_min,popt_min[0]),linewidth=1,color = "salmon")
-            #plt.plot(x_max,Exponential(x_max,popt_max[0],popt_max[1]),linewidth=1,color = "crimson")
+            plt.plot(x_min,Exponential(x_min,popt_min[0],popt_min[1],popt_min[2]),linewidth=1,color = "salmon")
+            plt.plot(x_max,Exponential(x_max,popt_max[0],popt_max[1],popt_min[2]),linewidth=1,color = "crimson")
             plt.plot(x_min,y_min,marker='.',color='yellowgreen',linewidth=0)
             plt.plot(x_max,y_max,marker='.',color='yellowgreen',linewidth=0)
             plt.legend()
@@ -130,8 +127,10 @@ def main():
             
             plt.figure(1)
             plt.plot(x_data,y_data,marker='.',markersize=1,color = 'black', linewidth=0)
-            #plt.plot(x_min,Quadratic(x_min,popt_min[0],popt_min[1],popt_min[2],popt_min[3],popt_min[4]),linewidth=1,color= "salmon")
-            plt.plot(x_max,Quadratic(x_max,popt_max[0],popt_max[1],popt_max[2],popt_max[3],popt_min[4]),linewidth=1,color = "crimson")
+            plt.plot(x_min,Quadratic(x_min,popt_min[0],popt_min[1],popt_min[2]),linewidth=1,color= "salmon")
+            plt.plot(x_max,Quadratic(x_max,popt_max[0],popt_max[1],popt_max[2]),linewidth=1,color = "crimson")
+            plt.scatter(x_min,y_min,color="yellowgreen")
+            plt.scatter(x_max,y_max,color='yellowgreen')
             plt.legend()
             plt.savefig(os.path.join("PLOTS/{}/{}_{}.pdf".format(parameter,fname,i)))
             
