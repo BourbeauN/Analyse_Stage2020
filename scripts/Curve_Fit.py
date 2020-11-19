@@ -36,8 +36,13 @@ def Weibull(x,a,b):
     return f
 
 def get_information(folder_name):
-    parameter = folder_name.split("/")[1].split(".")[0]
-    return parameter
+    param = folder_name.split("/")[1].split(".")[0].split("_")[0:2]
+    filen = folder_name.split("/")[1].split(".")[0].split("_")[2:]
+    d = "_"
+    parameter = d.join(param)
+    fname = d.join(filen)
+
+    return parameter,fname
 
 def main():   
     #Parser to run code in server
@@ -59,10 +64,11 @@ def main():
     Data = pd.read_csv(args.INFILE)
     x_data = Data.iloc[:,1]
     y_data = Data.iloc[:,2]
-    pdb.set_trace() 
+    #pdb.set_trace() 
     distribution_list = Distribution_info(args.DISTRIBUTION)
-    parameter = get_information(args.INFILE)
+    parameter,fname = get_information(args.INFILE)
     
+
     for i in distribution_list:
         if i == "exp":
             popt_min,pcov_min = curve_fit(Exponential,x_min,y_min,maxfev=10000)  
@@ -75,8 +81,8 @@ def main():
             plt.plot(x_min,Exponential(x_min,popt_min[0],popt_min[1],popt_min[2],popt_min[3]),linewidth=1,color = "salmon",label = "sigma {}".format(perr_min))
             plt.plot(x_max,Exponential(x_max,popt_max[0],popt_max[1],popt_max[2],popt_max[3]),linewidth=1,color = "crimson",label = "sigma {}".format(perr_max))
             plt.legend()
-            plt.savefig(os.path.join("PLOTS/{}_{}.pdf".format(parameter,args.DISTRIBUTION)))
-            plt.savefig(os.path.join("PLOTS/{}_{}.png".format(parameter,args.DISTRIBUTION)))
+            plt.savefig(os.path.join("PLOTS/{}/{}_{}.pdf".format(parameter,fname,i)))
+            plt.savefig(os.path.join("PLOTS/{}/{}_{}.png".format(parameter,fname,i)))
             
         if i == "log":
             popt_min,pcov_min = curve_fit(Ln,x_min,y_min,maxfev=10000)  
@@ -89,8 +95,8 @@ def main():
             plt.plot(x_min,Ln(x_min,popt_min[0],popt_min[1],popt_min[2],popt_min[3]),linewidth=1,color = "salmon",label = "sigma {}".format(perr_min))
             plt.plot(x_max,Ln(x_max,popt_max[0],popt_max[1],popt_max[2],popt_max[3]),linewidth=1,color = "crimson",label = "sigma {}".format(perr_max))
             plt.legend()
-            plt.savefig(os.path.join("PLOTS/{}_{}.pdf".format(parameter.args.DISTRIBUTION)))
-            plt.savefig(os.path.join("PLOTS/{}_{}.png".format(parameter,args.DISTRIBUTION)))
+            plt.savefig(os.path.join("PLOTS/{}/{}_{}.pdf".format(parameter,fname,i)))
+            plt.savefig(os.path.join("PLOTS/{}/{}_{}.png".format(parameter,fname,i)))
             
         if i == "sqrt":
             popt_min,pcov_min = curve_fit(Sqrt,x_min,y_min,maxfev=10000)  
@@ -102,9 +108,9 @@ def main():
             plt.plot(x_data,y_data,marker='.',markersize=1,color = 'black', linewidth=0)
             plt.plot(x_min,Sqrt(x_min,popt_min[0],popt_min[1],popt_min[2],popt_min[3]),linewidth=1,color = "salmon",label = "sigma {}".format(perr_min))
             plt.plot(x_max,Sqrt(x_max,popt_max[0],popt_max[1],popt_max[2],popt_max[3]),linewidth=1,color = "crimson",label = "sigma {}".format(perr_max))
-            plt.leged()
-            plt.savefig(os.path.join("PLOTS/{}_{}.pdf".format(parameter.args.DISTRIBUTION)))
-            plt.savefig(os.path.join("PLOTS/{}_{}.png".format(parameter,args.DISTRIBUTION)))
+            plt.legend()
+            plt.savefig(os.path.join("PLOTS/{}/{}_{}.pdf".format(parameter,fname,i)))
+            plt.savefig(os.path.join("PLOTS/{}/{}_{}.png".format(parameter,fname,i)))
             
         if i == "quad":
             popt_min,pcov_min = curve_fit(Quadratic,x_min,y_min,maxfev=10000)  
@@ -117,8 +123,8 @@ def main():
             plt.plot(x_min,Quadratic(x_min,popt_min[0],popt_min[1],popt_min[2],popt_min[3],popt_min[4]),linewidth=1,color= "salmon",label = "sigma {}".format(perr_min))
             plt.plot(x_max,Quadratic(x_max,popt_max[0],popt_max[1],popt_max[2],popt_max[3],popt_min[4]),linewidth=1,color = "crimson",label = "sigma {}".format(perr_max))
             plt.legend()
-            plt.savefig(os.path.join("PLOTS/{}_{}.pdf".format(parameter.args.DISTRIBUTION)))
-            plt.savefig(os.path.join("PLOTS/{}_{}.png".format(parameter,args.DISTRIBUTION)))     
+            plt.savefig(os.path.join("PLOTS/{}/{}_{}.pdf".format(parameter,fname,i)))
+            plt.savefig(os.path.join("PLOTS/{}/{}_{}.png".format(parameter,fname,i)))     
             
         if i == "weibull":
             popt_min,pcov_min = curve_fit(Weibull,x_min,y_min,maxfev=10000)  
@@ -131,8 +137,8 @@ def main():
             plt.plot(x_min,Weibull(x_min,popt_min[0],popt_min[1]),linewidth=1,color = "salmon",label = "sigma {}".format(perr_min))
             plt.plot(x_max,Weibull(x_max,popt_max[0],popt_max[1]),linewidth=1,color = "crimson",label = "sigma {}".format(perr_max))
             plt.legend()
-            plt.savefig(os.path.join("PLOTS/{}_{}.pdf".format(parameter.args.DISTRIBUTION)))
-            plt.savefig(os.path.join("PLOTS/{}_{}.png".format(parameter,args.DISTRIBUTION)))
+            plt.savefig(os.path.join("PLOTS/{}/{}_{}.pdf".format(parameter,fname,i)))
+            plt.savefig(os.path.join("PLOTS/{}/{}_{}.png".format(parameter,fname,i)))
       
      
 main()
