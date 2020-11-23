@@ -4,15 +4,20 @@ import os
 import argparse
 import pandas as pd
 
-def discharge_time_index(voltage, time, dv, dk):
-    
-    for k in range(dk, len(time)) :
-        if (voltage[k-dk] - voltage[k]) > dv & (voltage[k-dk]-voltage[k] < 2e100):
-            index = k - dk
-            end = time[index]
-            voltage_dis = voltage[index]
+def discharge_time_index(voltage_inf, time_inf, dv, dk):
+    time_inf = np.asarray(time_inf)
+    voltage_inf = np.asarray(voltage_inf)
+
+    time = time_inf[voltage_inf<1e208]
+    voltage = voltage_inf[voltage_inf<1e208]
+    if len(time_inf)-len(time)<20:
+        for k in range(dk, len(time)) :
+            if (voltage[k-dk] - voltage[k]) > dv :
+                index = k - dk
+                end = time[index]
+                voltage_dis = voltage[index]
                         
-            return end,voltage_dis
+                return end,voltage_dis
         
     return float("nan"),float("nan")
 
