@@ -58,15 +58,56 @@ def get_information(folder_name):
     return parameter,fname
 
 def Plots(x_min,x_max,y_min,y_max,x_data,y_data,popt_min,popt_max,pcov_min,pcov_max,parameter,fname,i):
-    
+    plt.figure(1)
     if i == 'exp':
         label_min = r'$%fe^{%fx}+%f$' % (popt_min[0],popt_min[1],popt_min[2])
         label_max = r'$%fe^{%fx}+%f$' % (popt_max[0],popt_max[1],popt_max[2])
+        plt.plot(x_min,Exponential(x_min,popt_min[0],popt_min[1],popt_min[2],popt_min[3]),linewidth=1,color = "salmon",label=label_min)
+        plt.plot(x_max,Exponential(x_max,popt_max[0],popt_max[1],popt_min[2],popt_min[3]),linewidth=1,color = "crimson",label=label_max)
     
-    plt.figure(1)
+    if i == 'sqrt':
+        label_min = r'$%f\sqrt{%bx}+%f' % (popt_min[0],popt_min[1],popt_min[2])
+        label_max = r'$%f\sqrt{%bx}+%f' % (popt_max[0],popt_max[1],popt_min[2])
+        plt.plot(x_min,Sqrt(x_min,popt_min[0],popt_min[1],popt_min[2],popt_min[3]),linewidth=1,color = "salmon",label=label_min)
+        plt.plot(x_max,Sqrt(x_max,popt_max[0],popt_max[1],popt_min[2],popt_min[3]),linewidth=1,color = "crimson",label=label_max)
+        
+    if i == 'log':
+        label_min = r'$%f\text{ln}(%fx)+%$' % (popt_min[0],popt_min[1],popt_min[2])
+        label_max = r'$%f\text{ln}(%fx)+%$' % (popt_max[0],popt_max[1],popt_max[2])
+        plt.plot(x_min,Ln(x_min,popt_min[0],popt_min[1],popt_min[2],popt_min[3]),linewidth=1,color = "salmon",label=label_min)
+        plt.plot(x_max,Ln(x_max,popt_max[0],popt_max[1],popt_min[2],popt_min[3]),linewidth=1,color = "crimson",label=label_max)
+    
+    if i == 'quad':
+        label_min = r'$%fx^{2}+%fx+%$' % (popt_min[0],popt_min[1],popt_min[2])
+        label_max = r'$%fx^{2}+%fx+%$' % (popt_max[0],popt_max[1],popt_max[2])
+        plt.plot(x_min,Quadratic(x_min,popt_min[0],popt_min[1],popt_min[2],popt_min[3]),linewidth=1,color = "salmon",label=label_min)
+        plt.plot(x_max,Quadratic(x_max,popt_max[0],popt_max[1],popt_min[2],popt_min[3]),linewidth=1,color = "crimson",label=label_max)
+    
+    if i == 'weibull':
+        label_min = r'$\Big[%f - e^{-\big(\frac{x}{%f}\big)^{%f}}\Big]^{%f}$' % (popt_min[0],popt_min[1],popt_min[2],popt_min[3])
+        label_max = r'$\Big[%f - e^{-\big(\frac{x}{%f}\big)^{%f}}\Big]^{%f}$' % (popt_max[0],popt_max[1],popt_max[2],popt_max[3])
+        plt.plot(x_min,Weibull(x_min,popt_min[0],popt_min[1],popt_min[2],popt_min[3]),linewidth=1,color = "salmon",label=label_min)
+        plt.plot(x_max,Weibull(x_max,popt_max[0],popt_max[1],popt_min[2],popt_min[3]),linewidth=1,color = "crimson",label=label_max)
+        
+    if i == 'lin':
+        label_min = r'$%fx+%f$' % (popt_min[0],popt_min[1])
+        label_max = r'$%fx+%f$' % (popt_max[0],popt_max[1])
+        plt.plot(x_min,Linear(x_min,popt_min[0],popt_min[1],popt_min[2],popt_min[3]),linewidth=1,color = "salmon",label=label_min)
+        plt.plot(x_max,Linear(x_max,popt_max[0],popt_max[1],popt_min[2],popt_min[3]),linewidth=1,color = "crimson",label=label_max)
+    
+    if i == 'Third':
+        label_min = r'$%fx^{3}+%fx^{2}+%fx+%f$' % (popt_min[0],popt_min[1],popt_min[2],popt_min[3])
+        label_max = r'$%fx^{3}+%fx^{2}+%fx+%f$' % (popt_min[0],popt_min[1],popt_min[2],popt_min[3])
+        plt.plot(x_min,ThirdDegree(x_min,popt_min[0],popt_min[1],popt_min[2],popt_min[3]),linewidth=1,color = "salmon",label=label_min)
+        plt.plot(x_max,ThirdDegree(x_max,popt_max[0],popt_max[1],popt_min[2],popt_min[3]),linewidth=1,color = "crimson",label=label_max)
+    
+    if i == 'Sigmoid':
+        label_min = r'$\frac{%f}{%f+e^{%fx}}+%f$' % (popt_min[0],popt_min[1],popt_min[2],popt_min[3])
+        label_max = r'$\frac{%f}{%f+e^{%fx}}+%f$' % (popt_max[0],popt_max[1],popt_max[2],popt_max[3])
+        plt.plot(x_min,Sigmoid(x_min,popt_min[0],popt_min[1],popt_min[2],popt_min[3]),linewidth=1,color = "salmon",label=label_min)
+        plt.plot(x_max,Sigmoid(x_max,popt_max[0],popt_max[1],popt_min[2],popt_min[3]),linewidth=1,color = "crimson",label=label_max)
+
     plt.plot(x_data,y_data*(10**6),marker='.',markersize=1,color = 'black', linewidth=0)
-    plt.plot(x_min,Exponential(x_min,popt_min[0],popt_min[1],popt_min[2],popt_min[3]),linewidth=1,color = "salmon",label=label_min)
-    plt.plot(x_max,Exponential(x_max,popt_max[0],popt_max[1],popt_min[2],popt_min[3]),linewidth=1,color = "crimson",label=label_max)
     plt.plot(x_min,y_min,marker='.',color='yellowgreen',linewidth=0)
     plt.plot(x_max,y_max,marker='.',color='yellowgreen',linewidth=0)
     plt.legend()
