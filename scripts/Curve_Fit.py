@@ -57,7 +57,7 @@ def get_information(folder_name):
 
     return parameter,fname
 
-def Plots(x_min,x_max,y_min,y_max,x_data,y_data,popt_min,popt_max,pcov_min,pcov_max,parameter,fname,i,label_min,label_max):
+def Plots(x_min,x_max,y_min,y_max,x_data,y_data,popt_min,popt_max,pcov_min,pcov_max,parameter,fname,i):
     
     if i == 'exp':
         label_min = r'{}e^{{}x}+{}'.format(popt_min[0],popt_min[1],popt_min[2])
