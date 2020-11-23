@@ -59,6 +59,10 @@ def get_information(folder_name):
 
 def Plots(x_min,x_max,y_min,y_max,x_data,y_data,popt_min,popt_max,pcov_min,pcov_max,parameter,fname,i,label_min,label_max):
     
+    if i == 'exp':
+        label_min = r'{}e^{{}x}+{}'.format(popt_min[0],popt_min[1],popt_min[2])
+        label_max = r'{}e^{{}x}+{}'.format(popt_max[0],popt_max[1],popt_max[2])
+    
     plt.figure(1)
     plt.plot(x_data,y_data*(10**6),marker='.',markersize=1,color = 'black', linewidth=0)
     plt.plot(x_min,Exponential(x_min,popt_min[0],popt_min[1],popt_min[2]),linewidth=1,color = "salmon",label=str(label_min))
@@ -91,8 +95,8 @@ def main():
     pdb.set_trace() 
     #distribution_list = Distribution_info(args.DISTRIBUTION)
     distribution_list = []
-    distribution_list.append(str(args.DISTRIBUTION))
-    parameter,fname = get_information(str(args.INFILE))
+    distribution_list.append(args.DISTRIBUTION)
+    parameter,fname = get_information(args.INFILE)
 
     for i in distribution_list:
         if i == "exp":
@@ -101,10 +105,7 @@ def main():
             print('exp',np.sqrt(np.diag(pcov_min)))
             print('exp',np.sqrt(np.diag(pcov_max)))
             
-            label_min = r'{}e^{{}x}+{}'.format(popt_min[0],popt_min[1],popt_min[2])
-            label_max = r'{}e^{{}x}+{}'.format(popt_max[0],popt_max[1],popt_max[2])
-            
-            Plots(x_min,x_max,y_min,y_max,x_data,y_data,popt_min,popt_max,pcov_min,pcov_max,parameter,fname,i,label_min,label_max)
+            Plots(x_min,x_max,y_min,y_max,x_data,y_data,popt_min,popt_max,pcov_min,pcov_max,parameter,fname,i)
             
         if i == "log":
             popt_min,pcov_min = curve_fit(Ln,x_min,y_min,maxfev=10000)  
