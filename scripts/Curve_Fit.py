@@ -20,27 +20,32 @@ def Sqrt(x,a,b,c,d):
     return f
 
 def Ln(x,a,b,c,d):
-    f = a*np.log((b*x)+c)+d
+    f = a*np.log((b*x))+c+(d*0)
     return f
 
-def Exponential(x,a,b,c):
-    f = a*np.exp(b*x)+c 
+def Exponential(x,a,b,c,d):
+    f = a*np.exp(b*x)+c+(d*0) 
     return f
 
-def Quadratic(x,a,b,c):
-    f = a*(x**2)+b*x+c
+def Quadratic(x,a,b,c,d):
+    f = a*(x**2)+b*x+c+(d*0)
     return f
 
-def Weibull(x,a,b):
-    f = (a/b)*((x/b)**(a-1))*(np.exp(-((x/b)**a)))
+def Weibull(x,a,b,c,d):
+    f = (a-np.exp(-((x/b)**c)))**d
     return f
 
-def Linear(x,a,b):
-    f = (a*x)+b
+def Linear(x,a,b,c,d):
+    f = (a*x)+b + ((c+d)*0)
     return f
 
 def ThirdDegree(x,a,b,c,d):
     f = (a*(x**3))+(b*(x**2))+(c*x)+d
+    return f
+
+def Sigmoid(x,a,b,c,d):
+    f = a/(b+np.exp**(c*x))+d
+    
     return f
 
 def get_information(folder_name):
@@ -52,11 +57,12 @@ def get_information(folder_name):
 
     return parameter,fname
 
-def Plots(x_min,x_max,y_min,y_max,x_data,y_data,popt_min,popt_max,pcov_min,pcov_max,parameter,fname,i):
+def Plots(x_min,x_max,y_min,y_max,x_data,y_data,popt_min,popt_max,pcov_min,pcov_max,parameter,fname,i,label_min,label_max):
+    
     plt.figure(1)
     plt.plot(x_data,y_data*(10**6),marker='.',markersize=1,color = 'black', linewidth=0)
-    plt.plot(x_min,Exponential(x_min,popt_min[0],popt_min[1],popt_min[2]),linewidth=1,color = "salmon")
-    plt.plot(x_max,Exponential(x_max,popt_max[0],popt_max[1],popt_min[2]),linewidth=1,color = "crimson")
+    plt.plot(x_min,Exponential(x_min,popt_min[0],popt_min[1],popt_min[2]),linewidth=1,color = "salmon",label=str(label_min))
+    plt.plot(x_max,Exponential(x_max,popt_max[0],popt_max[1],popt_min[2]),linewidth=1,color = "crimson",label=str(label_max))
     plt.plot(x_min,y_min,marker='.',color='yellowgreen',linewidth=0)
     plt.plot(x_max,y_max,marker='.',color='yellowgreen',linewidth=0)
     plt.legend()
@@ -95,7 +101,10 @@ def main():
             print('exp',np.sqrt(np.diag(pcov_min)))
             print('exp',np.sqrt(np.diag(pcov_max)))
             
-            Plots(x_min,x_max,y_min,y_max,x_data,y_data,popt_min,popt_max,pcov_min,pcov_max,parameter,fname,i)
+            label_min = r'{}e^{{}x}+{}'.format(popt_min[0],popt_min[1],popt_min[2])
+            label_max = r'{}e^{{}x}+{}'.format(popt_max[0],popt_max[1],popt_max[2])
+            
+            Plots(x_min,x_max,y_min,y_max,x_data,y_data,popt_min,popt_max,pcov_min,pcov_max,parameter,fname,i,label_min,label_max)
             
         if i == "log":
             popt_min,pcov_min = curve_fit(Ln,x_min,y_min,maxfev=10000)  
@@ -103,28 +112,15 @@ def main():
             print('log',np.sqrt(np.diag(pcov_min)))
             print('log',np.sqrt(np.diag(pcov_max)))
             
-            plt.figure(1)
-            plt.plot(x_data,y_data,marker='.',markersize=1,color = 'black', linewidth=0)
-            plt.plot(x_min,Ln(x_min,popt_min[0],popt_min[1],popt_min[2],popt_min[3]),linewidth=1,color = "salmon")
-            plt.plot(x_max,Ln(x_max,popt_max[0],popt_max[1],popt_max[2],popt_max[3]),linewidth=1,color = "crimson")
-            plt.plot(x_min,y_min,color="yellowgreen",linewidth=0,markersize=1,marker='.')
-            plt.plot(x_max,y_max,color="yellowgreen",linewidth=0,markersize=1,marker='.')
-            plt.legend()
-            plt.savefig(os.path.join("PLOTS/{}/{}_{}.pdf".format(parameter,fname,i)))
+            Plots(x_min,x_max,y_min,y_max,x_data,y_data,popt_min,popt_max,pcov_min,pcov_max,parameter,fname,i)
             
         if i == "sqrt":
             popt_min,pcov_min = curve_fit(Sqrt,x_min,y_min,maxfev=10000)  
             popt_max,pcov_max = curve_fit(Sqrt,x_max,y_max,maxfev=10000)
             print('sqrt',np.sqrt(np.diag(pcov_min)))
             print('sqrt',np.sqrt(np.diag(pcov_max)))
-            print('min',popt_min)
-            print('max',popt_max)
-            plt.figure(1)
-            plt.plot(x_data,y_data,marker='.',markersize=1,color = 'black', linewidth=0)
-            #plt.plot(x_min,Sqrt(x_min,popt_min[0],popt_min[1],popt_min[2],popt_min[3]),linewidth=1,color = "salmon")
-            plt.plot(x_max,Sqrt(x_max,popt_max[0],popt_max[1],popt_max[2],popt_max[3]),linewidth=1,color = "crimson")
-            plt.legend()
-            plt.savefig(os.path.join("PLOTS/{}/{}_{}.pdf".format(parameter,fname,i)))
+
+            Plots(x_min,x_max,y_min,y_max,x_data,y_data,popt_min,popt_max,pcov_min,pcov_max,parameter,fname,i)
             
         if i == "quad":
             popt_min,pcov_min = curve_fit(Quadratic,x_min,y_min,maxfev=10000)  
@@ -132,14 +128,7 @@ def main():
             print('quad',np.sqrt(np.diag(pcov_min)))
             print('quad',np.sqrt(np.diag(pcov_max)))
             
-            plt.figure(1)
-            plt.plot(x_data,y_data,marker='.',markersize=1,color = 'black', linewidth=0)
-            plt.plot(x_min,Quadratic(x_min,popt_min[0],popt_min[1],popt_min[2]),linewidth=1,color= "salmon")
-            plt.plot(x_max,Quadratic(x_max,popt_max[0],popt_max[1],popt_max[2]),linewidth=1,color = "crimson")
-            plt.scatter(x_min,y_min,color="yellowgreen")
-            plt.scatter(x_max,y_max,color='yellowgreen')
-            plt.legend()
-            plt.savefig(os.path.join("PLOTS/{}/{}_{}.pdf".format(parameter,fname,i)))
+            Plots(x_min,x_max,y_min,y_max,x_data,y_data,popt_min,popt_max,pcov_min,pcov_max,parameter,fname,i)
             
         if i == "weibull":
             popt_min,pcov_min = curve_fit(Weibull,x_min,y_min,maxfev=10000)  
@@ -147,12 +136,8 @@ def main():
             print('weibull',np.sqrt(np.diag(pcov_min)))
             print('weibull',np.sqrt(np.diag(pcov_max)))
         
-            plt.figure(1)
-            plt.plot(x_data,y_data,marker='.',markersize=1,color = 'black', linewidth=0)
-            #plt.plot(x_min,Weibull(x_min,popt_min[0],popt_min[1]),linewidth=1,color = "salmon")
-            plt.plot(x_max,Weibull(x_max,popt_max[0],popt_max[1]),linewidth=1,color = "crimson")
-            plt.legend()
-            plt.savefig(os.path.join("PLOTS/{}/{}_{}.pdf".format(parameter,fname,i)))
+            Plots(x_min,x_max,y_min,y_max,x_data,y_data,popt_min,popt_max,pcov_min,pcov_max,parameter,fname,i)
+            
         if i == "lin":
             popt_min,pcov_min = curve_fit(Linear,x_min,y_min,maxfev=10000)
             popt_max,pcov_max = curve_fit(Linear,x_max,y_max,maxfev=10000)
@@ -162,13 +147,7 @@ def main():
             print('linear', var_max )
             print('linear', var_min )
 
-            plt.figure(1)
-            plt.plot(x_data,y_data,marker='.',markersize=1,color='black',linewidth=0)
-            #plt.plot(x_min,Linear(x_min,popt_min[0],popt_min[1]),linewidth=1,color='salmon',label=f"y={popt_min[0]} +/- {var_min[0]}x + {popt_min[1] +/- {var_min[1]}")
-            plt.plot(x_max,Linear(x_max,popt_max[0],popt_max[1]),linewidth=1,color='crimson')
-            plt.plot(x_min,x_max,marker='.',markersize=3,color='yellowgreen')
-            plt.legend()
-            plt.savefig(os.path.join("PLOTS/{}/{}_{}.pdf".format(parameter,fname,i)))
+            Plots(x_min,x_max,y_min,y_max,x_data,y_data,popt_min,popt_max,pcov_min,pcov_max,parameter,fname,i)
             
         if i == "Third" : 
             popt_min,pcov_min = curve_fit(ThirdDegree,x_min,y_min,maxfev=10000)
@@ -179,12 +158,7 @@ def main():
             print("3rd degree max",var_max)
             print("3rd drgree mim",var_min)
             
-            plt.figure(1)
-            plt.plot(x_min,ThirdDegree(x_min,popt_min[0],popt_min[1],popt_min[2],popt_min[3]),color='salmon')
-            plt.plot(x_max,ThirdDegree(x_max,popt_max[0],popt_max[1],popt_min[2],popt_min[3]),color='crimson')
-            plt.plot(x_min,y_min,color='yellowgreen',marker='.',linewidth=0,markersize=5)
-            plt.plot(x_max,y_max,color='yellowgreen',marker='.',linewidth=0,markersize=5)
-            plt.plot(x_data,y_data,color='black',marker='.',linewidth=0,markersize=1) 
-            plt.savefig(os.path.join("PLOTS/{}/{}_{}.pdf".format(parameter,fname,i)))
-
+            Plots(x_min,x_max,y_min,y_max,x_data,y_data,popt_min,popt_max,pcov_min,pcov_max,parameter,fname,i)
+            
+            
 main()
