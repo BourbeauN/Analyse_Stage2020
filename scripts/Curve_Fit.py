@@ -65,8 +65,8 @@ def Plots(x_min,x_max,y_min,y_max,x_data,y_data,popt_min,popt_max,pcov_min,pcov_
     
     plt.figure(1)
     plt.plot(x_data,y_data*(10**6),marker='.',markersize=1,color = 'black', linewidth=0)
-    plt.plot(x_min,Exponential(x_min,popt_min[0],popt_min[1],popt_min[2]),linewidth=1,color = "salmon",label=str(label_min))
-    plt.plot(x_max,Exponential(x_max,popt_max[0],popt_max[1],popt_min[2]),linewidth=1,color = "crimson",label=str(label_max))
+    plt.plot(x_min,Exponential(x_min,popt_min[0],popt_min[1],popt_min[2],popt_min[3]),linewidth=1,color = "salmon",label=str(label_min))
+    plt.plot(x_max,Exponential(x_max,popt_max[0],popt_max[1],popt_min[2],popt_min[3]),linewidth=1,color = "crimson",label=str(label_max))
     plt.plot(x_min,y_min,marker='.',color='yellowgreen',linewidth=0)
     plt.plot(x_max,y_max,marker='.',color='yellowgreen',linewidth=0)
     plt.legend()
