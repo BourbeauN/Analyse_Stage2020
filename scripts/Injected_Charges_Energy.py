@@ -77,7 +77,7 @@ def main():
     #if args.METHOD == 'all':
     INJECTED_CHARGES,INJECTED_ENERGY = Integration(args.INFOLDER,dk,dv)
     print("finished calculating now saving ... ")
-    pd.DataFrame(INJECTED_CHARGES, columns = ['Filename','Injected_Charges']).to_csv(os.path.join('Injected_Charges',"{}.csv".format(outfile)))
-    pd.DataFrame(INJECTED_ENERGY, columns = ['Filename','Energy']).to_csv(os.path.join('Energy',"{}.csv".format(outfile)))
+    pd.DataFrame(INJECTED_CHARGES, columns = ['Filename','Injected_Charges']).to_csv(os.path.join('AudrenData/Injected_Charges',"{}.csv".format(outfile)))
+    pd.DataFrame(INJECTED_ENERGY, columns = ['Filename','Energy']).to_csv(os.path.join('AudrenData/Energy',"{}.csv".format(outfile)))
 
 main()

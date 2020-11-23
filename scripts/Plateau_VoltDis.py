@@ -7,7 +7,7 @@ import pandas as pd
 def discharge_time_index(voltage, time, dv, dk):
     
     for k in range(dk, len(time)) :
-        if (voltage[k-dk] - voltage[k]) > dv:
+        if (voltage[k-dk] - voltage[k]) > dv & (voltage[k-dk]-voltage[k] < 2e100):
             index = k - dk
             end = time[index]
             voltage_dis = voltage[index]
@@ -72,8 +72,8 @@ def main():
 
     print("Finished appending, saving tables...")
     
-    pd.DataFrame(PLATEAU, columns = ['Filename','Plateau']).to_csv(os.path.join('Discharge_Delay',"{}.csv".format(outfile)))
-    pd.DataFrame(VOLT_DIS, columns = ['Filename','Voltage']).to_csv(os.path.join('Discharge_Voltage',"{}.csv".format(outfile)))
+    pd.DataFrame(PLATEAU, columns = ['Filename','Plateau']).to_csv(os.path.join('AudrenAnalysis/Discharge_Delay',"{}.csv".format(outfile)))
+    pd.DataFrame(VOLT_DIS, columns = ['Filename','Voltage']).to_csv(os.path.join('AudrenAnalysis/Discharge_Voltage',"{}.csv".format(outfile)))
    
 #update
 main()
