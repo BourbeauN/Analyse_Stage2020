@@ -52,6 +52,16 @@ def get_information(folder_name):
 
     return parameter,fname
 
+def Plots(x_min,x_max,y_min,y_max,x_data,y_data,popt_min,popt_max,pcov_min,pcov_max,parameter,fname,i):
+    plt.figure(1)
+    plt.plot(x_data,y_data*(10**6),marker='.',markersize=1,color = 'black', linewidth=0)
+    plt.plot(x_min,Exponential(x_min,popt_min[0],popt_min[1],popt_min[2]),linewidth=1,color = "salmon")
+    plt.plot(x_max,Exponential(x_max,popt_max[0],popt_max[1],popt_min[2]),linewidth=1,color = "crimson")
+    plt.plot(x_min,y_min,marker='.',color='yellowgreen',linewidth=0)
+    plt.plot(x_max,y_max,marker='.',color='yellowgreen',linewidth=0)
+    plt.legend()
+    plt.savefig(os.path.join("PLOTS/{}/{}_{}.pdf".format(parameter,fname,i)))    
+
 def main():   
     #Parser to run code in server
     parser = argparse.ArgumentParser()
@@ -85,14 +95,7 @@ def main():
             print('exp',np.sqrt(np.diag(pcov_min)))
             print('exp',np.sqrt(np.diag(pcov_max)))
             
-            plt.figure(1)
-            plt.plot(x_data,y_data*(10**6),marker='.',markersize=1,color = 'black', linewidth=0)
-            plt.plot(x_min,Exponential(x_min,popt_min[0],popt_min[1],popt_min[2]),linewidth=1,color = "salmon")
-            plt.plot(x_max,Exponential(x_max,popt_max[0],popt_max[1],popt_min[2]),linewidth=1,color = "crimson")
-            plt.plot(x_min,y_min,marker='.',color='yellowgreen',linewidth=0)
-            plt.plot(x_max,y_max,marker='.',color='yellowgreen',linewidth=0)
-            plt.legend()
-            plt.savefig(os.path.join("PLOTS/{}/{}_{}.pdf".format(parameter,fname,i)))
+            Plots(x_min,x_max,y_min,y_max,x_data,y_data,popt_min,popt_max,pcov_min,pcov_max,parameter,fname,i)
             
         if i == "log":
             popt_min,pcov_min = curve_fit(Ln,x_min,y_min,maxfev=10000)  
