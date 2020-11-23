@@ -44,7 +44,7 @@ def ThirdDegree(x,a,b,c,d):
     return f
 
 def Sigmoid(x,a,b,c,d):
-    f = a/(b+np.exp**(c*x))+d
+    f = a/(b+np.exp(c*x))+d
     
     return f
 
@@ -199,8 +199,17 @@ def main():
 
             print("3rd degree max",var_max)
             print("3rd drgree mim",var_min)
-            
-            Plots(x_min,x_max,y_min,y_max,x_data,y_data,popt_min,popt_max,pcov_min,pcov_max,parameter,fname,i)
+        
+        if i == 'Sigmoid':
+            popt_min,pcov_min = curve_fit(Sigmoid,x_min,y_min,maxfev=10000)
+            popt_max,pcov_max = curve_fit(Sigmoid,x_max,y_max,maxfev=10000)
+            var_min = np.sqrt(np.diag(pcov_min))
+            var_max = np.sqrt(np.diag(pcov_max))
+
+            print("Sigmoid min variance",pcov_min)
+            print("Sigmoid max variance",pcov_max)
+            print("Sigmoid min parameters",popt_min)
+            print("Sigmoid max parameters",popt_max)
             
             
 main()
