@@ -25,9 +25,13 @@ def Mean_Partial(Data,Success_Rate,a):
 
 def get_discharge_information(folder_name):
     
-    info = folder_name.split("/")[1].split(".")[0].split("_")[1:5]
+    param = folder_name.split("/")[1].split(".")[0].split("_")[0:2]
+    d = '_'
+    parameter = d.join(param)
+    fname = folder_name.split("/")[1].split(".")[0].split("_")[2:6]
+    filename = d.join(fname)
 
-    return info 
+    return parameter,filename
 
 def main():
     ###PARSER###
@@ -36,7 +40,7 @@ def main():
     parser.add_argument('-i', type = int, dest = 'INTERVAL', help = 'size of data interval to compute probabilitmy calculation on')
     args = parser.parse_args()
     
-    info = get_discharge_information(args.INFILE)
+    parameter,fname = get_discharge_information(args.INFILE)
     
     Results = pd.read_csv(args.INFILE,skiprows=10)
     Data_Pandas = Results.iloc[:,2]
@@ -67,6 +71,6 @@ def main():
 
     DATA = np.column_stack((ydata_range,Final_Mean))
 
-    pd.DataFrame(DATA, columns = ['ID','Mean']).to_csv(os.path.join('Moving_Mean',"{}_{}_{}_{}_{}.csv".format(a,info[0],info[1],info[2],info[3])))
+    pd.DataFrame(DATA, columns = ['ID','Mean']).to_csv(os.path.join("Moving_Mean/{}/{}.csv".format(parameter,fname)))
         
 main()
