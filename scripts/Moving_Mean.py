@@ -10,14 +10,15 @@ def Mean_Whole(Data,a):
     #pdb.set_trace()
     for i in index:
         #pdb.set_trace()
-        temp = ~np.isnan(Data[i:i+(a-1)])
-        mean = np.mean(temp)
+        temp = Data[i:i+(a-1)]
+        data = temp[~np.isnan(temp)]
+        mean = np.mean(data)
         Mean_Value.append(mean)
     
     return Mean_Value
 
 def Mean_Partial(Data,Success_Rate,a):
-    temp_data = ~np.isnan(Data)
+    temp_data = Data[~np.isnan(Data)]
     mean = np.mean(temp_data)
     Success_Rate.append(mean)
     
@@ -67,7 +68,7 @@ def main():
     
     Final_Mean = np.asarray(Final_Mean)
     
-    ydata_range = 20*np.arange(0,len(Final_Mean),1)
+    ydata_range = a*np.arange(0,len(Final_Mean),1)
 
     DATA = np.column_stack((ydata_range,Final_Mean))
 
