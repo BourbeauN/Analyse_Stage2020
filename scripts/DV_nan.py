@@ -8,8 +8,8 @@ def DV_Count(dv) :
     count = 0
     dv_nan=[]
     
-    for i in range(len(dv)):
-        #if i == 1359:
+    for i in range(len(dv)-1):
+        #if i == 1359:-
             #pdb.set_trace()
         if dv[i]/dv[i]==1:
             count += 1
@@ -46,6 +46,6 @@ def main():
     
     info = get_discharge_information(args.INFILE)
     
-    pd.DataFrame(DV_nan, columns = ['Count','Discharge_Voltage']).to_csv(os.path.join('Analysis/DV_nan/{}'.format(info)))
+    pd.DataFrame(DV_nan, columns = ['Count','Discharge_Voltage']).to_csv(os.path.join('Analysis/DV_nan/{}.csv'.format(info)))
 
 main()    
