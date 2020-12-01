@@ -229,9 +229,9 @@ def main():
         if i == 'none':
             plt.figure(1)
             plt.plot(x_data,y_data,color='black',marker='.',markersize=3,linewidth=0,label='data')
-            plt.plot(x_min,y_min,color='yellowgreen',marker='.',markersize=3,linewidth=0)
-            plt.plot(x_max,y_max,color='yellowgreen',marker='.',markersize=3,linewidth=0)
-            plt.savefig(os.path.join('PLOTS/{}/{}_{}.pdf'.format(parameter,fname,i)))
+            #plt.plot(x_min,y_min,color='yellowgreen',marker='.',markersize=3,linewidth=0)
+            #plt.plot(x_max,y_max,color='yellowgreen',marker='.',markersize=3,linewidth=0)
+            plt.savefig(os.path.join('PLOTS/{}/{}_{}.png'.format(parameter,fname,i)))
 
         if i == 'radical':
             popt_min,pcov_min=curve_fit(radical,x_min,y_min,maxfev=10000)

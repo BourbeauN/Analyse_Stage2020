@@ -72,6 +72,6 @@ def main():
 
     DATA = np.column_stack((ydata_range,Final_Mean))
 
-    pd.DataFrame(DATA, columns = ['ID','Mean']).to_csv(os.path.join("Moving_Mean/{}/{}.csv".format(parameter,fname)))
+    pd.DataFrame(DATA, columns = ['ID','Mean']).to_csv(os.path.join("Analysis/Moving_Mean/{}/{}.csv".format(parameter,fname)))
         
 main()

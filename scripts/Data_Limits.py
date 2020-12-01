@@ -111,6 +111,6 @@ def main():
     DATA = np.column_stack((Max_xArray_Final,Max_yArray_Final,Min_xArray_Final,Min_yArray_Final))
 
     pd.DataFrame(DATA, columns =
-    ['x_max','y_max','x_min','y_min']).to_csv(os.path.join('Limits/{}'.format(fol),"{}.csv".format(param)))
+    ['x_max','y_max','x_min','y_min']).to_csv(os.path.join('Analysis/Limits/{}'.format(fol),"{}.csv".format(param)))
       
 main()

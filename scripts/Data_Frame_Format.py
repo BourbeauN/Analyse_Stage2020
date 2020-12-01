@@ -28,7 +28,7 @@ def get_elapsed_time(fnames):
         datetimes[f] = datetime.strptime(times,"%Y%m%d%H%M%S%f")
     
     #Allows to track the first part of the time stamp 
-    print("for loop to separate time string complete ...")
+    #print("for loop to separate time string complete ...")
     
     #Converting time difference to seconds
     for d in range(len(datetimes)): 
@@ -36,11 +36,11 @@ def get_elapsed_time(fnames):
         time_deltas[d] = (datetimes[d] - datetimes[0]).total_seconds()
         
         #print to follow evolution of code during execution
-        if d%50 == 0 :
-            print(time_deltas[d])
+        #if d%50 == 0 :
+            #print(time_deltas[d])
    
    #Tracks seconde part of time stamp
-    print("for loop to obtain time stamp complete...")                 
+    #print("for loop to obtain time stamp complete...")                 
 
     return time_deltas,datetimes
 
