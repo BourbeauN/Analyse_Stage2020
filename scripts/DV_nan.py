@@ -7,11 +7,14 @@ import os
 def DV_Count(dv) :
     count = 0
     dv_nan=[]
+    
     for i in range(len(dv)):
-        if dv[i]==1:
+        #if i == 1359:
+            #pdb.set_trace()
+        if dv[i]/dv[i]==1:
             count += 1
             #print(dv[i],count)
-            if ((dv[i+1])*1) != 1:                   
+            if ((dv[i+1])/dv[i+1]) != 1:                   
                 dv_postnan = dv[i+1]        
                 dv_nan.append([count,dv_postnan])
         else:
@@ -33,10 +36,16 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-f', dest = 'INFILE', help = 'file folder corresponding to experimental set with discharge infos')
     args = parser.parse_args()
+   
+    Results = pd.read_csv(args.INFILE)
     
-    DV_nan = DV_Count(args.INFILE)
+    dv = Results.iloc[:,2]
+    dv_data = np.asarray(dv.values) 
+
+    DV_nan = DV_Count(dv_data)
     
     info = get_discharge_information(args.INFILE)
     
     pd.DataFrame(DV_nan, columns = ['Count','Discharge_Voltage']).to_csv(os.path.join('Analysis/DV_nan/{}'.format(info)))
-    
+
+main()    
