@@ -9,14 +9,12 @@ def DV_Count(dv) :
     dv_nan=[]
     
     for i in range(len(dv)-1):
-        #if i == 1359:-
-            #pdb.set_trace()
-        if dv[i]/dv[i]==1:
+        if dv[i]/dv[i] !=1:
             count += 1
-            #print(dv[i],count)
-            if ((dv[i+1])/dv[i+1]) != 1:                   
+            if ((dv[i+1])/dv[i+1]) == 1:                   
+                #pdb.set_trace()
                 dv_postnan = dv[i+1]        
-                dv_nan.append([count,dv_postnan])
+                dv_nan.append([count,dv_postnan,i+1])
         else:
             count = 0    
         
@@ -25,8 +23,8 @@ def DV_Count(dv) :
     return dv_nan
 
 def get_discharge_information(folder_name):
-    
-    information = folder_name.split("/")[1].split(".")[0].split("_")[2:]
+
+    information = folder_name.split("/")[3].split(".")[0].split("_")[2:]
     d = '_'
     info = d.join(information)
     return info 
@@ -38,14 +36,16 @@ def main():
     args = parser.parse_args()
    
     Results = pd.read_csv(args.INFILE)
-    
+    Index=Results.iloc[:,1]
     dv = Results.iloc[:,2]
+    
+    dv_index = np.asarray(index.values)
     dv_data = np.asarray(dv.values) 
-
-    DV_nan = DV_Count(dv_data)
+    
+    DV_nan = DV_Count(dv_data,dv_index)
     
     info = get_discharge_information(args.INFILE)
     
-    pd.DataFrame(DV_nan, columns = ['Count','Discharge_Voltage']).to_csv(os.path.join('Analysis/DV_nan/{}.csv'.format(info)))
+    pd.DataFrame(DV_nan, columns = ['Count','Discharge_Voltage','DischargeID']).to_csv(os.path.join('Audren/AudrenAnalysis/DV_nan/{}.csv'.format(info)))
 
 main()    
