@@ -14,12 +14,12 @@ args = parser.parse_args()
 Results = pd.read_csv(args.INFILE)
 
 def get_information(folder_name):
-    file = folder_name.split("/")[2].split(".")[0]
+    folder = folder_name.split("/")[2].split(".")[0]
     param = folder_name.split("/")[0]
     
-    return file,param
+    return folder,param
 
-file,param = get_information(args.INFILE)
+folder,param = get_information(args.INFILE)
 sns_plot = sns.heatmap(Results,annot=True)
 
-sns_plot.savefig("Analysis/Heat_map/{}/{}.pdf".format(param,file))
+sns_plot.savefig("Analysis/Heat_map/{}/{}.pdf".format(param,folder))

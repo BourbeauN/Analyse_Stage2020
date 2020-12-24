@@ -24,9 +24,9 @@ def DV_Count(dv) :
 
 def get_discharge_information(folder_name):
 
-    information = folder_name.split("/")[3].split(".")[0].split("_")[2:]
-    d = '_'
-    info = d.join(information)
+    info = folder_name.split("/")[-1].split(".")[0]
+    #d = '_'
+    #info = d.join(information)
     return info 
 
 def main():
@@ -36,16 +36,15 @@ def main():
     args = parser.parse_args()
    
     Results = pd.read_csv(args.INFILE)
-    Index=Results.iloc[:,1]
+    index=Results.iloc[:,1]
     dv = Results.iloc[:,2]
     
-    dv_index = np.asarray(index.values)
     dv_data = np.asarray(dv.values) 
     
-    DV_nan = DV_Count(dv_data,dv_index)
+    DV_nan = DV_Count(dv_data)
     
     info = get_discharge_information(args.INFILE)
     
-    pd.DataFrame(DV_nan, columns = ['Count','Discharge_Voltage','DischargeID']).to_csv(os.path.join('Audren/AudrenAnalysis/DV_nan/{}.csv'.format(info)))
+    pd.DataFrame(DV_nan, columns = ['Discharge_Voltage','Count','DischargeID']).to_csv(os.path.join('Analysis/DV_nan/{}.csv'.format(info)))
 
 main()    
