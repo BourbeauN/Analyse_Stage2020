@@ -14,7 +14,7 @@ def DV_Count(dv) :
             if ((dv[i+1])/dv[i+1]) == 1:                   
                 #pdb.set_trace()
                 dv_postnan = dv[i+1]        
-                dv_nan.append([count,dv_postnan,i+1])
+                dv_nan.append([dv_postnan,count,i+1])
         else:
             count = 0    
         
