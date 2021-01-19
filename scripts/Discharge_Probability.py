@@ -64,7 +64,7 @@ def main():
     
     Final_Probability = np.asarray(Final_Probability)
     
-    ydata_range = 20*np.arange(0,len(Final_Probability),1)
+    ydata_range = a*np.arange(0,len(Final_Probability),1)
 
     DATA = np.column_stack((ydata_range,Final_Probability))
 
