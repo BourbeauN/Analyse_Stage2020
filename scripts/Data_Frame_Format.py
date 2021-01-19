@@ -46,7 +46,7 @@ def get_elapsed_time(fnames):
 
 def get_information(folder_name):
     
-    parameter = folder_name.split("/")[1].split(".")[0]
+    parameter = folder_name.split("/")[-1].split(".")[0]
     return parameter
 
 def main():

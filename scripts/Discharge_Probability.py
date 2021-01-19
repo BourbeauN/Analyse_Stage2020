@@ -26,7 +26,7 @@ def Success_Rate_Partial(Data,Success_Rate,a):
     
 def get_discharge_information(folder_name):
     
-    info = folder_name.split("/")[2].split(".")[0].split("_")[-1]
+    info = folder_name.split("/")[-1].split(".")[0]
 
     return info 
 
