@@ -44,7 +44,7 @@ def Integration(path,dk,dv):
         
         PRE_TIME, PRE_CURR, PRE_VOLT = [],[],[]
         POST_TIME, POST_CURR, POST_VOLT = [],[],[]
-                
+        ABS_INJ,REG_INJ,NEG_INJ,DIS_CURR = [],[],[],[]        
 
         #print(f)
         time_inf, voltage_inf, current_inf = load_data(os.path.join(path,f))
@@ -81,10 +81,14 @@ def Integration(path,dk,dv):
                 inj = Injected(POST_TIME,POST_CURR)
                 dis_curr = Injected(PRE_TIME,abs(PRE_CURR))
 
-                ABS_INJ.append([f
+                ABS_INJ.append([f,abs_inj])
+                
+                NEG_INJ = -0.5*(ABS_INJ-REG_INJ)
 
                 INJ.append([f,integrate.simps(CURR_TO_INT,TIME_TO_INT)])
                 ENER.append([f,integrate.simps(POWER,TIME_TO_INT)])
+                
+
                 #print(progress)
                 if progress%100 == 0:
                     print(progress)
