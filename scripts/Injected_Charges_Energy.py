@@ -18,6 +18,19 @@ def load_data(filename):
     
     return time, voltage, current 
 
+def Injected(time,current):
+    
+    INJ = integrate.simps(current,time)
+    return INJ    
+
+def Energy(time,current,voltage):
+    
+    current = np.asarray(current)
+    voltage = np.asarray(voltage)
+    power = current*voltage
+    ENERGY = integrate(power,time)
+    return ENERGY
+
 def Integration(path,dk,dv):
     
     # list of discharge files  
@@ -29,7 +42,10 @@ def Integration(path,dk,dv):
      
     for i,f in enumerate(files) :
         
-        CURR_TO_INT,TIME_TO_INT,VOLT_TO_INT = [],[],[]
+        PRE_TIME, PRE_CURR, PRE_VOLT = [],[],[]
+        POST_TIME, POST_CURR, POST_VOLT = [],[],[]
+                
+
         #print(f)
         time_inf, voltage_inf, current_inf = load_data(os.path.join(path,f))
         #pdb.set_trace()
@@ -42,7 +58,6 @@ def Integration(path,dk,dv):
         
         if len(time_inf)-len(time)<20:
             
-
             for k in range(dk, len(time)) :
                 if ((voltage[k-dk] - voltage[k]) > dv) :
                     #pdb.set_trace()
@@ -55,16 +70,18 @@ def Integration(path,dk,dv):
 
                 #pdb.set_trace()
         
-                for j in range(index, len(time)) :
-                    TIME_TO_INT.append(time[j])
-                    CURR_TO_INT.append(np.abs(current[j]))
-                    VOLT_TO_INT.append(np.abs(voltage[j]))           
-        
-                TIME_TO_INT = np.asarray(TIME_TO_INT)
-                CURR_TO_INT = np.asarray(CURR_TO_INT)        
-                VOLT_TO_INT = np.asarray(VOLT_TO_INT)
+                POST_TIME = np.asarray(time[index:])
+                POST_CURR = np.asarray(current[index:])
+                POST_VOLT = np.asarray(voltage[index:])
+                PRE_TIME = np.asarray(time[:index])
+                PRE_CURR = np.asarray(current[:index])
+                PRE_VOLT = np.asarray(voltage[:index])
 
-                POWER = CURR_TO_INT*VOLT_TO_INT
+                abs_inj = Injected(POST_TIME,abs(POST_CURR))
+                inj = Injected(POST_TIME,POST_CURR)
+                dis_curr = Injected(PRE_TIME,abs(PRE_CURR))
+
+                ABS_INJ.append([f
 
                 INJ.append([f,integrate.simps(CURR_TO_INT,TIME_TO_INT)])
                 ENER.append([f,integrate.simps(POWER,TIME_TO_INT)])
