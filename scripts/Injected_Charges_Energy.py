@@ -20,7 +20,7 @@ def load_data(filename):
 
 def Injected(time,current):
     
-    INJ = integrate.simps(current,time)
+    INJ = integrate.trapz(current,time)
     return INJ    
     
 def Integration(path,dv,dk):
@@ -71,7 +71,7 @@ def Integration(path,dv,dk):
                 abs_inj = Injected(POST_TIME,abs(POST_CURR))
                 reg_inj = Injected(POST_TIME,POST_CURR)
                 dis_inj = Injected(PRE_TIME,abs(PRE_CURR))
-                abs_ene = Energy(POST_TIME,POST_CURR,POST_VOLT)
+                abs_ene = Injected(POST_TIME,np.abs(POST_CURR*POST_VOLT))
                 neg_inj = -0.5*(abs_inj-reg_inj)
 
                 ABS_INJ.append([f,abs_inj])
@@ -80,7 +80,7 @@ def Integration(path,dv,dk):
                 NEG_INJ.append([f,neg_inj])
                 ABS_ENE.append([f,abs_ene])
 
-                pdb.set_trace() 
+                #pdb.set_trace() 
   
                 #print(progress)
                 if progress%100 == 0:
@@ -110,7 +110,6 @@ def main():
     #if args.METHOD == 'all':
     ABS_INJ,REG_INJ,DIS_INJ,NEG_INJ,ABS_ENE = Integration(args.INFOLDER,dk,dv)
     print("finished calculating now saving ... ")
-    pdb.set_trace() 
     pd.DataFrame(ABS_INJ, columns = ['Filename','Absolute_Injected_Charges']).to_csv(os.path.join('Injected_Charges_ABS',"{}.csv".format(outfile)))
     pd.DataFrame(ABS_ENE, columns = ['Filename','Energy']).to_csv(os.path.join('Injected_Energy_ABS',"{}.csv".format(outfile)))
     pd.DataFrame(REG_INJ, columns = ['Filename','Injected_Charges']).to_csv(os.path.join('Injected_Charges','{}.csv'.format(outfile)))
