@@ -72,7 +72,7 @@ def Integration(path,dv,dk):
                 reg_inj = Injected(POST_TIME,POST_CURR)
                 dis_inj = Injected(PRE_TIME,abs(PRE_CURR))
                 abs_ene = Injected(POST_TIME,np.abs(POST_CURR*POST_VOLT))
-                neg_inj = -0.5*(abs_inj-reg_inj)
+                neg_inj = 0.5*(abs_inj-reg_inj)
 
                 ABS_INJ.append([f,abs_inj])
                 REG_INJ.append([f,reg_inj])
