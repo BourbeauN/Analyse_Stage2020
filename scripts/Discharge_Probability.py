@@ -26,7 +26,7 @@ def Success_Rate_Partial(Data,Success_Rate,a):
     
 def get_discharge_information(folder_name):
     
-    info = folder_name.split("/")[2].split(".")[0].split("_")[-1]
+    info = folder_name.split("/")[-1].split(".")[0]
 
     return info 
 
@@ -64,7 +64,7 @@ def main():
     
     Final_Probability = np.asarray(Final_Probability)
     
-    ydata_range = 20*np.arange(0,len(Final_Probability),1)
+    ydata_range = a*np.arange(0,len(Final_Probability),1)
 
     DATA = np.column_stack((ydata_range,Final_Probability))
 

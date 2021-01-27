@@ -18,31 +18,38 @@ def load_data(filename):
     
     return time, voltage, current 
 
-def Integration(path,dk,dv):
+def Injected(time,current):
     
+    INJ = integrate.trapz(current,time)
+    return INJ    
+    
+def Integration(path,dv,dk):
+
     # list of discharge files  
     files = sorted(os.listdir(path))
     
-    INJ, ENER = [], []
-
     progress = 0
      
+    PRE_TIME, PRE_CURR, PRE_VOLT = [],[],[]
+    POST_TIME, POST_CURR, POST_VOLT = [],[],[]
+    ABS_INJ,REG_INJ,NEG_INJ,DIS_INJ = [],[],[],[]        
+    #pdb.set_trace() 
+    ABS_ENE = []
+
     for i,f in enumerate(files) :
-        
-        CURR_TO_INT,TIME_TO_INT,VOLT_TO_INT = [],[],[]
+
         #print(f)
         time_inf, voltage_inf, current_inf = load_data(os.path.join(path,f))
-        #pdb.set_trace()
+        
         time_inf=np.asarray(time_inf)
         current_inf=np.asarray(current_inf)
         voltage_inf=np.asarray(voltage_inf)
-        time = time_inf[(current_inf<1e208)&(voltage_inf<1e208)]
-        voltage = voltage_inf[(current_inf<1e208)&(voltage_inf<1e208)]
-        current = current_inf[(current_inf<1e208)&(voltage_inf<1e208)]        
-        
+        time = time_inf[(abs(current_inf)<1e208)&(abs(voltage_inf)<1e208)]
+        voltage = voltage_inf[(abs(current_inf)<1e208)&(abs(voltage_inf)<1e208)]
+        current = current_inf[(abs(current_inf)<1e208)&(abs(voltage_inf)<1e208)]        
+        #pdb.set_trace()
         if len(time_inf)-len(time)<20:
             
-
             for k in range(dk, len(time)) :
                 if ((voltage[k-dk] - voltage[k]) > dv) :
                     #pdb.set_trace()
@@ -51,29 +58,43 @@ def Integration(path,dk,dv):
                 else:
                     index = -200
 
-            if index != -200:
+            if index > 0:
 
                 #pdb.set_trace()
-        
-                for j in range(index, len(time)) :
-                    TIME_TO_INT.append(time[j])
-                    CURR_TO_INT.append(np.abs(current[j]))
-                    VOLT_TO_INT.append(np.abs(voltage[j]))           
-        
-                TIME_TO_INT = np.asarray(TIME_TO_INT)
-                CURR_TO_INT = np.asarray(CURR_TO_INT)        
-                VOLT_TO_INT = np.asarray(VOLT_TO_INT)
+                POST_TIME = np.asarray(time[index:])
+                POST_CURR = np.asarray(current[index:])
+                POST_VOLT = np.asarray(voltage[index:])
+                PRE_TIME = np.asarray(time[:index-500])
+                PRE_CURR = np.asarray(current[:index-500])
+                PRE_VOLT = np.asarray(voltage[:index-500])
+                
+                abs_inj = Injected(POST_TIME,abs(POST_CURR))
+                reg_inj = Injected(POST_TIME,POST_CURR)
+                dis_inj = Injected(PRE_TIME,abs(PRE_CURR))
+                abs_ene = Injected(POST_TIME,np.abs(POST_CURR*POST_VOLT))
+                neg_inj = 0.5*(abs_inj-reg_inj)
+                
+                #pdb.set_trace()
+                ABS_INJ.append([f,abs_inj])
+                REG_INJ.append([f,reg_inj])
+                DIS_INJ.append([f,dis_inj]) 
+                NEG_INJ.append([f,neg_inj])
+                ABS_ENE.append([f,abs_ene])
 
-                POWER = CURR_TO_INT*VOLT_TO_INT
-
-                INJ.append([f,integrate.simps(CURR_TO_INT,TIME_TO_INT)])
-                ENER.append([f,integrate.simps(POWER,TIME_TO_INT)])
+                #pdb.set_trace() 
+  
                 #print(progress)
                 if progress%100 == 0:
                     print(progress)
                 progress += 1
-        
-    return np.asarray(INJ),np.asarray(ENER)
+    
+    ABS_INJ = np.asarray(ABS_INJ)
+    REG_INJ = np.asarray(REG_INJ)
+    DIS_INJ = np.asarray(DIS_INJ)
+    ABS_ENE = np.asarray(ABS_ENE)
+    NEG_INJ = np.asarray(NEG_INJ)
+ 
+    return ABS_INJ,REG_INJ,DIS_INJ,NEG_INJ,ABS_ENE
 
 def main():
     ###PARSER###
@@ -88,9 +109,12 @@ def main():
     dv = args.VOLTAGE_THRESHOLD   
     
     #if args.METHOD == 'all':
-    INJECTED_CHARGES,INJECTED_ENERGY = Integration(args.INFOLDER,dk,dv)
+    ABS_INJ,REG_INJ,DIS_INJ,NEG_INJ,ABS_ENE = Integration(args.INFOLDER,dk,dv)
     print("finished calculating now saving ... ")
-    pd.DataFrame(INJECTED_CHARGES, columns = ['Filename','Injected_Charges']).to_csv(os.path.join('AudrenAnalysis/Injected_Charges',"{}.csv".format(outfile)))
-    pd.DataFrame(INJECTED_ENERGY, columns = ['Filename','Energy']).to_csv(os.path.join('AudrenAnalysis/Injected_Energy',"{}.csv".format(outfile)))
+    pd.DataFrame(ABS_INJ, columns = ['Filename','Absolute_Injected_Charges']).to_csv(os.path.join('Injected_Charges_ABS',"{}.csv".format(outfile)))
+    pd.DataFrame(ABS_ENE, columns = ['Filename','Energy']).to_csv(os.path.join('Injected_Energy_ABS',"{}.csv".format(outfile)))
+    pd.DataFrame(REG_INJ, columns = ['Filename','Injected_Charges']).to_csv(os.path.join('Injected_Charges','{}.csv'.format(outfile)))
+    pd.DataFrame(DIS_INJ, columns = ['Filename','Injected_Charges']).to_csv(os.path.join('Injected_Charges_DISCURR','{}.csv'.format(outfile)))
+    pd.DataFrame(NEG_INJ, columns = ['Filename','ReInjected_Charges']).to_csv(os.path.join('ReInjected_Charges','{}.csv'.format(outfile)))
 
 main()

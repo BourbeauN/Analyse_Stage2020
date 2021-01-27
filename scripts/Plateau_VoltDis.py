@@ -64,6 +64,11 @@ def Plateau_Discharge(path, dv, dk):
 
     return np.asarray(PLATEAU_TABLE),np.asarray(VOLT_DIS_TABLE)
 
+def get_info(fname):
+    info = fname.split("/")[-1]
+    
+    return info
+
 def main():
     
     ###PARSER###
@@ -72,13 +77,13 @@ def main():
     parser.add_argument('-dv',type = int,  dest = 'VOLTAGE_THRESHOLD', help = 'pick a value for voltage threshold')
     parser.add_argument('-dk',type = int,  dest = 'INDEX_THRESHOLD', help = 'pick a value for time threshold')
     args = parser.parse_args()
-    outfile = args.INFOLDER.split('/')[-1] 
     PLATEAU, VOLT_DIS = Plateau_Discharge(args.INFOLDER,args.VOLTAGE_THRESHOLD,args.INDEX_THRESHOLD)
+    info = get_info(args.INFOLDER)
 
     print("Finished appending, saving tables...")
     
-    pd.DataFrame(PLATEAU, columns = ['Filename','Plateau']).to_csv(os.path.join('AudrenAnalysis/Discharge_Delay',"{}.csv".format(outfile)))
-    pd.DataFrame(VOLT_DIS, columns = ['Filename','Voltage']).to_csv(os.path.join('AudrenAnalysis/Discharge_Voltage',"{}.csv".format(outfile)))
+    pd.DataFrame(PLATEAU, columns = ['Filename','Plateau']).to_csv('Discharge_Delay/{}.csv'.format(info))
+    pd.DataFrame(VOLT_DIS, columns = ['Filename','Voltage']).to_csv("Discharge_Voltage/{}.csv".format(info))
    
 #update
 main()
