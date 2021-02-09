@@ -116,5 +116,4 @@ def main():
     pd.DataFrame(REG_INJ, columns = ['Filename','Injected_Charges']).to_csv(os.path.join('Injected_Charges','{}.csv'.format(outfile)))
     pd.DataFrame(DIS_INJ, columns = ['Filename','Injected_Charges']).to_csv(os.path.join('Injected_Charges_DISCURR','{}.csv'.format(outfile)))
     pd.DataFrame(NEG_INJ, columns = ['Filename','ReInjected_Charges']).to_csv(os.path.join('ReInjected_Charges','{}.csv'.format(outfile)))
-
 main()
