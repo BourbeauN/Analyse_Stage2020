@@ -36,6 +36,10 @@ def max_current(path):
         
     return np.asarray(Current_Tab)
 
+def get_info(fname):
+    info = fname.split("/")[-1].split(".")[-2]
+    return info
+
 def main ():
     
     parser = argparse.ArgumentParser()
@@ -45,6 +49,8 @@ def main ():
 
     MAX_CURRENT_TAB = max_current(args.INFILE)
 
-    pd.DataFrame(MAX_CURRENT_TAB, columns = ['Filename', 'Max Current']).to_csv(os.path.join('Max_Current','{}.csv'.format(outfile))) 
+    info = get_info(args.INFILE)
+
+    pd.DataFrame(MAX_CURRENT_TAB, columns = ['Filename', 'Max Current']).to_csv(os.path.join('Audren/Distance_Analysis/Max_Current/{}.csv'.format(nfo))) 
 
 main()

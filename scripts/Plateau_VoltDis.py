@@ -82,8 +82,8 @@ def main():
 
     print("Finished appending, saving tables...")
     
-    pd.DataFrame(PLATEAU, columns = ['Filename','Plateau']).to_csv('Discharge_Delay/{}.csv'.format(info))
-    pd.DataFrame(VOLT_DIS, columns = ['Filename','Voltage']).to_csv("Discharge_Voltage/{}.csv".format(info))
+    pd.DataFrame(PLATEAU, columns = ['Filename','Plateau']).to_csv('Audren/Disance_Analysis/Discharge_Delay/{}.csv'.format(info))
+    pd.DataFrame(VOLT_DIS, columns = ['Filename','Voltage']).to_csv("Audren/Distance_Analysis/Discharge_Voltage/{}.csv".format(info))
    
 #update
 main()
