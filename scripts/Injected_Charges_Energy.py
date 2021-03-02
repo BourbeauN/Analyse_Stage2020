@@ -115,5 +115,5 @@ def main():
     pd.DataFrame(ABS_ENE, columns = ['Filename','Energy']).to_csv(os.path.join('Audren/Distance_Analysis/Injected_Energy/{}'.format(outfile)))
     pd.DataFrame(REG_INJ, columns = ['Filename','Injected_Charges']).to_csv(os.path.join('Audren/Distance_Analysis/Injected_Charges/Reg/{}'.format(outfile)))
     pd.DataFrame(DIS_INJ, columns = ['Filename','Injected_Charges']).to_csv(os.path.join('Audren/Distance_Analysis/Injected_Charges/Dis/{}'.format(outfile)))
-    pd.DataFrame(NEG_INJ, columns = ['Filename','ReInjected_Charges']).to_csv(os.path.join('Audren/Audren_Analysis/Injected_Charges/ReInj/{}'.format(outfile)))
+    pd.DataFrame(NEG_INJ, columns = ['Filename','ReInjected_Charges']).to_csv(os.path.join('Audren/Distance_Analysis/Injected_Charges/ReIn/{}'.format(outfile)))
 main()
