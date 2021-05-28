@@ -12,13 +12,13 @@ def discharge_time_index(voltage_inf, time_inf, dv, dk):
     voltage = voltage_inf[voltage_inf<1e208]
     if len(time_inf)-len(time)<20:
         for k in range(dk, len(time)) :
-            if (voltage[k-dk] - voltage[k]) > dv :
+            if np.abs(voltage[k-dk] - voltage[k]) > dv :
                 index = k - dk
                 end = time[index]
                 voltage_dis = voltage[index]
-                        
                 return end,voltage_dis
-        
+                break        
+
     return float("nan"),float("nan")
 
 def load_data(filename):
@@ -58,14 +58,14 @@ def Plateau_Discharge(path, dv, dk):
         
         progress +=1
         
-        if progress%50 == 0:
+        if progress%200 == 0:
             print(progress, end)
         
 
     return np.asarray(PLATEAU_TABLE),np.asarray(VOLT_DIS_TABLE)
 
 def get_info(fname):
-    info = fname.split("/")[-1]
+    info = fname.split("/")[1]
     
     return info
 
@@ -82,8 +82,8 @@ def main():
 
     print("Finished appending, saving tables...")
     
-    pd.DataFrame(PLATEAU, columns = ['Filename','Plateau']).to_csv('Audren/Distance_Analysis/Discharge_Delay/{}.csv'.format(info))
-    pd.DataFrame(VOLT_DIS, columns = ['Filename','Voltage']).to_csv("Audren/Distance_Analysis/Discharge_Voltage/{}.csv".format(info))
+    pd.DataFrame(PLATEAU, columns = ['Filename','Plateau']).to_csv('Audren2/Analysis/DD/{}.csv'.format(info))
+    pd.DataFrame(VOLT_DIS, columns = ['Filename','Voltage']).to_csv("Audren2/Analysis/BV/{}.csv".format(info))
    
 #update
 main()
