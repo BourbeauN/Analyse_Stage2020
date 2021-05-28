@@ -26,25 +26,49 @@ def max_current(path):
     for i, f in enumerate(files) :
         time, voltage, current = load_data(os.path.join(path,f))
         max_value = np.amax(current)
-        
-        if count%100 == 0:
-            print(count)
+        min_value = np.amin(current)
+        if count%500 == 0:
+            print(count,max_value,min_value)
         
         count += 1
 
-        Current_Tab.append([f,max_value])
+        Current_Tab.append([f,max_value,min_value])
         
     return np.asarray(Current_Tab)
+
+def Peak(Extremums,BV):  
+    DC = []
+    count = 0
+    for i in range(len(BV)):
+        if BV[i]>0:
+            peak = Extremums[i,1]
+
+        if BV[i]<0:
+            peak = Extremums[i,2]
+
+        if count%100==0:
+            print(i,peak)
+        count+=1
+        DC.append([i,peak])
+
+    return np.asarray(DC)
+
 
 def main ():
     
     parser = argparse.ArgumentParser()
     parser.add_argument('-f', dest = 'INFILE', help = 'discharge file')
+    parser.add_argument('-b', dest = 'BREAKDOWN', help = 'Breakdown file')
     args = parser.parse_args()
     outfile = args.INFILE.split('/')[-1] 
 
     MAX_CURRENT_TAB = max_current(args.INFILE)
+    
+    BV_Data = pd.read_csv(args.BREAKDOWN)
+    BV = np.asarray(BV_Data['Voltage'])
 
-    pd.DataFrame(MAX_CURRENT_TAB, columns = ['Filename', 'Max Current']).to_csv(os.path.join('Max_Current','{}.csv'.format(outfile))) 
+    PEAK = Peak(MAX_CURRENT_TAB,BV)
+
+    pd.DataFrame(PEAK, columns = ['ID', 'Discharge Current']).to_csv(os.path.join('Max_Current','{}.csv'.format(outfile))) 
 
 main()
