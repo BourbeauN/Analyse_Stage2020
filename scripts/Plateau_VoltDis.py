@@ -4,16 +4,21 @@ import os
 import argparse
 import pandas as pd
 
-def discharge_time_index(voltage_inf, time_inf, dv, dk):
+def discharge_time_index(voltage_inf, time_inf,current_inf, dv, dk):
     time_inf = np.asarray(time_inf)
     voltage_inf = np.asarray(voltage_inf)
 
-    time = time_inf[voltage_inf<1e208]
-    voltage = voltage_inf[voltage_inf<1e208]
+    time = time_inf[(voltage_inf<1e208)&(voltage_inf>-1e208)&(current_inf>-1e208)&(current_inf<1e208)]
+    voltage = voltage_inf[(voltage_inf<1e208) & (voltage_inf>-1e208)&(current_inf>-1e208)&(current_inf<1e208)]
+    current = current_inf[(voltage_inf<1e208) & (voltage_inf>-1e208)&(current_inf>-1e208)&(current_inf<1e208)]     
+
     if len(time_inf)-len(time)<20:
         for k in range(dk, len(time)) :
             if np.abs(voltage[k-dk] - voltage[k]) > dv :
+                #pdb.set_trace()
                 index = k - dk
+    
+
                 end = time[index]
                 voltage_dis = voltage[index]
                 return end,voltage_dis
@@ -47,11 +52,11 @@ def Plateau_Discharge(path, dv, dk):
     # cycle through all files 
     for i,f in enumerate(files) :
         
-        #print(f)
+        print(f)
 
         time, voltage, current = load_data(os.path.join(path,f))
         
-        end, volt_dis = discharge_time_index(voltage, time, dv, dk)
+        end, volt_dis = discharge_time_index(voltage, time,current,dv, dk)
         
         PLATEAU_TABLE.append([f,end])
         VOLT_DIS_TABLE.append([f,volt_dis])

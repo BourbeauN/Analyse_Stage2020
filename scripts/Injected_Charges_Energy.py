@@ -38,27 +38,26 @@ def Integration(path,dv,dk):
 
     for i,f in enumerate(files) :
 
-        #print(f)
+        print(f)
         time_inf, voltage_inf, current_inf = load_data(os.path.join(path,f))
         
         time_inf=np.asarray(time_inf)
         current_inf=np.asarray(current_inf)
         voltage_inf=np.asarray(voltage_inf)
         
-        time = time_inf[(abs(current_inf)<1e208)&(abs(voltage_inf)<1e208)]
-        voltage = voltage_inf[(abs(current_inf)<1e208)&(abs(voltage_inf)<1e208)]
-        current = current_inf[(abs(current_inf)<1e208)&(abs(voltage_inf)<1e208)]        
+        time = time_inf[(current_inf<1e208)&(voltage_inf<1e208)&(current_inf>-1e208)&(voltage_inf>-1e208)]
+        voltage = voltage_inf[(current_inf<1e208)&(voltage_inf<1e208)&(current_inf>-1e208)&(voltage_inf>-1e208)]
+        current = current_inf[(current_inf<1e208)&(voltage_inf<1e208)&(current_inf>-1e208)&(voltage_inf>-1e208)]        
         #pdb.set_trace()
+        index=0
         if len(time_inf)-len(time)<20:
-            
             for k in range(dk, len(time)) :
-                if np.abs((voltage[k-dk] - voltage[k]) > dv) :
+                if np.abs(voltage[k-dk] - voltage[k]) > dv :
                     #pdb.set_trace()
                     index = k-dk
                     break
                 else:
                     index = -200
-
             if index > 0:
 
                 #pdb.set_trace()
@@ -83,9 +82,9 @@ def Integration(path,dv,dk):
                 ABS_ENE.append([f,abs_ene])
 
                 #pdb.set_trace() 
-                print(f,time[index])
+                print(f)
                 #print(progress)
-                if progress == 10:
+                if progress == 5:
                     #print(progress,f)
                     pdb.set_trace()
                 progress += 1
