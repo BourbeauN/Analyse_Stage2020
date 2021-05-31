@@ -4,6 +4,18 @@ import os
 import argparse
 import pandas as pd
 
+def load_data(filename):
+
+    #loading data    
+    Results = pd.read_csv(filename, skiprows = 10)
+    
+    #creating arrays for time, voltage and current
+    time = Results["TIME"]
+    voltage = Results["CH1"]
+    current = Results["CH2"]
+    
+    return time, voltage, current 
+
 def discharge_time_index(voltage_inf, time_inf,current_inf, dv, dk):
     time_inf = np.asarray(time_inf)
     voltage_inf = np.asarray(voltage_inf)
@@ -26,17 +38,6 @@ def discharge_time_index(voltage_inf, time_inf,current_inf, dv, dk):
 
     return float("nan"),float("nan")
 
-def load_data(filename):
-
-    #loading data    
-    Results = pd.read_csv(filename, skiprows = 10)
-    
-    #creating arrays for time, voltage and current
-    time = Results["TIME"]
-    voltage = Results["CH1"]
-    current = Results["CH2"]
-    
-    return time, voltage, current 
 
 def Plateau_Discharge(path, dv, dk):
     #pdb.set_trace() 
