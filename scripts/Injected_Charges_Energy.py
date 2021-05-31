@@ -32,8 +32,7 @@ def Integration(path,dv,dk):
      
     PRE_TIME, PRE_CURR, PRE_VOLT = [],[],[]
     POST_TIME, POST_CURR, POST_VOLT = [],[],[]
-    ABS_INJ,REG_INJ,NEG_INJ,DIS_INJ = [],[],[],[]        
-    #pdb.set_trace() 
+    ABS_INJ,REG_INJ,NEG_INJ,DIS_INJ = [],[],[],[]         
     ABS_ENE = []
 
     for i,f in enumerate(files) :
@@ -48,7 +47,9 @@ def Integration(path,dv,dk):
         time = time_inf[(current_inf<1e208)&(voltage_inf<1e208)&(current_inf>-1e208)&(voltage_inf>-1e208)]
         voltage = voltage_inf[(current_inf<1e208)&(voltage_inf<1e208)&(current_inf>-1e208)&(voltage_inf>-1e208)]
         current = current_inf[(current_inf<1e208)&(voltage_inf<1e208)&(current_inf>-1e208)&(voltage_inf>-1e208)]        
+        
         #pdb.set_trace()
+        
         index=0
         if len(time_inf)-len(time)<20:
             for k in range(dk, len(time)) :
@@ -58,36 +59,36 @@ def Integration(path,dv,dk):
                     break
                 else:
                     index = -200
-            if index > 0:
+        if index > 0:
 
-                #pdb.set_trace()
-                POST_TIME = np.asarray(time[index:])
-                POST_CURR = np.asarray(current[index:])
-                POST_VOLT = np.asarray(voltage[index:])
-                PRE_TIME = np.asarray(time[:index-500])
-                PRE_CURR = np.asarray(current[:index-500])
-                PRE_VOLT = np.asarray(voltage[:index-500])
-                
-                abs_inj = Injected(POST_TIME,abs(POST_CURR))
-                reg_inj = Injected(POST_TIME,POST_CURR)
-                dis_inj = Injected(PRE_TIME,abs(PRE_CURR))
-                abs_ene = Injected(POST_TIME,np.abs(POST_CURR*POST_VOLT))
-                neg_inj = 0.5*(abs_inj-reg_inj)
-                
-                #pdb.set_trace()
-                ABS_INJ.append([f,abs_inj])
-                REG_INJ.append([f,reg_inj])
-                DIS_INJ.append([f,dis_inj]) 
-                NEG_INJ.append([f,neg_inj])
-                ABS_ENE.append([f,abs_ene])
+            #pdb.set_trace()
+            POST_TIME = np.asarray(time[index:])
+            POST_CURR = np.asarray(current[index:])
+            POST_VOLT = np.asarray(voltage[index:])
+            PRE_TIME = np.asarray(time[:index-500])
+            PRE_CURR = np.asarray(current[:index-500])
+            PRE_VOLT = np.asarray(voltage[:index-500])
+            
+            abs_inj = Injected(POST_TIME,abs(POST_CURR))
+            reg_inj = Injected(POST_TIME,POST_CURR)
+            dis_inj = Injected(PRE_TIME,abs(PRE_CURR))
+            abs_ene = Injected(POST_TIME,np.abs(POST_CURR*POST_VOLT))
+            neg_inj = 0.5*(abs_inj-reg_inj)
+            
+            #pdb.set_trace()
+            ABS_INJ.append([f,abs_inj])
+            REG_INJ.append([f,reg_inj])
+            DIS_INJ.append([f,dis_inj]) 
+            NEG_INJ.append([f,neg_inj])
+            ABS_ENE.append([f,abs_ene])
 
-                #pdb.set_trace() 
-                print(f)
-                #print(progress)
-                if progress == 5:
-                    #print(progress,f)
-                    pdb.set_trace()
-                progress += 1
+            #pdb.set_trace() 
+            print(f)
+            #print(progress)
+            if progress == 5:
+                #print(progress,f)
+                pdb.set_trace()
+            progress += 1
     
     ABS_INJ = np.asarray(ABS_INJ)
     REG_INJ = np.asarray(REG_INJ)
