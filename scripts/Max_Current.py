@@ -51,6 +51,6 @@ def main ():
 
     info = get_info(args.INFILE)
 
-    pd.DataFrame(MAX_CURRENT_TAB, columns = ['Filename', 'Max Current']).to_csv(os.path.join("Audren2/Analysis/DC/{}.csv".format(info))) 
+    pd.DataFrame(MAX_CURRENT_TAB, columns = ['Filename', 'Max Current']).to_csv(os.path.join("Tian/Analysis/DC/{}.csv".format(info))) 
 
 main()

@@ -115,9 +115,9 @@ def main():
     #if args.METHOD == 'all':
     ABS_INJ,REG_INJ,DIS_INJ,NEG_INJ,ABS_ENE = Integration(args.INFOLDER,dk,dv)
     print("finished calculating now saving ... ")
-    pd.DataFrame(ABS_INJ, columns = ['Filename','Absolute_Injected_Charges']).to_csv(os.path.join('Audren2/Analysis/IC/{}.csv'.format(info)))
-    pd.DataFrame(ABS_ENE, columns = ['Filename','Energy']).to_csv(os.path.join('Audren2/Analysis/IE/{}.csv'.format(info)))
-    pd.DataFrame(REG_INJ, columns = ['Filename','Injected_Charges']).to_csv(os.path.join('Audren2/Analysis/IE/{}_nonabs.csv'.format(outfile)))
+    pd.DataFrame(ABS_INJ, columns = ['Filename','Absolute_Injected_Charges']).to_csv(os.path.join('Tian/Analysis/IC/{}.csv'.format(info)))
+    pd.DataFrame(ABS_ENE, columns = ['Filename','Energy']).to_csv(os.path.join('Tian/Analysis/IE/{}.csv'.format(info)))
+    pd.DataFrame(REG_INJ, columns = ['Filename','Injected_Charges']).to_csv(os.path.join('Tian/Analysis/IE/{}_nonabs.csv'.format(outfile)))
     #pd.DataFrame(DIS_INJ, columns = ['Filename','Injected_Charges']).to_csv(os.path.join('Injected_Charges_DISCURR/{}.csv'.format(outfile)))
     #pd.DataFrame(NEG_INJ, columns = ['Filename','ReInjected_Charges']).to_csv(os.path.join('ReInjected_Charges/{}.csv'.format(outfile)))
 main()
