@@ -39,7 +39,7 @@ def Plateau_Discharge(path, dv, dk):
     files = sorted(os.listdir(path))
     
     progress = 0
-    
+
     # RESULTS
     PLATEAU_TABLE = []
 
@@ -57,10 +57,10 @@ def Plateau_Discharge(path, dv, dk):
         VOLT_DIS_TABLE.append([f,volt_dis])
         
         progress +=1
-        
-        if progress%200 == 0:
-            print(progress, end)
-        
+        print(f,end)
+        if progress == 10:
+            #print(progress, end)
+            pdb.set_trace()
 
     return np.asarray(PLATEAU_TABLE),np.asarray(VOLT_DIS_TABLE)
 

@@ -44,6 +44,7 @@ def Integration(path,dv,dk):
         time_inf=np.asarray(time_inf)
         current_inf=np.asarray(current_inf)
         voltage_inf=np.asarray(voltage_inf)
+        
         time = time_inf[(abs(current_inf)<1e208)&(abs(voltage_inf)<1e208)]
         voltage = voltage_inf[(abs(current_inf)<1e208)&(abs(voltage_inf)<1e208)]
         current = current_inf[(abs(current_inf)<1e208)&(abs(voltage_inf)<1e208)]        
@@ -51,7 +52,7 @@ def Integration(path,dv,dk):
         if len(time_inf)-len(time)<20:
             
             for k in range(dk, len(time)) :
-                if ((voltage[k-dk] - voltage[k]) > dv) :
+                if np.abs((voltage[k-dk] - voltage[k]) > dv) :
                     #pdb.set_trace()
                     index = k-dk
                     break
@@ -82,10 +83,11 @@ def Integration(path,dv,dk):
                 ABS_ENE.append([f,abs_ene])
 
                 #pdb.set_trace() 
-  
+                print(f,time[index])
                 #print(progress)
-                if progress%100 == 0:
-                    print(progress)
+                if progress == 10:
+                    #print(progress,f)
+                    pdb.set_trace()
                 progress += 1
     
     ABS_INJ = np.asarray(ABS_INJ)
@@ -116,7 +118,7 @@ def main():
     print("finished calculating now saving ... ")
     pd.DataFrame(ABS_INJ, columns = ['Filename','Absolute_Injected_Charges']).to_csv(os.path.join('Audren2/Analysis/IC/{}.csv'.format(info)))
     pd.DataFrame(ABS_ENE, columns = ['Filename','Energy']).to_csv(os.path.join('Audren2/Analysis/IE/{}.csv'.format(info)))
-    #pd.DataFrame(REG_INJ, columns = ['Filename','Injected_Charges']).to_csv(os.path.join('Injected_Charges/{}.csv'.format(outfile)))
+    pd.DataFrame(REG_INJ, columns = ['Filename','Injected_Charges']).to_csv(os.path.join('Audren2/Analysis/IE/{}_nonabs.csv'.format(outfile)))
     #pd.DataFrame(DIS_INJ, columns = ['Filename','Injected_Charges']).to_csv(os.path.join('Injected_Charges_DISCURR/{}.csv'.format(outfile)))
     #pd.DataFrame(NEG_INJ, columns = ['Filename','ReInjected_Charges']).to_csv(os.path.join('ReInjected_Charges/{}.csv'.format(outfile)))
 main()

@@ -69,6 +69,9 @@ def main ():
 
     PEAK = Peak(MAX_CURRENT_TAB,BV)
 
-    pd.DataFrame(PEAK, columns = ['ID', 'Discharge Current']).to_csv(os.path.join('Max_Current','{}.csv'.format(outfile))) 
+    filename = args.INFILE
+    info = filename.split("/")[1]
+
+    pd.DataFrame(PEAK, columns = ['ID', 'Discharge Current']).to_csv(os.path.join('Audren2/Analysis/DC/{}.csv'.format(info))) 
 
 main()

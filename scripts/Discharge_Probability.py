@@ -68,6 +68,7 @@ def main():
 
     DATA = np.column_stack((ydata_range,Final_Probability))
 
-    pd.DataFrame(DATA, columns = ['ID','Probability']).to_csv(os.path.join('Analysis/Probability/{}.csv'.format(info)))
+    pd.DataFrame(DATA, columns = ['ID','Probability']).to_csv(os.path.join('Audren2/Analysis/Pr/{}_{}.csv'.format(info,args.INTERVAL)))
+
         
 main()
