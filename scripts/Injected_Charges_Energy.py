@@ -23,11 +23,11 @@ def Injected(time,current):
     INJ = integrate.trapz(current,time)
     return INJ    
     
-def Integration(path,dv,dk):
+def Integration(path,dk,dv):
 
     # list of discharge files  
     files = sorted(os.listdir(path))
-    
+    filecount=0 
     progress = 0
      
     PRE_TIME, PRE_CURR, PRE_VOLT = [],[],[]
@@ -36,8 +36,7 @@ def Integration(path,dv,dk):
     ABS_ENE = []
 
     for i,f in enumerate(files) :
-
-        print(f)
+        
         time_inf, voltage_inf, current_inf = load_data(os.path.join(path,f))
         
         time_inf=np.asarray(time_inf)
@@ -56,6 +55,7 @@ def Integration(path,dv,dk):
                 if np.abs(voltage[k-dk] - voltage[k]) > dv :
                     #pdb.set_trace()
                     index = k-dk
+                    time1 = time[index]
                     break
                 else:
                     index = -200
@@ -82,12 +82,11 @@ def Integration(path,dv,dk):
             NEG_INJ.append([f,neg_inj])
             ABS_ENE.append([f,abs_ene])
 
-            #pdb.set_trace() 
-            print(f)
-            #print(progress)
-            if progress == 5:
-                #print(progress,f)
-                pdb.set_trace()
+           if progress%200 == 0:
+                if progress>11600 & progress%50==0:
+                    print(progress,time1)
+                else :
+                    print(progress,time1)
             progress += 1
     
     ABS_INJ = np.asarray(ABS_INJ)

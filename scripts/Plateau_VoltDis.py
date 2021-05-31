@@ -11,7 +11,7 @@ def discharge_time_index(voltage_inf, time_inf,current_inf, dv, dk):
     time = time_inf[(voltage_inf<1e208)&(voltage_inf>-1e208)&(current_inf>-1e208)&(current_inf<1e208)]
     voltage = voltage_inf[(voltage_inf<1e208) & (voltage_inf>-1e208)&(current_inf>-1e208)&(current_inf<1e208)]
     current = current_inf[(voltage_inf<1e208) & (voltage_inf>-1e208)&(current_inf>-1e208)&(current_inf<1e208)]     
-
+    #pdb.set_trace()
     if len(time_inf)-len(time)<20:
         for k in range(dk, len(time)) :
             if np.abs(voltage[k-dk] - voltage[k]) > dv :
@@ -27,7 +27,6 @@ def discharge_time_index(voltage_inf, time_inf,current_inf, dv, dk):
     return float("nan"),float("nan")
 
 def load_data(filename):
-
     #loading data    
     Results = pd.read_csv(filename, skiprows = 10)
     
@@ -52,8 +51,6 @@ def Plateau_Discharge(path, dv, dk):
     # cycle through all files 
     for i,f in enumerate(files) :
         
-        print(f)
-
         time, voltage, current = load_data(os.path.join(path,f))
         
         end, volt_dis = discharge_time_index(voltage, time,current,dv, dk)
@@ -62,10 +59,9 @@ def Plateau_Discharge(path, dv, dk):
         VOLT_DIS_TABLE.append([f,volt_dis])
         
         progress +=1
-        print(f,end)
-        if progress == 10:
-            #print(progress, end)
-            pdb.set_trace()
+        if progress%200 == 0:
+            print(progress, end)
+            #pdb.set_trace()
 
     return np.asarray(PLATEAU_TABLE),np.asarray(VOLT_DIS_TABLE)
 
