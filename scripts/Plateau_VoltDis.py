@@ -36,11 +36,17 @@ def discharge_time_index(voltage_inf, time_inf,current_inf, dv, dk):
 
     return float("nan"),float("nan")
 
-def Plateau_Discharge(path, dv, dk):
-    #pdb.set_trace() 
-    # list of discharge files  
-    files = sorted(os.listdir(path))
+def Plateau_Discharge(path, dv, dk, tr):
     
+    if trigger == 'none':
+        t == 0
+
+    if trigger != 'none':
+        temp = float(trigger)
+        t == -4    
+
+    files = sorted(os.listdir(path))
+
     progress = 0
 
     # RESULTS
@@ -49,9 +55,12 @@ def Plateau_Discharge(path, dv, dk):
     VOLT_DIS_TABLE = []
     # cycle through all files 
     for i,f in enumerate(files) :
-        
+
         time, voltage, current = load_data(os.path.join(path,f))
         
+        if t < 0:
+            
+
         end, volt_dis = discharge_time_index(voltage, time,current,dv, dk)
         
         PLATEAU_TABLE.append([f,end])
@@ -76,8 +85,12 @@ def main():
     parser.add_argument('-f', dest = 'INFOLDER', help = 'file folder corresponding to experimental set with discharge infos')
     parser.add_argument('-dv',type = int,  dest = 'VOLTAGE_THRESHOLD', help = 'pick a value for voltage threshold')
     parser.add_argument('-dk',type = int,  dest = 'INDEX_THRESHOLD', help = 'pick a value for time threshold')
+    parser.add_argument('-tr',type = str, dest = 'TRIGGER', default = 'none', help = 'chose a voltage trigger')
     args = parser.parse_args()
-    PLATEAU, VOLT_DIS = Plateau_Discharge(args.INFOLDER,args.VOLTAGE_THRESHOLD,args.INDEX_THRESHOLD)
+
+    trigger = args.TRIGGER
+
+    PLATEAU, VOLT_DIS = Plateau_Discharge(args.INFOLDER,args.VOLTAGE_THRESHOLD,args.INDEX_THRESHOLD,args.TRIGGER)
     info = get_info(args.INFOLDER)
 
     print("Finished appending, saving tables...")
