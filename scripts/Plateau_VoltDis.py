@@ -50,8 +50,6 @@ def Plateau_Discharge(path, dv, dk):
     # cycle through all files 
     for i,f in enumerate(files) :
         
-        print(f)
-
         time, voltage, current = load_data(os.path.join(path,f))
         
         end, volt_dis = discharge_time_index(voltage, time,current,dv, dk)
@@ -59,11 +57,10 @@ def Plateau_Discharge(path, dv, dk):
         PLATEAU_TABLE.append([f,end])
         VOLT_DIS_TABLE.append([f,volt_dis])
         
-        progress +=1
-        print(f,end)
-        if progress == 10:
-            #print(progress, end)
-            pdb.set_trace()
+        if progress%200 == 0:
+            print(progress, end)
+
+        progress += 1
 
     return np.asarray(PLATEAU_TABLE),np.asarray(VOLT_DIS_TABLE)
 
