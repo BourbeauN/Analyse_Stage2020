@@ -82,12 +82,12 @@ def Integration(path,dk,dv):
             NEG_INJ.append([f,neg_inj])
             ABS_ENE.append([f,abs_ene])
 
-           if progress%200 == 0:
-                if progress>11600 & progress%50==0:
-                    print(progress,time1)
-                else :
-                    print(progress,time1)
-            progress += 1
+        if progress%200 == 0:
+            if progress>11600 & progress%50==0:
+                print(progress,time1)
+            else :
+                print(progress,time1)
+        progress += 1
     
     ABS_INJ = np.asarray(ABS_INJ)
     REG_INJ = np.asarray(REG_INJ)
