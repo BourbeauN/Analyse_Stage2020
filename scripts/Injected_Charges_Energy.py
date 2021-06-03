@@ -36,7 +36,7 @@ def Integration(path,dk,dv):
     ABS_ENE = []
 
     for i,f in enumerate(files) :
-        
+        print(f)    
         time_inf, voltage_inf, current_inf = load_data(os.path.join(path,f))
         
         time_inf=np.asarray(time_inf)
