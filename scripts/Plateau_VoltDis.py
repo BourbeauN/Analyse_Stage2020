@@ -38,12 +38,12 @@ def discharge_time_index(voltage_inf, time_inf,current_inf, dv, dk):
 
 def Plateau_Discharge(path, dv, dk, tr):
     
-    if trigger == 'none':
-        t == 0
+    if tr == 'none':
+        t = 0
 
-    if trigger != 'none':
-        temp = float(trigger)
-        t == -4    
+    if tr != 'none':
+        temp = float(tr)
+        t = -4    
 
     files = sorted(os.listdir(path))
 
@@ -59,9 +59,11 @@ def Plateau_Discharge(path, dv, dk, tr):
         time, voltage, current = load_data(os.path.join(path,f))
         
         if t < 0:
+            for i in range(len(voltage)):
+                if voltage[i] > tr:
+                    t = i
             
-
-        end, volt_dis = discharge_time_index(voltage, time,current,dv, dk)
+        end, volt_dis = discharge_time_index(voltage, time,current,dv, dk, t)
         
         PLATEAU_TABLE.append([f,end])
         VOLT_DIS_TABLE.append([f,volt_dis])
