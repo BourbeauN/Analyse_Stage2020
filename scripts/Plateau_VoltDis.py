@@ -22,7 +22,6 @@ def discharge_time_index(voltage_inf, time_inf,current_inf, dv, dk):
 
     time = time_inf[(voltage_inf<1e208)&(voltage_inf>-1e208)&(current_inf>-1e208)&(current_inf<1e208)]
     voltage = voltage_inf[(voltage_inf<1e208) & (voltage_inf>-1e208)&(current_inf>-1e208)&(current_inf<1e208)]
-    current = current_inf[(voltage_inf<1e208) & (voltage_inf>-1e208)&(current_inf>-1e208)&(current_inf<1e208)]     
 
     if len(time_inf)-len(time)<20:
         for k in range(dk, len(time)) :
@@ -30,14 +29,12 @@ def discharge_time_index(voltage_inf, time_inf,current_inf, dv, dk):
                 #pdb.set_trace()
                 index = k - dk
     
-
                 end = time[index]
                 voltage_dis = voltage[index]
                 return end,voltage_dis
                 break        
 
     return float("nan"),float("nan")
-
 
 def Plateau_Discharge(path, dv, dk):
     #pdb.set_trace() 
