@@ -76,9 +76,11 @@ def Plateau_Discharge(path, dv, dk, tr):
     return np.asarray(PLATEAU_TABLE),np.asarray(VOLT_DIS_TABLE)
 
 def get_info(fname):
-    info = fname.split("/")[1]
-    
-    return info
+    Amp = fname.split("/")[-1]
+    Wid = fname.split("/")[-2]
+    Pol = fname.split("/")[-3]    
+
+    return Amp,Wid,Pol
 
 def main():
     
@@ -93,12 +95,12 @@ def main():
     trigger = args.TRIGGER
 
     PLATEAU, VOLT_DIS = Plateau_Discharge(args.INFOLDER,args.VOLTAGE_THRESHOLD,args.INDEX_THRESHOLD,args.TRIGGER)
-    info = get_info(args.INFOLDER)
+    Amp,Wid,Pol = get_info(args.INFOLDER)
 
     print("Finished appending, saving tables...")
     
-    pd.DataFrame(PLATEAU, columns = ['Filename','Plateau']).to_csv('Audren2/Analysis/DD/{}.csv'.format(info))
-    pd.DataFrame(VOLT_DIS, columns = ['Filename','Voltage']).to_csv("Audren2/Analysis/BV/{}.csv".format(info))
+    pd.DataFrame(PLATEAU, columns = ['Filnename','Plateau']).to_csv('Tian/Analysis/DD/{}_{}_{}.csv'.format(Pol,Amp,Wid))
+    pd.DataFrame(VOLT_DIS, columns = ['Filename','Voltage']).to_csv("Tian/Analysis/BV/{}_{}_{}.csv".format(Pol,Amp,Wid))
    
 #update
 main()
