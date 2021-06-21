@@ -10,15 +10,14 @@ def discharge_time_index(voltage_inf, time_inf,current_inf, dv, dk):
 
     time = time_inf[(voltage_inf<1e208)&(voltage_inf>-1e208)&(current_inf>-1e208)&(current_inf<1e208)]
     voltage = voltage_inf[(voltage_inf<1e208) & (voltage_inf>-1e208)&(current_inf>-1e208)&(current_inf<1e208)]
-    current = current_inf[(voltage_inf<1e208) & (voltage_inf>-1e208)&(current_inf>-1e208)&(current_inf<1e208)]     
-
+    current = current_inf[(voltage_inf<1e208) & (voltage_inf>-1e208)&(current_inf>-1e208)&(current_inf<1e208)]
+    #pdb.set_trace()     
     if len(time_inf)-len(time)<20:
         for k in range(dk, len(time)) :
             if np.abs(voltage[k-dk] - voltage[k]) > dv :
                 #pdb.set_trace()
                 index = k - dk
     
-
                 end = time[index]
                 voltage_dis = voltage[index]
                 return end,voltage_dis
@@ -52,7 +51,10 @@ def Plateau_Discharge(path, dv, dk):
     # cycle through all files 
     for i,f in enumerate(files) :
         
-        print(f)
+        print(progress,f)
+
+        #if i%10==0: 
+           #print(progress,f)        
 
         time, voltage, current = load_data(os.path.join(path,f))
         
@@ -62,16 +64,18 @@ def Plateau_Discharge(path, dv, dk):
         VOLT_DIS_TABLE.append([f,volt_dis])
         
         progress +=1
-        print(f,end)
-        if progress == 10:
-            #print(progress, end)
-            pdb.set_trace()
+        #if progress%1 == 0:
+            #print(progress,f, end)
+            
 
     return np.asarray(PLATEAU_TABLE),np.asarray(VOLT_DIS_TABLE)
 
 def get_info(fname):
-    info = fname.split("/")[1]
-    
+    Amp = fname.split("/")[-1]
+    Wid = fname.split("/")[-2]
+    Pol = fname.split("/")[-3]   
+
+    info = "_".join((Amp,Wid,Pol))
     return info
 
 def main():
@@ -87,8 +91,8 @@ def main():
 
     print("Finished appending, saving tables...")
     
-    pd.DataFrame(PLATEAU, columns = ['Filename','Plateau']).to_csv('Audren2/Analysis/DD/{}.csv'.format(info))
-    pd.DataFrame(VOLT_DIS, columns = ['Filename','Voltage']).to_csv("Audren2/Analysis/BV/{}.csv".format(info))
+    pd.DataFrame(PLATEAU, columns = ['Filename','Plateau']).to_csv('Tian/Analysis/DD/{}.csv'.format(info))
+    pd.DataFrame(VOLT_DIS, columns = ['Filename','Voltage']).to_csv("Tian/Analysis/BV/{}.csv".format(info))
    
 #update
 main()
