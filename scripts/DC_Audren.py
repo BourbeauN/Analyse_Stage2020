@@ -72,6 +72,12 @@ def main ():
     filename = args.INFILE
     info = filename.split("/")[1]
 
+    #Amp = filename.split("/")[-1]
+    #Wid = filename.split("/")[-2]
+    #Pol = filename.split("/")[-3]
+    #info = "_".join((Amp,Wid,Pol))
+
+
     pd.DataFrame(PEAK, columns = ['ID', 'Discharge Current']).to_csv(os.path.join('Audren2/Analysis/DC/{}.csv'.format(info))) 
 
 main()
