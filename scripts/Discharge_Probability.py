@@ -60,15 +60,17 @@ def main():
         
         Partial = Success_Rate_Whole(Data_1,a)
         
-        Final_Probability = Success_Rate_Partial(Data_2,Partial,a)
-    
+        Final_Probability = Success_Rate_Partial(Data_2,Partial,a)   
+ 
     Final_Probability = np.asarray(Final_Probability)
     
+    print(np.mean(Final_Probability))
+
     ydata_range = a*np.arange(0,len(Final_Probability),1)
 
     DATA = np.column_stack((ydata_range,Final_Probability))
 
-    pd.DataFrame(DATA, columns = ['ID','Probability']).to_csv(os.path.join('Tian2/Analysis/Pr/{}_{}.csv'.format(info,args.INTERVAL)))
+    pd.DataFrame(DATA, columns = ['ID','Probability']).to_csv(os.path.join('Tian/Analysis/Pr/{}_{}.csv'.format(info,args.INTERVAL)))
 
         
 main()
