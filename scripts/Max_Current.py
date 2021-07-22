@@ -37,7 +37,11 @@ def max_current(path):
     return np.asarray(Current_Tab)
 
 def get_info(fname):
-    info = fname.split("/")[1]
+    Pol = fname.split('/')[-3]    
+    Wid = fname.split('/')[-2]
+    Amp = fname.split('/')[-1]
+
+    info = '_'.join((Amp,Wid,Pol)) 
     return info
 
 def main ():

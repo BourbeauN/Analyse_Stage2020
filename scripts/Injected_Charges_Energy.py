@@ -37,7 +37,6 @@ def Integration(path,dk,dv):
 
     for i,f in enumerate(files) :
         time_inf, voltage_inf, current_inf = load_data(os.path.join(path,f))
-        
         time_inf=np.asarray(time_inf)
         current_inf=np.asarray(current_inf)
         voltage_inf=np.asarray(voltage_inf)
@@ -51,7 +50,7 @@ def Integration(path,dk,dv):
         index=0
         if len(time_inf)-len(time)<20:
             for k in range(dk, len(time)) :
-                if np.abs(voltage[k-dk] - voltage[k]) > dv :
+                if (np.abs(voltage[k-dk]) - np.abs(voltage[k])) > dv :
                     #pdb.set_trace()
                     index = k-dk
                     time1 = time[index]
@@ -80,8 +79,11 @@ def Integration(path,dk,dv):
             DIS_INJ.append([f,dis_inj]) 
             NEG_INJ.append([f,neg_inj])
             ABS_ENE.append([f,abs_ene])
+            
+            #if i%10==0:
+                #print(i,abs_inj)
 
-        if progress%200 == 0:
+        if progress%100 == 0:
             print(progress)
 
         progress += 1
@@ -107,14 +109,20 @@ def main():
     dv = args.VOLTAGE_THRESHOLD   
     
     fname = args.INFOLDER
-    info = fname.split("/")[1]
+    Amp = fname.split("/")[-1]
+    Wid = fname.split("/")[-2]
+    Pol = fname.split("/")[-3]
+
+    info = '_'.join((Amp,Wid,Pol))
+
+    #info = fname.split("/")[-1]
 
     #if args.METHOD == 'all':
     ABS_INJ,REG_INJ,DIS_INJ,NEG_INJ,ABS_ENE = Integration(args.INFOLDER,dk,dv)
     print("finished calculating now saving ... ")
-    pd.DataFrame(ABS_INJ, columns = ['Filename','Absolute_Injected_Charges']).to_csv(os.path.join('Audren2/Analysis/IC/{}.csv'.format(info)))
-    pd.DataFrame(ABS_ENE, columns = ['Filename','Energy']).to_csv(os.path.join('Audren2/Analysis/IE/{}.csv'.format(info)))
-    pd.DataFrame(REG_INJ, columns = ['Filename','Injected_Charges']).to_csv(os.path.join('Audren2/Analysis/IE/{}_nonabs.csv'.format(outfile)))
+    pd.DataFrame(ABS_INJ, columns = ['Filename','Absolute_Injected_Charges']).to_csv(os.path.join('Tian/Analysis/IC/{}.csv'.format(info)))
+    pd.DataFrame(ABS_ENE, columns = ['Filename','Energy']).to_csv(os.path.join('Tian/Analysis/IE/{}.csv'.format(info)))
+    pd.DataFrame(REG_INJ, columns = ['Filename','Injected_Charges']).to_csv(os.path.join('Tian/Analysis/IC/{}_nonabs.csv'.format(info)))
     #pd.DataFrame(DIS_INJ, columns = ['Filename','Injected_Charges']).to_csv(os.path.join('Injected_Charges_DISCURR/{}.csv'.format(outfile)))
     #pd.DataFrame(NEG_INJ, columns = ['Filename','ReInjected_Charges']).to_csv(os.path.join('ReInjected_Charges/{}.csv'.format(outfile)))
 main()

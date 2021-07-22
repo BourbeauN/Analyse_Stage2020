@@ -27,8 +27,6 @@ def max_current(path):
         time, voltage, current = load_data(os.path.join(path,f))
         max_value = np.amax(current)
         min_value = np.amin(current)
-        if count%500 == 0:
-            print(count,max_value,min_value)
         
         count += 1
 
@@ -40,14 +38,17 @@ def Peak(Extremums,BV):
     DC = []
     count = 0
     for i in range(len(BV)):
+        #pdb.set_trace()
+
         if BV[i]>0:
             peak = Extremums[i,1]
 
-        if BV[i]<0:
+        elif BV[i]<0:
             peak = Extremums[i,2]
 
-        if count%100==0:
-            print(i,peak)
+        elif BV[i]/BV[i]!=1:
+            peak = float("nan")
+
         count+=1
         DC.append([i,peak])
 
@@ -70,8 +71,14 @@ def main ():
     PEAK = Peak(MAX_CURRENT_TAB,BV)
 
     filename = args.INFILE
-    info = filename.split("/")[1]
+    #info = filename.split("/")[1]
 
-    pd.DataFrame(PEAK, columns = ['ID', 'Discharge Current']).to_csv(os.path.join('Audren2/Analysis/DC/{}.csv'.format(info))) 
+    Amp = filename.split("/")[-1]
+    Wid = filename.split("/")[-2]
+    Pol = filename.split("/")[-3]
+    info = "_".join((Amp,Wid,Pol))
+
+
+    pd.DataFrame(PEAK, columns = ['ID', 'Discharge Current']).to_csv(os.path.join('Tian/Analysis/DC/{}.csv'.format(info))) 
 
 main()
